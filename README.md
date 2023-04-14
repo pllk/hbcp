@@ -11,7 +11,7 @@ Você pode praticar as técnicas apresentadas no livro resolvendo esses problema
 https://cses.fi/problemset/
 (Apenas em inglês)
 
-## Licensa
+## Licença
 
 A licença do livro é Creative Commons BY-NC-SA 4.0.
 

@@ -1,92 +1,40 @@
-\chapter{Introduction}
+\chapter{Introdução}
 
-Competitive programming combines two topics:
-(1) the design of algorithms and (2) the implementation of algorithms.
+Programação competitiva combina dois tópicos:
+(1) o design de algoritmos e (2) a implementação de algoritmos.
 
-The \key{design of algorithms} consists of problem solving
-and mathematical thinking.
-Skills for analyzing problems and solving them
-creatively are needed.
-An algorithm for solving a problem
-has to be both correct and efficient,
-and the core of the problem is often
-about inventing an efficient algorithm.
+O \key{design de algoritmos} consiste em solução de problemas
+e pensamento matemático.
+São necessárias habilidades para analisar problemas e resolvê-los de forma criativa.
+Um algoritmo para resolver um problema deve ser tanto correto quanto eficiente, e o cerne do problema muitas vezes é inventar um algoritmo eficiente.
 
-Theoretical knowledge of algorithms
-is important to competitive programmers.
-Typically, a solution to a problem is
-a combination of well-known techniques and
-new insights.
-The techniques that appear in competitive programming
-also form the basis for the scientific research
-of algorithms.
+O conhecimento teórico de algoritmos é importante para programadores competitivos. Tipicamente, uma solução para um problema é uma combinação de técnicas bem conhecidas e novas ideias. As técnicas que aparecem na programação competitiva também formam a base para a pesquisa científica de algoritmos.
 
-The \key{implementation of algorithms} requires good
-programming skills.
-In competitive programming, the solutions
-are graded by testing an implemented algorithm
-using a set of test cases.
-Thus, it is not enough that the idea of the
-algorithm is correct, but the implementation also
-has to be correct.
+A \key{implementação de algoritmos} requer boas habilidades de programação. Na programação competitiva, as soluções são avaliadas testando um algoritmo implementado usando um conjunto de casos de teste. Portanto, não é suficiente que a ideia do algoritmo seja correta, mas a implementação também deve ser correta.
 
-A good coding style in contests is
-straightforward and concise.
-Programs should be written quickly,
-because there is not much time available.
-Unlike in traditional software engineering,
-the programs are short (usually at most a few
-hundred lines of code), and they do not need to 
-be maintained after the contest.
+Um bom estilo de codificação em competições é direto e conciso. Os programas devem ser escritos rapidamente, porque não há muito tempo disponível. Ao contrário da engenharia de software tradicional, os programas são curtos (geralmente com no máximo algumas centenas de linhas de código) e não precisam ser mantidos após a competição.
 
-\section{Programming languages}
+\section{Linguagens de programação}
 
-\index{programming language}
+\index{linguagem de programação}
 
-At the moment, the most popular programming
-languages used in contests are C++, Python and Java.
-For example, in Google Code Jam 2017,
-among the best 3,000 participants,
-79 \% used C++,
-16 \% used Python and
-8 \% used Java \cite{goo17}.
-Some participants also used several languages.
+Atualmente, as linguagens de programação mais populares usadas em competições são C++, Python e Java. 
+ Por exemplo, no Google Code Jam 2017, 
+ entre os 3.000 melhores participantes,
+79 \% usaram C++,
+16 \% usaram Python and
+8 \% usaram Java \cite{goo17}.
+Alguns participantes também usaram várias linguagens.
 
-Many people think that C++ is the best choice
-for a competitive programmer,
-and C++ is nearly always available in
-contest systems.
-The benefits of using C++ are that
-it is a very efficient language and
-its standard library contains a 
-large collection
-of data structures and algorithms.
+Muitas pessoas pensam que C++ é a melhor escolha para um programador competitivo e quase sempre está disponível nos sistemas de competição. Os benefícios de usar C++ são que é uma linguagem muito eficiente e sua biblioteca padrão contém uma grande coleção de estruturas de dados e algoritmos.
 
-On the other hand, it is good to
-master several languages and understand
-their strengths.
-For example, if large integers are needed
-in the problem,
-Python can be a good choice, because it
-contains built-in operations for
-calculating with large integers.
-Still, most problems in programming contests
-are set so that
-using a specific programming language
-is not an unfair advantage.
+Por outro lado, é bom dominar várias linguagens e entender suas forças. Por exemplo, se inteiros grandes são necessários no problema, Python pode ser uma boa escolha, porque contém operações embutidas para cálculos com inteiros grandes. Ainda assim, a maioria dos problemas em competições de programação são definidos de forma que o uso de uma linguagem de programação específica não seja uma vantagem injusta.
 
-All example programs in this book are written in C++,
-and the standard library's
-data structures and algorithms are often used.
-The programs follow the C++11 standard,
-which can be used in most contests nowadays.
-If you cannot program in C++ yet,
-now is a good time to start learning.
+Todos os exemplos de programas neste livro são escritos em C++ e as estruturas de dados e algoritmos da biblioteca padrão são frequentemente usados. Os programas seguem o padrão C++11, que pode ser usado na maioria das competições hoje em dia. Se você ainda não consegue programar em C++, agora é um bom momento para começar a aprender.
 
-\subsubsection{C++ code template}
+\subsubsection{C++ template de código}
 
-A typical C++ code template for competitive programming
-looks like this:
+Um template de código típico em C++ para programação competitiva se parece com isso:
 
 \begin{lstlisting}
 #include <bits/stdc++.h>
@@ -94,55 +42,30 @@ looks like this:
 using namespace std;
 
 int main() {
-    // solution comes here
+    // solucao vem aqui
 }
 \end{lstlisting}
 
-The \texttt{\#include} line at the beginning
-of the code is a feature of the \texttt{g++} compiler
-that allows us to include the entire standard library.
-Thus, it is not needed to separately include
-libraries such as \texttt{iostream},
-\texttt{vector} and \texttt{algorithm},
-but rather they are available automatically.
+A linha \texttt{\#include} no inicio do código é uma funcionalidade do compilador \texttt{g++} que nos permite incluir toda a biblioteca padrão. Assim, não é necessário incluir separadamente bibliotecas como \texttt{iostream}, \texttt{vector} e \texttt{algorithm},
+mas sim, elas ficam disponíveis automaticamente.
 
-The \texttt{using} line declares
-that the classes and functions
-of the standard library can be used directly
-in the code.
-Without the \texttt{using} line we would have
-to write, for example, \texttt{std::cout},
-but now it suffices to write \texttt{cout}.
+A linha \texttt{using} declara que as classes e funções da biblioteca padrão podem ser usadas diretamente no código. Sem a linha \texttt{using}, teríamos que escrever, por exemplo, \texttt{std::cout}, mas agora basta escrever \texttt{cout}.
 
-The code can be compiled using the following command:
+O código pode ser compilado usando o seguinte comando:
 
 \begin{lstlisting}
 g++ -std=c++11 -O2 -Wall test.cpp -o test
 \end{lstlisting}
 
-This command produces a binary file \texttt{test}
-from the source code \texttt{test.cpp}.
-The compiler follows the C++11 standard
-(\texttt{-std=c++11}),
-optimizes the code (\texttt{-O2})
-and shows warnings about possible errors (\texttt{-Wall}).
+Este comando produz um arquivo binário \texttt{test} a partir do código-fonte \texttt{test.cpp}. O compilador segue o padrão C++11 (\texttt{-std=c++11}), otimiza o código (\texttt{-O2}) e exibe avisos sobre possíveis erros (\texttt{-Wall}).
 
-\section{Input and output}
+\section{Entrada e saída}
 
-\index{input and output}
+\index{entrada e saída}
 
-In most contests, standard streams are used for
-reading input and writing output.
-In C++, the standard streams are
-\texttt{cin} for input and \texttt{cout} for output.
-In addition, the C functions
-\texttt{scanf} and \texttt{printf} can be used.
+Na maioria das competições, comandos padrões são usados para ler a entrada e escrever a saída. Em C++, os comandos padrões são \texttt{cin} para entrada e \texttt{cout} para saída. Além disso, as funções em C \texttt{scanf} e \texttt{printf} podem ser usadas.
 
-The input for the program usually consists of
-numbers and strings that are separated with
-spaces and newlines.
-They can be read from the \texttt{cin} stream
-as follows:
+A entrada para o programa geralmente consiste de números e strings que são separados por espaços e novas linhas. Eles podem ser lidos pelo comando \texttt{cin} da seguinte forma:
 
 \begin{lstlisting}
 int a, b;
@@ -150,11 +73,11 @@ string x;
 cin >> a >> b >> x;
 \end{lstlisting}
 
-This kind of code always works,
-assuming that there is at least one space
-or newline between each element in the input.
-For example, the above code can read
-both of the following inputs:
+Esse tipo de código sempre funciona,
+assumindo que há pelo menos um espaço
+ou uma quebra de linha entre cada elemento da entrada.
+Por exemplo, o código acima pode ler
+ambas as entradas a seguir:
 \begin{lstlisting}
 123 456 monkey
 \end{lstlisting}
@@ -162,107 +85,73 @@ both of the following inputs:
 123    456
 monkey
 \end{lstlisting}
-The \texttt{cout} stream is used for output
-as follows:
+O comando \texttt{cout} é usado para saída
+da seguinte forma:
 \begin{lstlisting}
 int a = 123, b = 456;
 string x = "monkey";
 cout << a << " " << b << " " << x << "\n";
 \end{lstlisting}
 
-Input and output is sometimes
-a bottleneck in the program.
-The following lines at the beginning of the code
-make input and output more efficient:
+As entradas e saídas às vezes são um gargalo no programa. As seguintes linhas no início do código tornam as entradas e saídas mais eficientes. 
 
 \begin{lstlisting}
 ios::sync_with_stdio(0);
 cin.tie(0);
 \end{lstlisting}
 
-Note that the newline \texttt{"\textbackslash n"}
-works faster than \texttt{endl},
-because \texttt{endl} always causes
-a flush operation.
+Note que a quebra de linha \texttt{"\textbackslash n"} é mais rápida do que o \texttt{endl}, porque o \texttt{endl} sempre provoca uma operação de limpeza.
 
-The C functions \texttt{scanf}
-and \texttt{printf} are an alternative
-to the C++ standard streams.
-They are usually a bit faster,
-but they are also more difficult to use.
-The following code reads two integers from the input:
+As funções \texttt{scanf} e \texttt{printf} da linguagem C, são uma alternativa aos comandos padrões do C++. Elas são geralmente um pouco mais rápidas, mas também são mais difíceis de usar. O código seguinte lê dois números inteiros da entrada:
 \begin{lstlisting}
 int a, b;
 scanf("%d %d", &a, &b);
 \end{lstlisting}
-The following code prints two integers:
+O código seguinte imprime dois números inteiros:
 \begin{lstlisting}
 int a = 123, b = 456;
 printf("%d %d\n", a, b);
 \end{lstlisting}
 
-Sometimes the program should read a whole line
-from the input, possibly containing spaces.
-This can be accomplished by using the
-\texttt{getline} function:
+Às vezes, o programa deve ler uma linha inteira da entrada, possivelmente contendo espaços. Isso pode ser feito usando a função \texttt{getline}:
 
 \begin{lstlisting}
 string s;
 getline(cin, s);
 \end{lstlisting}
 
-If the amount of data is unknown, the following
-loop is useful:
+Se a quantidade de dados for desconhecida, o seguinte loop é útil:
 \begin{lstlisting}
 while (cin >> x) {
-    // code
+    // codigo
 }
 \end{lstlisting}
-This loop reads elements from the input
-one after another, until there is no
-more data available in the input.
+Este loop lê elementos da entrada um após o outro, até que não haja mais dados disponíveis na entrada.
 
-In some contest systems, files are used for
-input and output.
-An easy solution for this is to write
-the code as usual using standard streams,
-but add the following lines to the beginning of the code:
+Em alguns sistemas de competições, arquivos são usados para entrada e saída. Uma solução simples para isso é escrever o código como de costume usando comandos padrões, mas adicionar as seguintes linhas no início do código:
 \begin{lstlisting}
 freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 \end{lstlisting}
-After this, the program reads the input from the file
-''input.txt'' and writes the output to the file
-''output.txt''.
+Depois disso, o programa lê a entrada do arquivo ''input.txt'' e escreve a saída para o arquivo ''output.txt''.
 
-\section{Working with numbers}
+\section{Trabalhando com números}
 
-\index{integer}
+\index{inteiro}
 
-\subsubsection{Integers}
+\subsubsection{Inteiros}
 
-The most used integer type in competitive programming
-is \texttt{int}, which is a 32-bit type with
-a value range of $-2^{31} \ldots 2^{31}-1$
-or about $-2 \cdot 10^9 \ldots 2 \cdot 10^9$.
-If the type \texttt{int} is not enough,
-the 64-bit type \texttt{long long} can be used.
-It has a value range of $-2^{63} \ldots 2^{63}-1$
-or about $-9 \cdot 10^{18} \ldots 9 \cdot 10^{18}$.
+O tipo inteiro mais utilizado em programação competitiva é o \texttt{int}, que é um tipo de 32 bits com uma faixa de valores de $-2^{31} \ldots 2^{31}-1$, ou cerca de $-2 \cdot 10^9 \ldots 2 \cdot 10^9$. Se o tipo \texttt{int} não for suficiente, o tipo de 64 bits \texttt{long long} pode ser utilizado. Ele possui uma faixa de valores de $-2^{63} \ldots 2^{63}-1$, ou cerca de $-9 \cdot 10^{18} \ldots 9 \cdot 10^{18}$.
 
-The following code defines a
-\texttt{long long} variable:
+O código a seguir define uma variável do tipo \texttt{long long}:
 \begin{lstlisting}
 long long x = 123456789123456789LL;
 \end{lstlisting}
-The suffix \texttt{LL} means that the
-type of the number is \texttt{long long}.
+O sufixo \texttt{LL} significa que o tipo do número é \texttt{long long}.
 
-A common mistake when using the type \texttt{long long}
-is that the type \texttt{int} is still used somewhere
-in the code.
-For example, the following code contains
-a subtle error:
+Um erro comum ao usar o tipo \texttt{long long}
+é que o tipo \texttt{int} ainda é usado em algum lugar do código.
+Por exemplo, o seguinte código contém um erro sutil:
 
 \begin{lstlisting}
 int a = 123456789;
@@ -270,48 +159,25 @@ long long b = a*a;
 cout << b << "\n"; // -1757895751
 \end{lstlisting}
 
-Even though the variable \texttt{b} is of type \texttt{long long},
-both numbers in the expression \texttt{a*a}
-are of type \texttt{int} and the result is
-also of type \texttt{int}.
-Because of this, the variable \texttt{b} will
-contain a wrong result.
-The problem can be solved by changing the type
-of \texttt{a} to \texttt{long long} or
-by changing the expression to \texttt{(long long)a*a}.
+Embora a variável \texttt{b} seja do tipo \texttt{long long},
+ambos os números na expressão \texttt{a*a} são do tipo \texttt{int} e o resultado também é do tipo \texttt{int}.
+Devido a isso, a variável \texttt{b} conterá um resultado incorreto.
+O problema pode ser resolvido alterando o tipo de \texttt{a} para \texttt{long long} ou alterando a expressão para \texttt{(long long)a*a}.
 
-Usually contest problems are set so that the
-type \texttt{long long} is enough.
-Still, it is good to know that
-the \texttt{g++} compiler also provides
-a 128-bit type \texttt{\_\_int128\_t}
-with a value range of
-$-2^{127} \ldots 2^{127}-1$ or about $-10^{38} \ldots 10^{38}$.
-However, this type is not available in all contest systems.
+Normalmente, os problemas de competição são definidos de forma que o tipo \texttt{long long} seja suficiente. Ainda assim, é bom saber que o compilador \texttt{g++} também oferece um tipo de 128 bits chamado \texttt{\_\_int128\_t} com uma faixa de valores de $-2^{127} \ldots 2^{127}-1$, ou cerca de $-10^{38} \ldots 10^{38}$. No entanto, este tipo não está disponível em todos os sistemas de competição.
 
-\subsubsection{Modular arithmetic}
+\subsubsection{Aritmética modular}
 
-\index{remainder}
-\index{modular arithmetic}
+\index{resto}
+\index{aritmética modular}
 
-We denote by $x \bmod m$ the remainder
-when $x$ is divided by $m$.
-For example, $17 \bmod 5 = 2$,
-because $17 = 3 \cdot 5 + 2$.
+Denotamos por $x \bmod m$ o resto da divisão de $x$ por $m$. Por exemplo, $17 \bmod 5 = 2$, porque $17 = 3 \cdot 5 + 2$.
 
-Sometimes, the answer to a problem is a
-very large number but it is enough to
-output it ''modulo $m$'', i.e.,
-the remainder when the answer is divided by $m$
-(for example, ''modulo $10^9+7$'').
-The idea is that even if the actual answer
-is very large,
-it suffices to use the types
-\texttt{int} and \texttt{long long}.
+Às vezes, a resposta para um problema é um número muito grande, mas é suficiente para imprimir o "módulo $m$", ou seja, o resto quando a resposta é dividida por $m$ (por exemplo, "módulo $10^9+7$"). A ideia é que, mesmo que a resposta real seja muito grande, é suficiente usar os tipos \texttt{int} e \texttt{long long}.
 
-An important property of the remainder is that
-in addition, subtraction and multiplication,
-the remainder can be taken before the operation:
+Uma propriedade importante do resto é que,
+na adição, subtração e multiplicação,
+o resto pode ser obtido antes da operação:
 
 \[
 \begin{array}{rcr}
@@ -321,11 +187,10 @@ the remainder can be taken before the operation:
 \end{array}
 \]
 
-Thus, we can take the remainder after every operation
-and the numbers will never become too large.
+Assim, podemos obter o resto após cada operação e os números nunca se tornarão muito grandes.
 
-For example, the following code calculates $n!$,
-the factorial of $n$, modulo $m$:
+Por exemplo, o código seguinte calcula $n!$, 
+o fatorial de $n$, módulo $m$:
 \begin{lstlisting}
 long long x = 1;
 for (int i = 2; i <= n; i++) {
@@ -334,90 +199,49 @@ for (int i = 2; i <= n; i++) {
 cout << x%m << "\n";
 \end{lstlisting}
 
-Usually we want the remainder to always
-be between $0\ldots m-1$.
-However, in C++ and other languages,
-the remainder of a negative number
-is either zero or negative.
-An easy way to make sure there
-are no negative remainders is to first calculate
-the remainder as usual and then add $m$
-if the result is negative:
+Normalmente, queremos que o resto esteja sempre entre $0\ldots m-1$.
+No entanto, em C++ e em outras linguagens, o resto de um número negativo é zero ou negativo.
+Uma maneira fácil de garantir que não haja restos negativos é primeiro calcular o resto como de costume e depois adicionar $m$ se o resultado for negativo:
 \begin{lstlisting}
 x = x%m;
 if (x < 0) x += m;
 \end{lstlisting}
-However, this is only needed when there
-are subtractions in the code and the
-remainder may become negative.
+No entanto, isso só é necessário quando há subtrações no código e o resto pode se tornar negativo.
 
-\subsubsection{Floating point numbers}
+\subsubsection{Números com ponto flutuante}
 
-\index{floating point number}
+\index{números com ponto flutuante}
 
-The usual floating point types in
-competitive programming are
-the 64-bit \texttt{double}
-and, as an extension in the \texttt{g++} compiler,
-the 80-bit \texttt{long double}.
-In most cases, \texttt{double} is enough,
-but \texttt{long double} is more accurate.
+Os tipos usuais de números de ponto flutuante em programação competitiva são o \texttt{double} de 64 bits e, como uma extensão no compilador \texttt{g++}, o \texttt{long double} de 80 bits. Na maioria dos casos, o tipo \texttt{double} é suficiente, mas o \texttt{long double} é mais preciso.
 
-The required precision of the answer
-is usually given in the problem statement.
-An easy way to output the answer is to use
-the \texttt{printf} function
-and give the number of decimal places
-in the formatting string.
-For example, the following code prints
-the value of $x$ with 9 decimal places:
+A precisão necessária da resposta geralmente é fornecida no enunciado do problema. Uma maneira fácil de imprimir a resposta é usar a função \texttt{printf} e fornecer o número de casas decimais na string de formatação. Por exemplo, o código seguinte imprime o valor de $x$ com 9 casas decimais:
 
 \begin{lstlisting}
 printf("%.9f\n", x);
 \end{lstlisting}
 
-A difficulty when using floating point numbers
-is that some numbers cannot be represented
-accurately as floating point numbers,
-and there will be rounding errors.
-For example, the result of the following code
-is surprising:
+Uma dificuldade ao usar números de ponto flutuante é que alguns números não podem ser representados com precisão como números de ponto flutuante, o que resultará em erros de arredondamento. Por exemplo, o resultado do código seguinte é surpreendente:
 
 \begin{lstlisting}
 double x = 0.3*3+0.1;
 printf("%.20f\n", x); // 0.99999999999999988898
 \end{lstlisting}
 
-Due to a rounding error,
-the value of \texttt{x} is a bit smaller than 1,
-while the correct value would be 1.
+Devido a um erro de arredondamento, o valor de \texttt{x} é um pouco menor do que 1, enquanto o valor correto seria 1.
 
-It is risky to compare floating point numbers
-with the \texttt{==} operator,
-because it is possible that the values should be
-equal but they are not because of precision errors.
-A better way to compare floating point numbers
-is to assume that two numbers are equal
-if the difference between them is less than $\varepsilon$,
-where $\varepsilon$ is a small number.
+É arriscado comparar números de ponto flutuante com o operador \texttt{==}, pois é possível que os valores devam ser iguais, mas não são devido a erros de precisão. Uma maneira melhor de comparar números de ponto flutuante é assumir que dois números são iguais se a diferença entre eles for menor que $\varepsilon$, onde $\varepsilon$ é um número pequeno.
 
-In practice, the numbers can be compared
-as follows ($\varepsilon=10^{-9}$):
+Na prática, os números podem ser comparados da seguinte forma ($\varepsilon=10^{-9}$):
 
 \begin{lstlisting}
 if (abs(a-b) < 1e-9) {
-    // a and b are equal
+    // a e b sao iguais
 }
 \end{lstlisting}
 
-Note that while floating point numbers are inaccurate,
-integers up to a certain limit can still be
-represented accurately.
-For example, using \texttt{double},
-it is possible to accurately represent all
-integers whose absolute value is at most $2^{53}$.
+Observe que, embora os números de ponto flutuante sejam imprecisos, inteiros até um certo limite ainda podem ser representados com precisão. Por exemplo, usando \texttt{double}, é possível representar com precisão todos os inteiros cujo valor absoluto é no máximo $2^{53}$.
 
-\section{Shortening code}
+\section{Encurtando código}
 
 Short code is ideal in competitive programming,
 because programs should be written

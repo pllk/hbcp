@@ -12,29 +12,29 @@ O conhecimento teórico de algoritmos é importante para programadores competiti
 
 A \key{implementação de algoritmos} requer boas habilidades de programação. Na programação competitiva, as soluções são avaliadas testando um algoritmo implementado usando um conjunto de casos de teste. Portanto, não é suficiente que a ideia do algoritmo seja correta, mas a implementação também deve ser correta.
 
-Um bom estilo de codificação em competições é direto e conciso. Os programas devem ser escritos rapidamente, porque não há muito tempo disponível. Ao contrário da engenharia de software tradicional, os programas são curtos (geralmente com no máximo algumas centenas de linhas de código) e não precisam ser mantidos após a competição.
+Um bom estilo de codificação em competições é direto e conciso. Os programas devem ser escritos rapidamente, porque não há muito tempo disponível. Ao contrário da engenharia de \emph{software} tradicional, os programas são curtos (geralmente com no máximo algumas centenas de linhas de código) e dispensam manutenção após a competição.
 
 \section{Linguagens de programação}
 
 \index{linguagem de programação}
 
-Atualmente, as linguagens de programação mais populares usadas em competições são C++, Python e Java. 
- Por exemplo, no Google Code Jam 2017, 
+Atualmente, as linguagens de programação mais populares usadas em competições são C++, Python e Java.
+ Por exemplo, no Google Code Jam 2017,
  entre os 3.000 melhores participantes,
-79 \% usaram C++,
-16 \% usaram Python and
-8 \% usaram Java \cite{goo17}.
-Alguns participantes também usaram várias linguagens.
+79\% usaram C++,
+16\% usaram Python and
+8\% usaram Java \cite{goo17}.
+Alguns participantes também usaram outras linguagens.
 
-Muitas pessoas pensam que C++ é a melhor escolha para um programador competitivo e quase sempre está disponível nos sistemas de competição. Os benefícios de usar C++ são que é uma linguagem muito eficiente e sua biblioteca padrão contém uma grande coleção de estruturas de dados e algoritmos.
+Muitas pessoas pensam que C++ é a melhor escolha para um programador competitivo, e o C++ está quase sempre disponível nos sistemas de competição. Os benefícios de usar C++ são ser uma linguagem muito eficiente e contar com uma biblioteca padrão com uma grande coleção de estruturas de dados e algoritmos.
 
-Por outro lado, é bom dominar várias linguagens e entender suas forças. Por exemplo, se inteiros grandes são necessários no problema, Python pode ser uma boa escolha, porque contém operações embutidas para cálculos com inteiros grandes. Ainda assim, a maioria dos problemas em competições de programação são definidos de forma que o uso de uma linguagem de programação específica não seja uma vantagem injusta.
+Por outro lado, é bom dominar várias linguagens e entender suas forças. Por exemplo, se inteiros grandes são necessários para um problema, Python pode ser uma boa escolha, porque contém operações embutidas para cálculos com inteiros grandes. Ainda assim, a maioria dos problemas em competições de programação são definidos de forma que o uso de uma linguagem de programação específica não crie uma vantagem injusta.
 
 Todos os exemplos de programas neste livro são escritos em C++ e as estruturas de dados e algoritmos da biblioteca padrão são frequentemente usados. Os programas seguem o padrão C++11, que pode ser usado na maioria das competições hoje em dia. Se você ainda não consegue programar em C++, agora é um bom momento para começar a aprender.
 
-\subsubsection{C++ template de código}
+\subsubsection{Esboço de código em C++}
 
-Um template de código típico em C++ para programação competitiva se parece com isso:
+Um esboço de código típico em C++ para programação competitiva se parece com isso:
 
 \begin{lstlisting}
 #include <bits/stdc++.h>
@@ -42,12 +42,11 @@ Um template de código típico em C++ para programação competitiva se parece c
 using namespace std;
 
 int main() {
-    // solucao vem aqui
+    // solucao ivai aqui
 }
 \end{lstlisting}
 
-A linha \texttt{\#include} no inicio do código é uma funcionalidade do compilador \texttt{g++} que nos permite incluir toda a biblioteca padrão. Assim, não é necessário incluir separadamente bibliotecas como \texttt{iostream}, \texttt{vector} e \texttt{algorithm},
-mas sim, elas ficam disponíveis automaticamente.
+A linha \texttt{\#include} no inicio do código é uma funcionalidade do compilador \texttt{g++} que nos permite incluir toda a biblioteca padrão. Assim, não é necessário incluir separadamente bibliotecas como \texttt{iostream}, \texttt{vector} e \texttt{algorithm}, mas elas ficam disponíveis automaticamente.
 
 A linha \texttt{using} declara que as classes e funções da biblioteca padrão podem ser usadas diretamente no código. Sem a linha \texttt{using}, teríamos que escrever, por exemplo, \texttt{std::cout}, mas agora basta escrever \texttt{cout}.
 
@@ -93,14 +92,14 @@ string x = "monkey";
 cout << a << " " << b << " " << x << "\n";
 \end{lstlisting}
 
-As entradas e saídas às vezes são um gargalo no programa. As seguintes linhas no início do código tornam as entradas e saídas mais eficientes. 
+As entradas e saídas às vezes são um gargalo no programa. As seguintes linhas no início do código tornam as entradas e saídas mais eficientes.
 
 \begin{lstlisting}
 ios::sync_with_stdio(0);
 cin.tie(0);
 \end{lstlisting}
 
-Note que a quebra de linha \texttt{"\textbackslash n"} é mais rápida do que o \texttt{endl}, porque o \texttt{endl} sempre provoca uma operação de limpeza.
+Note que a quebra de linha \texttt{"\textbackslash n"} é mais rápida do que o \texttt{endl}, porque o \texttt{endl} sempre força uma operação de \emph{flush}.
 
 As funções \texttt{scanf} e \texttt{printf} da linguagem C, são uma alternativa aos comandos padrões do C++. Elas são geralmente um pouco mais rápidas, mas também são mais difíceis de usar. O código seguinte lê dois números inteiros da entrada:
 \begin{lstlisting}
@@ -120,13 +119,13 @@ string s;
 getline(cin, s);
 \end{lstlisting}
 
-Se a quantidade de dados for desconhecida, o seguinte loop é útil:
+Se a quantidade de dados for desconhecida, o seguinte laço é útil:
 \begin{lstlisting}
 while (cin >> x) {
     // codigo
 }
 \end{lstlisting}
-Este loop lê elementos da entrada um após o outro, até que não haja mais dados disponíveis na entrada.
+Este laço lê elementos da entrada um após o outro, até que não haja mais dados disponíveis na entrada.
 
 Em alguns sistemas de competições, arquivos são usados para entrada e saída. Uma solução simples para isso é escrever o código como de costume usando comandos padrões, mas adicionar as seguintes linhas no início do código:
 \begin{lstlisting}
@@ -141,7 +140,7 @@ Depois disso, o programa lê a entrada do arquivo ''input.txt'' e escreve a saí
 
 \subsubsection{Inteiros}
 
-O tipo inteiro mais utilizado em programação competitiva é o \texttt{int}, que é um tipo de 32 bits com uma faixa de valores de $-2^{31} \ldots 2^{31}-1$, ou cerca de $-2 \cdot 10^9 \ldots 2 \cdot 10^9$. Se o tipo \texttt{int} não for suficiente, o tipo de 64 bits \texttt{long long} pode ser utilizado. Ele possui uma faixa de valores de $-2^{63} \ldots 2^{63}-1$, ou cerca de $-9 \cdot 10^{18} \ldots 9 \cdot 10^{18}$.
+O tipo inteiro mais utilizado em programação competitiva é o \texttt{int}, que é um tipo de 32 bits com uma faixa de valores de $-2^{31} \ldots 2^{31}-1$, ou cerca de $-2 \cdot 10^9 \ldots 2 \cdot 10^9$. Se o tipo \texttt{int} não for suficiente, o tipo de 64 bits \texttt{long long} pode ser utilizado. Ele possui uma faixa de valores de $-2^{63} \ldots 2^{63}-1$, ou aproximadamente $-9 \cdot 10^{18} \ldots 9 \cdot 10^{18}$.
 
 O código a seguir define uma variável do tipo \texttt{long long}:
 \begin{lstlisting}
@@ -164,7 +163,7 @@ ambos os números na expressão \texttt{a*a} são do tipo \texttt{int} e o resul
 Devido a isso, a variável \texttt{b} conterá um resultado incorreto.
 O problema pode ser resolvido alterando o tipo de \texttt{a} para \texttt{long long} ou alterando a expressão para \texttt{(long long)a*a}.
 
-Normalmente, os problemas de competição são definidos de forma que o tipo \texttt{long long} seja suficiente. Ainda assim, é bom saber que o compilador \texttt{g++} também oferece um tipo de 128 bits chamado \texttt{\_\_int128\_t} com uma faixa de valores de $-2^{127} \ldots 2^{127}-1$, ou cerca de $-10^{38} \ldots 10^{38}$. No entanto, este tipo não está disponível em todos os sistemas de competição.
+Normalmente, os problemas de competição são definidos de forma que o tipo \texttt{long long} seja suficiente. Ainda assim, é bom saber que o compilador \texttt{g++} também oferece um tipo de 128 bits chamado \texttt{\_\_int128\_t} com uma faixa de valores de $-2^{127} \ldots 2^{127}-1$, ou aproximadamente $-10^{38} \ldots 10^{38}$. No entanto, este tipo não está disponível em todos os sistemas de competição.
 
 \subsubsection{Aritmética modular}
 

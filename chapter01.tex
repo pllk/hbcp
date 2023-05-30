@@ -242,41 +242,39 @@ Observe que, embora os números de ponto flutuante sejam imprecisos, inteiros at
 
 \section{Encurtando código}
 
-Short code is ideal in competitive programming,
-because programs should be written
-as fast as possible.
-Because of this, competitive programmers often define
-shorter names for datatypes and other parts of code.
+Códigos curtos são ideais em programação competitiva,
+porque os programas devem ser escritos o mais rápido possível.
+Por causa disso, os programadores competitivos geralmente definem
+nomes mais curtos para tipos de dados e outras partes do código.
 
-\subsubsection{Type names}
+\subsubsection{Nomes para tipos}
 \index{tuppdef@\texttt{typedef}}
-Using the command \texttt{typedef}
-it is possible to give a shorter name
-to a datatype.
-For example, the name \texttt{long long} is long,
-so we can define a shorter name \texttt{ll}:
+Usando o comando \texttt{typedef}
+é possível dar um nome mais curto para um tipo de dados.
+Por exemplo, o nome \texttt{long long} é longo,
+então podemos definir o nome mais curto \texttt{ll}:
 \begin{lstlisting}
 typedef long long ll;
 \end{lstlisting}
-After this, the code
+Depois disso, o código
 \begin{lstlisting}
 long long a = 123456789;
 long long b = 987654321;
 cout << a*b << "\n";
 \end{lstlisting}
-can be shortened as follows:
+pode ser encurtado como segue:
 \begin{lstlisting}
 ll a = 123456789;
 ll b = 987654321;
 cout << a*b << "\n";
 \end{lstlisting}
 
-The command \texttt{typedef}
-can also be used with more complex types.
-For example, the following code gives
-the name \texttt{vi} for a vector of integers
-and the name \texttt{pi} for a pair
-that contains two integers.
+O comando \texttt{typedef}
+pode também ser usado com tipos de dados mais complexos.
+Por exemplo, o código seguinte dá
+o nome \texttt{vi} para um vetor de inteiros
+e o nome \texttt{pi} para um pair
+que contém dois inteiros.
 \begin{lstlisting}
 typedef vector<int> vi;
 typedef pair<int,int> pi;
@@ -284,271 +282,254 @@ typedef pair<int,int> pi;
 
 \subsubsection{Macros}
 \index{macro}
-Another way to shorten code is to define
-\key{macros}.
-A macro means that certain strings in
-the code will be changed before the compilation.
-In C++, macros are defined using the
-\texttt{\#define} keyword.
+Outro jeito de encurtar o código é definindo \key{macros}.
+Um macro significa que certas strings no código serão mudadas antes da compilação.
+Em C++, macros são definidos usando a palavra-chave \texttt{\#define}.
 
-For example, we can define the following macros:
+Por exemplo, podemos definir os seguintes macros:
 \begin{lstlisting}
 #define F first
 #define S second
 #define PB push_back
 #define MP make_pair
 \end{lstlisting}
-After this, the code
+Depois disso, o código
 \begin{lstlisting}
 v.push_back(make_pair(y1,x1));
 v.push_back(make_pair(y2,x2));
 int d = v[i].first+v[i].second;
 \end{lstlisting}
-can be shortened as follows:
+pode ser encurtado como segue:
 \begin{lstlisting}
 v.PB(MP(y1,x1));
 v.PB(MP(y2,x2));
 int d = v[i].F+v[i].S;
 \end{lstlisting}
 
-A macro can also have parameters
-which makes it possible to shorten loops and other
-structures.
-For example, we can define the following macro:
+Um macro pode também ter parâmetros que possibilitam encurtar laços e outras estruturas.
+Por exemplo, podemos definir o seguinte macro:
 \begin{lstlisting}
 #define REP(i,a,b) for (int i = a; i <= b; i++)
 \end{lstlisting}
-After this, the code
+Depois disso, o código
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
     search(i);
 }
 \end{lstlisting}
-can be shortened as follows:
+pode ser encurtado como segue:
 \begin{lstlisting}
 REP(i,1,n) {
     search(i);
 }
 \end{lstlisting}
 
-Sometimes macros cause bugs that may be difficult
-to detect. For example, consider the following macro
-that calculates the square of a number:
+De vez em quando, macros causam bugs que podem ser difíceis de detectar.
+Por exemplo, considere o seguinte macro que calcula o quadrado de um número:
 \begin{lstlisting}
 #define SQ(a) a*a
 \end{lstlisting}
-This macro \emph{does not} always work as expected.
-For example, the code
+O macro \emph{nem sempre} funciona como esperado.
+Por exemplo, o código
 \begin{lstlisting}
 cout << SQ(3+3) << "\n";
 \end{lstlisting}
-corresponds to the code
+corresponde ao código
 \begin{lstlisting}
 cout << 3+3*3+3 << "\n"; // 15
 \end{lstlisting}
 
-A better version of the macro is as follows:
+Uma versão melhor do macro é como segue:
 \begin{lstlisting}
 #define SQ(a) (a)*(a)
 \end{lstlisting}
-Now the code
+Agora o código
 \begin{lstlisting}
 cout << SQ(3+3) << "\n";
 \end{lstlisting}
-corresponds to the code
+corresponde ao código
 \begin{lstlisting}
 cout << (3+3)*(3+3) << "\n"; // 36
 \end{lstlisting}
 
 
-\section{Mathematics}
+\section{Matemática}
 
-Mathematics plays an important role in competitive
-programming, and it is not possible to become
-a successful competitive programmer without
-having good mathematical skills.
-This section discusses some important
-mathematical concepts and formulas that
-are needed later in the book.
+A matemática desempenha um papel importante nas competições de programação,
+e não é possível se tornar um programador competitivo de sucesso sem
+ter boas habilidades matemáticas.
+Essa seção discute alguns conceitos matemáticos importantes e fórmulas que
+serão necessárias mais adiante no livro.
 
-\subsubsection{Sum formulas}
+\subsubsection{Fórmulas de soma}
 
-Each sum of the form
+Cada soma da forma
 \[\sum_{x=1}^n x^k = 1^k+2^k+3^k+\ldots+n^k,\]
-where $k$ is a positive integer,
-has a closed-form formula that is a
-polynomial of degree $k+1$.
-For example\footnote{\index{Faulhaber's formula}
-There is even a general formula for such sums, called \key{Faulhaber's formula},
-but it is too complex to be presented here.},
+onde $k$ é um inteiro positivo,
+tem uma fórmula de forma fechada que é um polinômio de grau $k+1$.
+Por exemplo\footnote{\index{fórmula de Faulhaber}
+Existe uma fórmula mais geral para somas, chamada de \key{fórmula de Faulhaber},
+mas ela é muito complexa para ser apresentada aqui.},
 \[\sum_{x=1}^n x = 1+2+3+\ldots+n = \frac{n(n+1)}{2}\]
-and
+e
 \[\sum_{x=1}^n x^2 = 1^2+2^2+3^2+\ldots+n^2 = \frac{n(n+1)(2n+1)}{6}.\]
 
-An \key{arithmetic progression} is a \index{arithmetic progression}
-sequence of numbers
-where the difference between any two consecutive
-numbers is constant.
-For example,
+Uma \key{progressão aritmética} é uma \index{progressão aritmética}
+sequência de números onde a diferença entre quaisquer dois números consecutivos
+é constante.
+Por exemplo,
 \[3, 7, 11, 15\]
-is an arithmetic progression with constant 4.
-The sum of an arithmetic progression can be calculated
-using the formula
-\[\underbrace{a + \cdots + b}_{n \,\, \textrm{numbers}} = \frac{n(a+b)}{2}\]
-where $a$ is the first number,
-$b$ is the last number and
-$n$ is the amount of numbers.
-For example,
+é uma progressão aritmética com constante 4.
+A soma de uma progressão aritmética pode ser calculada
+usando a fórmula
+\[\underbrace{a + \cdots + b}_{n \,\, \textrm{números}} = \frac{n(a+b)}{2}\]
+onde $a$ é o primeiro número,
+$b$ é o último número e
+$n$ é a quantidade de números.
+Por exemplo,
 \[3+7+11+15=\frac{4 \cdot (3+15)}{2} = 36.\]
-The formula is based on the fact
-that the sum consists of $n$ numbers and
-the value of each number is $(a+b)/2$ on average.
+A fórmula é baseada no fato que a soma consiste de $n$ números e o valor de cada
+número é $(a+b)/2$ em média.
 
-\index{geometric progression}
-A \key{geometric progression} is a sequence
-of numbers
-where the ratio between any two consecutive
-numbers is constant.
-For example,
+\index{progressão aritmética}
+A \key{progressão aritmética} é uma sequência de números onde a razão entre
+quaisquer dois números consecutivos é constante.
+Por exemplo,
 \[3,6,12,24\]
-is a geometric progression with constant 2.
-The sum of a geometric progression can be calculated
-using the formula
+é uma progressão aritmética com constante 2.
+A soma de uma progressão geométrica pode ser calculada usando a fórmula
 \[a + ak + ak^2 + \cdots + b = \frac{bk-a}{k-1}\]
-where $a$ is the first number,
-$b$ is the last number and the
-ratio between consecutive numbers is $k$.
-For example,
+onde $a$ é o primeiro número,
+$b$ é o último número e a razão entre números consecutivos é $k$.
+Por exemplo,
 \[3+6+12+24=\frac{24 \cdot 2 - 3}{2-1} = 45.\]
 
-This formula can be derived as follows. Let
+Esta fórmula pode ser derivada como segue. Seja
 \[ S = a + ak + ak^2 + \cdots + b .\]
-By multiplying both sides by $k$, we get
+Multiplicando ambos os lados por $k$, obtemos
 \[ kS = ak + ak^2 + ak^3 + \cdots + bk,\]
-and solving the equation
+e resolvendo a equação
 \[ kS-S = bk-a\]
-yields the formula.
+obtemos a fórmula.
 
-A special case of a sum of a geometric progression is the formula
+Um caso especial da soma de progressão aritmética é a fórmula
 \[1+2+4+8+\ldots+2^{n-1}=2^n-1.\]
 
-\index{harmonic sum}
+\index{soma harmônica}
 
-A \key{harmonic sum} is a sum of the form
+A \key{soma harmônica} é uma soma da forma
 \[ \sum_{x=1}^n \frac{1}{x} = 1+\frac{1}{2}+\frac{1}{3}+\ldots+\frac{1}{n}.\]
 
-An upper bound for a harmonic sum is $\log_2(n)+1$.
-Namely, we can
-modify each term $1/k$ so that $k$ becomes
-the nearest power of two that does not exceed $k$.
-For example, when $n=6$, we can estimate
-the sum as follows:
+Um limite superior para uma soma harmônica é $\log_2(n)+1$.
+Ou seja, podemos modificar cada termo $1/k$ para que $k$ se torna
+a potência de dois mais próxima que não excede $k$.
+Por exemplo, quando $n=6$, pomode estimar a soma como segue:
 \[ 1+\frac{1}{2}+\frac{1}{3}+\frac{1}{4}+\frac{1}{5}+\frac{1}{6} \le
 1+\frac{1}{2}+\frac{1}{2}+\frac{1}{4}+\frac{1}{4}+\frac{1}{4}.\]
-This upper bound consists of $\log_2(n)+1$ parts
+Este limite superior consiste de $\log_2(n)+1$ partes
 ($1$, $2 \cdot 1/2$, $4 \cdot 1/4$, etc.),
-and the value of each part is at most 1.
+e o valor de cada parte é no máximo 1.
 
-\subsubsection{Set theory}
+\subsubsection{Teoria dos conjuntos}
 
-\index{set theory}
-\index{set}
-\index{intersection}
-\index{union}
-\index{difference}
-\index{subset}
-\index{universal set}
-\index{complement}
+\index{teoria dos conjuntos}
+\index{conjunto}
+\index{intersecção}
+\index{união}
+\index{diferença}
+\index{subconjuntos}
+\index{conjunto universo}
+\index{complemento}
 
-A \key{set} is a collection of elements.
-For example, the set
+Um \key{conjunto} é uma coleção de elementos.
+Por exemplo, o conjunto
 \[X=\{2,4,7\}\]
-contains elements 2, 4 and 7.
-The symbol $\emptyset$ denotes an empty set,
-and $|S|$ denotes the size of a set $S$,
-i.e., the number of elements in the set.
-For example, in the above set, $|X|=3$.
+contém os elementos 2, 4 e 7.
+O símbolo $\emptyset$ denota um conjunto vazio,
+e $|S|$ denota o tamanho do conjunto $S$,
+ou seja, o número de elementos no conjunto.
+Por exemplo, no conjunto acima, $|X|=3$.
 
-If a set $S$ contains an element $x$,
-we write $x \in S$,
-and otherwise we write $x \notin S$.
-For example, in the above set
-\[4 \in X \hspace{10px}\textrm{and}\hspace{10px} 5 \notin X.\]
+Se um conjunto $S$ contém um elemento $x$,
+nós escrevemos que $x \in S$,
+e senão escrevemos que $x \notin S$.
+Por exemplo, no conjunto acima
+\[4 \in X \hspace{10px}\textrm{e}\hspace{10px} 5 \notin X.\]
 
 \begin{samepage}
-New sets can be constructed using set operations:
+Agora conjuntos podem ser construídos usando operações de conjuntos:
 \begin{itemize}
-\item The \key{intersection} $A \cap B$ consists of elements
-that are in both $A$ and $B$.
-For example, if $A=\{1,2,5\}$ and $B=\{2,4\}$,
-then $A \cap B = \{2\}$.
-\item The \key{union} $A \cup B$ consists of elements
-that are in $A$ or $B$ or both.
-For example, if $A=\{3,7\}$ and $B=\{2,3,8\}$,
-then $A \cup B = \{2,3,7,8\}$.
-\item The \key{complement} $\bar A$ consists of elements
-that are not in $A$.
-The interpretation of a complement depends on
-the \key{universal set}, which contains all possible elements.
-For example, if $A=\{1,2,5,7\}$ and the universal set is
-$\{1,2,\ldots,10\}$, then $\bar A = \{3,4,6,8,9,10\}$.
-\item The \key{difference} $A \setminus B = A \cap \bar B$
-consists of elements that are in $A$ but not in $B$.
-Note that $B$ can contain elements that are not in $A$.
-For example, if $A=\{2,3,7,8\}$ and $B=\{3,5,8\}$,
-then $A \setminus B = \{2,7\}$.
+\item A \key{intersecção} $A \cap B$ consiste dos elementos que estão em ambos
+$A$ e $B$.
+Por exemplo, se $A=\{1,2,5\}$ e $B=\{2,4\}$,
+então $A \cap B = \{2\}$.
+\item A \key{união} $A \cup B$ consiste dos elementos
+que estão em $A$ ou $B$ ou em ambos.
+Por exemplo, se $A=\{3,7\}$ e $B=\{2,3,8\}$,
+então $A \cup B = \{2,3,7,8\}$.
+\item O \key{complemento} $\bar A$ consiste dos elementos
+que não estão em $A$.
+A interpretação de um complemento depende do
+\key{conjunto universo}, que contém todos os elementos possíveis.
+Por exemplo, se $A=\{1,2,5,7\}$ e o conjunto universo é
+$\{1,2,\ldots,10\}$, então $\bar A = \{3,4,6,8,9,10\}$.
+\item A \key{diferença} $A \setminus B = A \cap \bar B$
+consiste dos elementos que estão em $A$ mas não estão em $B$.
+Note que $B$ pode conter elementos que não estão em $A$.
+Por exemplo, se $A=\{2,3,7,8\}$ e $B=\{3,5,8\}$,
+então $A \setminus B = \{2,7\}$.
 \end{itemize}
 \end{samepage}
 
-If each element of $A$ also belongs to $S$,
-we say that $A$ is a \key{subset} of $S$,
-denoted by $A \subset S$.
-A set $S$ always has $2^{|S|}$ subsets,
-including the empty set.
-For example, the subsets of the set $\{2,4,7\}$ are
+Se cada elemento de $A$ também pertence a $S$,
+dizemos que $A$ é um \key{subconjunto} de $S$,
+denotado por $A \subset S$.
+Um conjunto $S$ sempre tem $2^{|S|}$ subconjuntos,
+incluindo o conjunto vazio.
+Por exemplo, os subconjuntos do conjunto $\{2,4,7\}$ são
 \begin{center}
 $\emptyset$,
-$\{2\}$, $\{4\}$, $\{7\}$, $\{2,4\}$, $\{2,7\}$, $\{4,7\}$ and $\{2,4,7\}$.
+$\{2\}$, $\{4\}$, $\{7\}$, $\{2,4\}$, $\{2,7\}$, $\{4,7\}$ e $\{2,4,7\}$.
 \end{center}
 
-Some often used sets are
-$\mathbb{N}$ (natural numbers),
-$\mathbb{Z}$ (integers),
-$\mathbb{Q}$ (rational numbers) and
-$\mathbb{R}$ (real numbers).
-The set $\mathbb{N}$
-can be defined in two ways, depending
-on the situation:
-either $\mathbb{N}=\{0,1,2,\ldots\}$
-or $\mathbb{N}=\{1,2,3,...\}$.
+Alguns conjuntos usados frequentemente são
+$\mathbb{N}$ (números naturais),
+$\mathbb{Z}$ (inteiros),
+$\mathbb{Q}$ (números racionais) e
+$\mathbb{R}$ (números reais).
+O conjunto $\mathbb{N}$
+pode ser definidos de duas maneiras, dependendo
+da situação:
+como $\mathbb{N}=\{0,1,2,\ldots\}$
+ou $\mathbb{N}=\{1,2,3,...\}$.
 
-We can also construct a set using a rule of the form
+Podemos também criar um conjunto usando uma regra da forma
 \[\{f(n) : n \in S\},\]
-where $f(n)$ is some function.
-This set contains all elements of the form $f(n)$,
-where $n$ is an element in $S$.
-For example, the set
+onde $f(n)$ é alguma função.
+O conjunto contém todos os elementos da forma $f(n)$,
+onde $n$ é um elemento em $S$.
+Por exemplo, o conjunto
 \[X=\{2n : n \in \mathbb{Z}\}\]
-contains all even integers.
+contém todos os inteiros pares.
 
-\subsubsection{Logic}
+\subsubsection{Lógica}
 
-\index{logic}
-\index{negation}
-\index{conjuction}
-\index{disjunction}
-\index{implication}
-\index{equivalence}
+\index{lógica}
+\index{negação}
+\index{conjunção}
+\index{disjunção}
+\index{implicação}
+\index{equivalência}
 
-The value of a logical expression is either
-\key{true} (1) or \key{false} (0).
-The most important logical operators are
-$\lnot$ (\key{negation}),
-$\land$ (\key{conjunction}),
-$\lor$ (\key{disjunction}),
-$\Rightarrow$ (\key{implication}) and
-$\Leftrightarrow$ (\key{equivalence}).
-The following table shows the meanings of these operators:
+O valor de uma expressão lógica é ou
+\key{verdadeiro} (1) ou \key{falso} (0).
+Os operadores lógicos mais importantes são
+$\lnot$ (\key{negação}),
+$\land$ (\key{conjunção}),
+$\lor$ (\key{disjunção}),
+$\Rightarrow$ (\key{implicação}) e
+$\Leftrightarrow$ (\key{equivalência}).
+A seguinte tabela mostra o significado destes operadores:
 
 \begin{center}
 \begin{tabular}{rr|rrrrrrr}
@@ -561,69 +542,65 @@ $A$ & $B$ & $\lnot A$ & $\lnot B$ & $A \land B$ & $A \lor B$ & $A \Rightarrow B$
 \end{tabular}
 \end{center}
 
-The expression $\lnot A$ has the opposite value of $A$.
-The expression $A \land B$ is true if both $A$ and $B$
-are true,
-and the expression $A \lor B$ is true if $A$ or $B$ or both
-are true.
-The expression $A \Rightarrow B$ is true
-if whenever $A$ is true, also $B$ is true.
-The expression $A \Leftrightarrow B$ is true
-if $A$ and $B$ are both true or both false.
+A expressão $\lnot A$ tém valor oposto do valor de $A$.
+A expressão $A \land B$ é verdadeira se ambos $A$ e $B$
+são verdadeiros,
+e a expressão $A \lor B$ é verdadeira se $A$ ou $B$ ou ambos
+são verdadeiros.
+A expressão $A \Rightarrow B$ é verdade se quando $A$ for verdadeiro,
+$B$ também for verdadeiro.
+A expressão $A \Leftrightarrow B$ é verdadeira se $A$ e $B$ ambos forem verdadeiros ou ambos falsos.
 
-\index{predicate}
+\index{predicado}
 
-A \key{predicate} is an expression that is true or false
-depending on its parameters.
-Predicates are usually denoted by capital letters.
-For example, we can define a predicate $P(x)$
-that is true exactly when $x$ is a prime number.
-Using this definition, $P(7)$ is true but $P(8)$ is false.
+Um \key{predicado} é uma expressão que é verdadeira ou falsa
+dependendo de seus parâmetros.
+Predicados são geralmente denotados por letras maiúsculas.
+Por exmeplo, podemos definir um predicado $P(x)$
+que é verdadeira exatamente quando $x$ é um número primo.
+Usando esta definição, $P(7)$ é verdadeiro mas $P(8)$ é falso.
 
-\index{quantifier}
+\index{quantificador}
 
-A \key{quantifier} connects a logical expression
-to the elements of a set.
-The most important quantifiers are
-$\forall$ (\key{for all}) and $\exists$ (\key{there is}).
-For example,
+Um \key{quantificador} conecta uma expressão lógica
+a elementos de um conjunto.
+Os quantificadores mais importantes são
+$\forall$ (\key{para todos}) e $\exists$ (\key{existe}).
+Por exemplo,
 \[\forall x (\exists y (y < x))\]
-means that for each element $x$ in the set,
-there is an element $y$ in the set
-such that $y$ is smaller than $x$.
-This is true in the set of integers,
-but false in the set of natural numbers.
+significa que para cada elemento $x$ no conjunto,
+existe um elemento $y$ no conjunto
+de tal forma que $y$ é menor que $x$.
+Isso é verdadeiro no conjunto dos inteiros,
+mas falso no conjunto dos números naturais.
 
-Using the notation described above,
-we can express many kinds of logical propositions.
-For example,
+Usando a notação descrita acima,
+podemos expressar muitos tipos de proposições lógicas.
+Por exemplo,
 \[\forall x ((x>1 \land \lnot P(x)) \Rightarrow (\exists a (\exists b (a > 1 \land b > 1 \land x = ab))))\]
-means that if a number $x$ is larger than 1
-and not a prime number,
-then there are numbers $a$ and $b$
-that are larger than $1$ and whose product is $x$.
-This proposition is true in the set of integers.
+significa que se um número $x$ é maior que 1 e não é um número primo,
+então existem números $a$ e $b$
+que são maiores que $1$ e cujo produto é $x$.
+Esta proposição é verdadeira no conjunto dos inteiros.
 
-\subsubsection{Functions}
+\subsubsection{Funções}
 
-The function $\lfloor x \rfloor$ rounds the number $x$
-down to an integer, and the function
-$\lceil x \rceil$ rounds the number $x$
-up to an integer. For example,
-\[ \lfloor 3/2 \rfloor = 1 \hspace{10px} \textrm{and} \hspace{10px} \lceil 3/2 \rceil = 2.\]
+A função $\lfloor x \rfloor$ arrendonda o número $x$ para baixo, e a função
+$\lceil x \rceil$ arrendonda o número $x$ para cima. Por exemplo,
+\[ \lfloor 3/2 \rfloor = 1 \hspace{10px} \textrm{e} \hspace{10px} \lceil 3/2 \rceil = 2.\]
 
-The functions $\min(x_1,x_2,\ldots,x_n)$
-and $\max(x_1,x_2,\ldots,x_n)$
-give the smallest and largest of values
+As funções $\min(x_1,x_2,\ldots,x_n)$
+e $\max(x_1,x_2,\ldots,x_n)$
+retornam os menores e maiores valores
 $x_1,x_2,\ldots,x_n$.
-For example,
-\[ \min(1,2,3)=1 \hspace{10px} \textrm{and} \hspace{10px} \max(1,2,3)=3.\]
+Por exemplo,
+\[ \min(1,2,3)=1 \hspace{10px} \textrm{e} \hspace{10px} \max(1,2,3)=3.\]
 
-\index{factorial}
+\index{fatorial}
 
-The \key{factorial} $n!$ can be defined
+O \key{fatorial} $n!$ pode ser definido como
 \[\prod_{x=1}^n x = 1 \cdot 2 \cdot 3 \cdot \ldots \cdot n\]
-or recursively
+ou recursivamente
 \[
 \begin{array}{lcl}
 0! & = & 1 \\
@@ -631,12 +608,12 @@ n! & = & n \cdot (n-1)! \\
 \end{array}
 \]
 
-\index{Fibonacci number}
+\index{número de Fibonacci}
 
-The \key{Fibonacci numbers}
+Os \key{números de Fibonacci}
 %\footnote{Fibonacci (c. 1175--1250) was an Italian mathematician.}
-arise in many situations.
-They can be defined recursively as follows:
+aparecem em várias situações.
+Eles podem ser definidos recursivamente como segue:
 \[
 \begin{array}{lcl}
 f(0) & = & 0 \\
@@ -644,148 +621,143 @@ f(1) & = & 1 \\
 f(n) & = & f(n-1)+f(n-2) \\
 \end{array}
 \]
-The first Fibonacci numbers are
+Os primeiros números de Fibonacci são
 \[0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, \ldots\]
-There is also a closed-form formula
-for calculating Fibonacci numbers, which is sometimes called
-\index{Binet's formula} \key{Binet's formula}:
+Existe também uma fórmula de forma fechada
+para calcular os números de Fibonacci, que é algumas vezes chamada de
+\index{fórmula de Binet} \key{fórmula de Binet}:
 \[f(n)=\frac{(1 + \sqrt{5})^n - (1-\sqrt{5})^n}{2^n \sqrt{5}}.\]
 
-\subsubsection{Logarithms}
+\subsubsection{Logaritmos}
 
-\index{logarithm}
+\index{logaritmo}
 
-The \key{logarithm} of a number $x$
-is denoted $\log_k(x)$, where $k$ is the base
-of the logarithm.
-According to the definition,
-$\log_k(x)=a$ exactly when $k^a=x$.
+O \key{logaritmo} de um número $x$
+é denotado $\log_k(x)$, onde $k$ é a base
+do logaritmo.
+De acordo com esta definição,
+$\log_k(x)=a$ exatamente quando $k^a=x$.
 
-A useful property of logarithms is
-that $\log_k(x)$ equals the number of times
-we have to divide $x$ by $k$ before we reach 
-the number 1.
-For example, $\log_2(32)=5$
-because 5 divisions by 2 are needed:
+Uma propriedade útil dos logaritmos é
+que $\log_k(x)$ é equivalente ao número de vezes
+necessário para dividir $x$ por $k$ para
+alcançar o número 1.
+Por exemplo, $\log_2(32)=5$
+porque 5 divisões por 2 são necessárias:
 
 \[32 \rightarrow 16 \rightarrow 8 \rightarrow 4 \rightarrow 2 \rightarrow 1 \]
 
-Logarithms are often used in the analysis of
-algorithms, because many efficient algorithms
-halve something at each step.
-Hence, we can estimate the efficiency of such algorithms
-using logarithms.
+Logaritmos são frequentemente usadas na análise de algoritmos, porque muitos
+algoritmos eficientes dividem alguma coisa em cada passo.
+Então, podemos estimar a eficiência destes algoritmos usando logaritmos.
 
-The logarithm of a product is
+O logaritmo de um produto é
 \[\log_k(ab) = \log_k(a)+\log_k(b),\]
-and consequently,
+e consequentemente,
 \[\log_k(x^n) = n \cdot \log_k(x).\]
-In addition, the logarithm of a quotient is
+Além disso, o logaritmo de um quociente é
 \[\log_k\Big(\frac{a}{b}\Big) = \log_k(a)-\log_k(b).\]
-Another useful formula is
+Outra fórmula útil é
 \[\log_u(x) = \frac{\log_k(x)}{\log_k(u)},\]
-and using this, it is possible to calculate
-logarithms to any base if there is a way to
-calculate logarithms to some fixed base.
+e usando isso, é possível calcular logaritmos para qualquer base se existe
+uma maneira de calcular logaritmos para uma base fixa.
 
-\index{natural logarithm}
+\index{logaritmo natural}
 
-The \key{natural logarithm} $\ln(x)$ of a number $x$
-is a logarithm whose base is $e \approx 2.71828$.
-Another property of logarithms is that
-the number of digits of an integer $x$ in base $b$ is
+O \key{logaritmo natural} $\ln(x)$ de um número $x$
+é um logaritmo cuja base é $e \approx 2.71828$.
+Outra propriedade de logaritmos é que
+o número de dígitos de um inteiro $x$ na base $b$ é
 $\lfloor \log_b(x)+1 \rfloor$.
-For example, the representation of
-$123$ in base $2$ is 1111011 and
+Por exemplo, a representação de
+$123$ na base $2$ é 1111011 e
 $\lfloor \log_2(123)+1 \rfloor = 7$.
 
-\section{Contests and resources}
+\section{Competições e recursos}
 
 \subsubsection{IOI}
 
-The International Olympiad in Informatics (IOI)
-is an annual programming contest for
-secondary school students.
-Each country is allowed to send a team of
-four students to the contest.
-There are usually about 300 participants
-from 80 countries.
+A Olimpíada Internacional de Informática (IOI)
+é um concurso anual de programação para
+alunos do ensino médio.
+Cada país pode enviar uma equipe de
+quatro alunos para o concurso.
+Geralmente há cerca de 300 participantes
+de 80 países.
 
-The IOI consists of two five-hour long contests.
-In both contests, the participants are asked to
-solve three algorithm tasks of various difficulty.
-The tasks are divided into subtasks,
-each of which has an assigned score.
-Even if the contestants are divided into teams,
-they compete as individuals.
+O IOI consiste em dois concursos de cinco horas de duração.
+Em ambos os concursos, os participantes são convidados a
+resolver três tarefas algorítmicas de várias dificuldades.
+As tarefas são divididas em subtarefas,
+cada uma das quais tem uma pontuação atribuída.
+Mesmo que os competidores sejam divididos em equipes,
+eles competem como indivíduos.
 
-The IOI syllabus \cite{iois} regulates the topics
-that may appear in IOI tasks.
-Almost all the topics in the IOI syllabus
-are covered by this book.
+O programa da IOI \cite{iois} regula os tópicos
+que podem aparecer em tarefas da IOI.
+Quase todos os tópicos do programa IOI são cobertos por este livro.
 
-Participants for the IOI are selected through
-national contests.
-Before the IOI, many regional contests are organized,
-such as the Baltic Olympiad in Informatics (BOI),
-the Central European Olympiad in Informatics (CEOI)
-and the Asia-Pacific Informatics Olympiad (APIO).
+Os participantes do IOI são selecionados por meio de
+concursos nacionais.
+Antes do IOI, muitos concursos regionais são organizados,
+como a Olimpíada Brasileira de Informática (OBI),
+a Olimpíada Báltica de Informática (BOI),
+a Olimpíada da Europa Central em Informática (CEOI)
+e a Olimpíada de Informática da Ásia-Pacífico (APIO).
 
-Some countries organize online practice contests
-for future IOI participants,
-such as the Croatian Open Competition in Informatics \cite{coci}
-and the USA Computing Olympiad \cite{usaco}.
-In addition, a large collection of problems from Polish contests
-is available online \cite{main}.
+Alguns países organizam concursos de prática online
+para futuros participantes do IOI,
+como o Concurso Aberto da Croácia em Informática \cite{coci}
+e a Olimpíada de Computação dos EUA \cite{usaco}.
+Além disso, uma grande coleção de problemas de concursos poloneses
+está disponível online \cite{main}.
 
 \subsubsection{ICPC}
 
-The International Collegiate Programming Contest (ICPC)
-is an annual programming contest for university students.
-Each team in the contest consists of three students,
-and unlike in the IOI, the students work together;
-there is only one computer available for each team.
+O Concurso Internacional de Programação Colegiada (ICPC)
+é um concurso anual de programação para estudantes universitários.
+Cada equipe do concurso é composta por três alunos,
+e ao contrário do IOI, os alunos trabalham juntos;
+há apenas um computador disponível para cada equipe.
 
-The ICPC consists of several stages, and finally the
-best teams are invited to the World Finals.
-While there are tens of thousands of participants
-in the contest, there are only a small number\footnote{The exact number of final
-slots varies from year to year; in 2017, there were 133 final slots.} of final slots available,
-so even advancing to the finals
-is a great achievement in some regions.
+O ICPC é composto por várias etapas, e finalmente o
+melhores equipes são convidadas para as Finais Mundiais.
+Embora existam dezenas de milhares de participantes
+no concurso, há apenas um pequeno número\footnote{O número exato de vagas para as finais
+variam de ano para ano; em 2017, havia 133 vagas para a final.} de vagas para as finais disponíveis,
+assim, avançar para as finais é uma grande conquista em algumas regiões.
 
-In each ICPC contest, the teams have five hours of time to
-solve about ten algorithm problems.
-A solution to a problem is accepted only if it solves
-all test cases efficiently.
-During the contest, competitors may view the results of other teams,
-but for the last hour the scoreboard is frozen and it
-is not possible to see the results of the last submissions.
+Em cada prova do ICPC, as equipes têm cinco horas para
+resolver cerca de dez problemas de algoritmos.
+Uma solução para um problema só é aceita se resolver
+todos os casos de teste de forma eficiente.
+Durante a competição, os competidores poderão visualizar os resultados de outras equipes,
+mas na última hora o placar fica congelado e
+não é possível ver os resultados das últimas submissões.
 
-The topics that may appear at the ICPC are not so well
-specified as those at the IOI.
-In any case, it is clear that more knowledge is needed
-at the ICPC, especially more mathematical skills.
+Os temas que podem aparecer no ICPC não são tão bem especificados como aqueles no IOI.
+De qualquer forma, é claro que mais conhecimento é necessário
+no ICPC, especialmente mais habilidades matemáticas.
 
-\subsubsection{Online contests}
+\subsubsection{Competições online}
 
-There are also many online contests that are open for everybody.
-At the moment, the most active contest site is Codeforces,
-which organizes contests about weekly.
-In Codeforces, participants are divided into two divisions:
-beginners compete in Div2 and more experienced programmers in Div1.
-Other contest sites include AtCoder, CS Academy, HackerRank and Topcoder.
+Existem também muitos concursos online abertos a todos.
+No momento, o site de concursos mais ativo é o Codeforces,
+que organiza concursos semanais.
+No Codeforces, os participantes são divididos em duas divisões:
+iniciantes competem em Div2 e programadores mais experientes em Div1.
+Outros sites de concursos incluem AtCoder, CS Academy, HackerRank e Topcoder.
 
-Some companies organize online contests with onsite finals.
-Examples of such contests are Facebook Hacker Cup,
-Google Code Jam and Yandex.Algorithm.
-Of course, companies also use those contests for recruiting:
-performing well in a contest is a good way to prove one's skills.
+Algumas empresas organizam concursos online com finais presenciais.
+Exemplos de tais concursos são Facebook Hacker Cup,
+Google Code Jam e Yandex.Algorithm.
+Claro, as empresas também usam esses concursos para recrutamento:
+ter um bom desempenho em uma competição é uma boa maneira de provar suas habilidades.
 
 \subsubsection{Books}
 
-There are already some books (besides this book) that
-focus on competitive programming and algorithmic problem solving:
+Já existem alguns livros (além deste) que focam em programação competitiva
+e resolução algorítmica de problemas:
 
 \begin{itemize}
 \item S. S. Skiena and M. A. Revilla:
@@ -796,12 +768,12 @@ focus on competitive programming and algorithmic problem solving:
 the University of Warsaw Programming Competitions} \cite{dik12}
 \end{itemize}
 
-The first two books are intended for beginners,
-whereas the last book contains advanced material.
+Os primeiros dois livros são voltados para iniciantes, enquanto que o último
+livro contém material avançado.
 
-Of course, general algorithm books are also suitable for
-competitive programmers.
-Some popular books are:
+Claro, livros de algoritmos gerais também são adequados para
+programadores competitivos.
+Alguns livros populares são:
 
 \begin{itemize}
 \item T. H. Cormen, C. E. Leiserson, R. L. Rivest and C. Stein:

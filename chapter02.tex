@@ -1,165 +1,164 @@
-\chapter{Time complexity}
+\chapter{Complexidade de tempo}
 
-\index{time complexity}
+\index{complexidade de tempo}
 
-The efficiency of algorithms is important in competitive programming.
-Usually, it is easy to design an algorithm
-that solves the problem slowly,
-but the real challenge is to invent a
-fast algorithm.
-If the algorithm is too slow, it will get only
-partial points or no points at all.
+A eficiência dos algoritmos é importante na programação competitiva.
+Normalmente, é fácil projetar um algoritmo
+que resolve o problema lentamente,
+mas o verdadeiro desafio é inventar um
+algoritmo rápido.
+Se o algoritmo for muito lento, ele receberá apenas
+pontos parciais ou nenhum ponto.
 
-The \key{time complexity} of an algorithm
-estimates how much time the algorithm will use
-for some input.
-The idea is to represent the efficiency
-as a function whose parameter is the size of the input.
-By calculating the time complexity,
-we can find out whether the algorithm is fast enough
-without implementing it.
+A \key{complexidade de tempo} de um algoritmo
+estima quanto tempo o algoritmo irá utilizar
+para determinada entrada.
+A ideia é representar a eficiência
+como uma função cujo parâmetro é o tamanho da entrada.
+Ao calcular a complexidade de tempo,
+podemos descobrir se o algoritmo é suficientemente rápido
+sem precisar implementá-lo.
 
-\section{Calculation rules}
+\section{Regras de cálculo}
 
-The time complexity of an algorithm
-is denoted $O(\cdots)$
-where the three dots represent some
-function.
-Usually, the variable $n$ denotes
-the input size.
-For example, if the input is an array of numbers,
-$n$ will be the size of the array,
-and if the input is a string,
-$n$ will be the length of the string.
+A complexidade de tempo de um algoritmo
+é denotada por $O(\cdots)$
+onde os três pontos representam alguma
+função.
+Normalmente, a variável $n$ denota
+o tamanho da entrada.
+Por exemplo, se a entrada é uma matriz de números,
+$n$ será o tamanho da matriz,
+e se a entrada é uma string,
+$n$ será o comprimento da string.
 
-\subsubsection*{Loops}
+\subsubsection*{Laços de repetição}
 
-A common reason why an algorithm is slow is
-that it contains many loops that go through the input.
-The more nested loops the algorithm contains,
-the slower it is.
-If there are $k$ nested loops,
-the time complexity is $O(n^k)$.
+Uma razão comum pela qual um algoritmo é lento é
+porque ele contém muitos laços que percorrem a entrada.
+Quanto mais laços aninhados o algoritmo contém,
+mais lento ele é.
+Se houver $k$ laços aninhados,
+a complexidade de tempo é $O(n^k)$.
 
-For example, the time complexity of the following code is $O(n)$:
+Por exemplo, a complexidade de tempo do seguinte código é $O(n)$:
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
-    // code
+    // codigo
 }
 \end{lstlisting}
 
-And the time complexity of the following code is $O(n^2)$:
+E a complexidade de tempo do seguinte código é $O(n^2)$:
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= n; j++) {
-        // code
+        // codigo
     }
 }
 \end{lstlisting}
 
-\subsubsection*{Order of magnitude}
+\subsubsection*{Ordem de magnitude}
 
-A time complexity does not tell us the exact number
-of times the code inside a loop is executed,
-but it only shows the order of magnitude.
-In the following examples, the code inside the loop
-is executed $3n$, $n+5$ and $\lceil n/2 \rceil$ times,
-but the time complexity of each code is $O(n)$.
+A complexidade de tempo não nos fornece o número exato
+de vezes que o código dentro de um laço é executado,
+mas apenas mostra a ordem de magnitude.
+Nos exemplos a seguir, o código dentro do laço
+é executado $3n$, $n+5$ e $\lceil n/2 \rceil$ vezes,
+mas a complexidade de tempo de cada código é $O(n)$.
 
 \begin{lstlisting}
 for (int i = 1; i <= 3*n; i++) {
-    // code
+    // codigo
 }
 \end{lstlisting}
 
 \begin{lstlisting}
 for (int i = 1; i <= n+5; i++) {
-    // code
+    // codigo
 }
 \end{lstlisting}
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i += 2) {
-    // code
+    // codigo
 }
 \end{lstlisting}
 
-As another example,
-the time complexity of the following code is $O(n^2)$:
+Como outro exemplo, 
+a complexidade de tempo do seguinte código é $O(n^2)$:
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
     for (int j = i+1; j <= n; j++) {
-        // code
+        // codigo
     }
 }
 \end{lstlisting}
 
-\subsubsection*{Phases}
+\subsubsection*{Fases}
 
-If the algorithm consists of consecutive phases,
-the total time complexity is the largest
-time complexity of a single phase.
-The reason for this is that the slowest
-phase is usually the bottleneck of the code.
+Se o algoritmo consiste em fases consecutivas,
+a complexidade de tempo total é a maior
+complexidade de tempo de uma única fase.
+A razão para isso é que a fase mais lenta
+geralmente é o gargalo do código.
 
-For example, the following code consists
-of three phases with time complexities
-$O(n)$, $O(n^2)$ and $O(n)$.
-Thus, the total time complexity is $O(n^2)$.
+Por exemplo, o seguinte código consiste
+em três fases com complexidades de tempo
+$O(n)$, $O(n^2)$ e $O(n)$.
+Portanto, a complexidade de tempo total é $O(n^2)$.
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
-    // code
+    // codigo
 }
 for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= n; j++) {
-        // code
+        // codigo
     }
 }
 for (int i = 1; i <= n; i++) {
-    // code
+    // codigo
 }
 \end{lstlisting}
 
-\subsubsection*{Several variables}
+\subsubsection*{Várias variáveis}
 
-Sometimes the time complexity depends on
-several factors.
-In this case, the time complexity formula
-contains several variables.
+Às vezes, a complexidade de tempo depende de
+vários fatores.
+Nesse caso, a fórmula da complexidade de tempo
+contém várias variáveis.
 
-For example, the time complexity of the
-following code is $O(nm)$:
+Por exemplo, a complexidade de tempo do
+seguinte código é $O(nm)$:
 
 \begin{lstlisting}
 for (int i = 1; i <= n; i++) {
     for (int j = 1; j <= m; j++) {
-        // code
+        // codigo
     }
 }
 \end{lstlisting}
 
-\subsubsection*{Recursion}
+\subsubsection*{Recursão}
 
-The time complexity of a recursive function
-depends on the number of times the function is called
-and the time complexity of a single call.
-The total time complexity is the product of
-these values.
+A complexidade de tempo de uma função recursiva
+depende do número de vezes que a função é chamada
+e da complexidade de tempo de uma única chamada.
+A complexidade de tempo total é o produto desses valores.
 
-For example, consider the following function:
+Por exemplo, considere a seguinte função:
 \begin{lstlisting}
 void f(int n) {
     if (n == 1) return;
     f(n-1);
 }
 \end{lstlisting}
-The call $\texttt{f}(n)$ causes $n$ function calls,
-and the time complexity of each call is $O(1)$.
-Thus, the total time complexity is $O(n)$.
+A chamada $\texttt{f}(n)$ causa $n$ chamadas de função,
+e a complexidade de tempo de cada chamada é $O(1)$.
+Assim, a complexidade de tempo total é $O(n)$.
 
-As another example, consider the following function:
+Como outro exemplo, considere a seguinte função:
 \begin{lstlisting}
 void g(int n) {
     if (n == 1) return;
@@ -167,15 +166,15 @@ void g(int n) {
     g(n-1);
 }
 \end{lstlisting}
-In this case each function call generates two other
-calls, except for $n=1$.
-Let us see what happens when $g$ is called
-with parameter $n$.
-The following table shows the function calls
-produced by this single call:
+Nesse caso, cada chamada de função gera outras duas chamadas,
+exceto quando $n=1$.
+Vamos ver o que acontece quando $g$ é chamada 
+com o parâmetro $n$.
+A tabela a seguir mostra as chamadas de função
+produzidas por essa única chamada:
 \begin{center}
 \begin{tabular}{rr}
-function call & number of calls \\
+chamada da função & número de chamadas \\
 \hline
 $g(n)$ & 1 \\
 $g(n-1)$ & 2 \\
@@ -184,190 +183,141 @@ $\cdots$ & $\cdots$ \\
 $g(1)$ & $2^{n-1}$ \\
 \end{tabular}
 \end{center}
-Based on this, the time complexity is
+Com base nisso, a complexidade de tempo é
 \[1+2+4+\cdots+2^{n-1} = 2^n-1 = O(2^n).\]
 
-\section{Complexity classes}
+\section{Classes de complexidade}
 
-\index{complexity classes}
+\index{classes de complexidade}
 
-The following list contains common time complexities
-of algorithms:
+
+A lista a seguir contém complexidades de tempo comuns de algoritmos:
 
 \begin{description}
 \item[$O(1)$]
-\index{constant-time algorithm}
-The running time of a \key{constant-time} algorithm
-does not depend on the input size.
-A typical constant-time algorithm is a direct
-formula that calculates the answer.
+\index{algoritmo de tempo constante}
+O tempo de execução de um algoritmo de \key{tempo constante} não depende do tamanho da entrada. Um algoritmo de tempo constante típico é uma fórmula direta que calcula a resposta.
 
 \item[$O(\log n)$]
-\index{logarithmic algorithm}
-A \key{logarithmic} algorithm often halves
-the input size at each step.
-The running time of such an algorithm
-is logarithmic, because
-$\log_2 n$ equals the number of times
-$n$ must be divided by 2 to get 1.
+\index{algoritmo logarítmico}
+Um algoritmo \key{logarítmico} frequentemente reduz pela metade
+o tamanho da entrada em cada etapa.
+O tempo de execução de tal algoritmo
+é logarítmico, porque
+$\log_2 n$ equivale ao número de vezes
+que $n$ precisa ser dividido por 2 para obter 1.
 
 \item[$O(\sqrt n)$]
-A \key{square root algorithm} is slower than
-$O(\log n)$ but faster than $O(n)$.
-A special property of square roots is that
-$\sqrt n = n/\sqrt n$, so the square root $\sqrt n$ lies,
-in some sense, in the middle of the input.
+Um \key{algoritmo de raiz quadrada} é mais lento do que
+$O(\log n)$, mas mais rápido do que $O(n)$.
+Uma propriedade especial das raízes quadradas é que
+$\sqrt n = n/\sqrt n$, então a raiz quadrada $\sqrt n$ está,
+em certo sentido, no meio da entrada.
 
 \item[$O(n)$]
-\index{linear algorithm}
-A \key{linear} algorithm goes through the input
-a constant number of times.
-This is often the best possible time complexity,
-because it is usually necessary to access each
-input element at least once before
-reporting the answer.
+\index{algoritmo linear}
+Um algoritmo \key{linear} percorre a entrada um número constante de vezes. Isso muitas vezes é a melhor complexidade de tempo possível, porque geralmente é necessário acessar cada elemento da entrada pelo menos uma vez antes de obter a resposta.
 
 \item[$O(n \log n)$]
-This time complexity often indicates that the
-algorithm sorts the input,
-because the time complexity of efficient
-sorting algorithms is $O(n \log n)$.
-Another possibility is that the algorithm
-uses a data structure where each operation
-takes $O(\log n)$ time.
+Essa complexidade de tempo frequentemente indica que o algoritmo ordena a entrada, pois a complexidade de tempo dos eficientes algoritmos de ordenação é $O(n \log n)$. Outra possibilidade é que o algoritmo utilize uma estrutura de dados em que cada operação leva tempo $O(\log n)$.
 
 \item[$O(n^2)$]
-\index{quadratic algorithm}
-A \key{quadratic} algorithm often contains
-two nested loops.
-It is possible to go through all pairs of
-the input elements in $O(n^2)$ time.
+\index{algoritmo quadrático}
+Um algoritmo \key{quadrático} muitas vezes contém
+dois laços aninhados.
+É possível percorrer todos os pares de
+elementos da entrada em tempo $O(n^2)$.
 
 \item[$O(n^3)$]
-\index{cubic algorithm}
-A \key{cubic} algorithm often contains
-three nested loops.
-It is possible to go through all triplets of
-the input elements in $O(n^3)$ time.
+\index{algoritmo cúbico}
+Um algoritmo \key{cúbico} frequentemente contém
+três laços aninhados.
+É possível percorrer todos os trios de
+elementos da entrada em tempo $O(n^3)$.
 
 \item[$O(2^n)$]
-This time complexity often indicates that
-the algorithm iterates through all
-subsets of the input elements.
-For example, the subsets of $\{1,2,3\}$ are
+Esta complexidade de tempo frequentemente indica que o algoritmo itera por todos os subconjuntos dos elementos de entrada.
+Por exemplo, os subconjuntos de $\{1,2,3\}$ são 
 $\emptyset$, $\{1\}$, $\{2\}$, $\{3\}$, $\{1,2\}$,
-$\{1,3\}$, $\{2,3\}$ and $\{1,2,3\}$.
+$\{1,3\}$, $\{2,3\}$ e $\{1,2,3\}$.
 
 \item[$O(n!)$]
-This time complexity often indicates that
-the algorithm iterates through all
-permutations of the input elements.
-For example, the permutations of $\{1,2,3\}$ are
+Esta complexidade de tempo frequentemente indica que o algoritmo itera por todas as permutações dos elementos de entrada.
+Por exemplo, as permutações de $\{1,2,3\}$ são
 $(1,2,3)$, $(1,3,2)$, $(2,1,3)$, $(2,3,1)$,
-$(3,1,2)$ and $(3,2,1)$.
+$(3,1,2)$ e $(3,2,1)$.
 
 \end{description}
 
-\index{polynomial algorithm}
-An algorithm is \key{polynomial}
-if its time complexity is at most $O(n^k)$
-where $k$ is a constant.
-All the above time complexities except
-$O(2^n)$ and $O(n!)$ are polynomial.
-In practice, the constant $k$ is usually small,
-and therefore a polynomial time complexity
-roughly means that the algorithm is \emph{efficient}.
+\index{algoritmo polinomial}
+Um algoritmo é \key{polinomial} 
+se sua complexidade de tempo for no máximo $O(n^k)$, 
+onde $k$ é uma constante. 
+Todas as complexidades de tempo acima, exceto 
+$O(2^n)$ e $O(n!)$, são polinomiais. 
+Na prática, a constante $k$ geralmente é pequena, 
+e portanto, uma complexidade de tempo polinomial
+significa que o algoritmo é \emph{eficiente}.
 
-\index{NP-hard problem}
+\index{problema NP-difícil}
 
-Most algorithms in this book are polynomial.
-Still, there are many important problems for which
-no polynomial algorithm is known, i.e.,
-nobody knows how to solve them efficiently.
-\key{NP-hard} problems are an important set
-of problems, for which no polynomial algorithm
-is known\footnote{A classic book on the topic is
-M. R. Garey's and D. S. Johnson's
-\emph{Computers and Intractability: A Guide to the Theory
-of NP-Completeness} \cite{gar79}.}.
+A maioria dos algoritmos neste livro é polinomial. No entanto, existem muitos problemas importantes para os quais nenhum algoritmo polinomial é conhecido, ou seja, ninguém sabe como resolvê-los de forma eficiente. Problemas \key{NP-difíceis} são um conjunto importante de problemas para os quais nenhum algoritmo polinomial é conhecido\footnote{Um livro clássico sobre o assunto é \emph{Computers and Intractability: A Guide to the Theory of NP-Completeness} de M. R. Garey e D. S. Johnson \cite{gar79}.}.
 
-\section{Estimating efficiency}
+\section{Estimar a eficiência}
 
-By calculating the time complexity of an algorithm,
-it is possible to check, before
-implementing the algorithm, that it is
-efficient enough for the problem.
-The starting point for estimations is the fact that
-a modern computer can perform some hundreds of
-millions of operations in a second.
+Ao calcular a complexidade de tempo de um algoritmo, é possível verificar, antes de implementá-lo, se ele é suficientemente eficiente para o problema. O ponto de partida para as estimativas é o fato de que um computador moderno pode realizar algumas centenas de milhões de operações em um segundo.
 
-For example, assume that the time limit for
-a problem is one second and the input size is $n=10^5$.
-If the time complexity is $O(n^2)$,
-the algorithm will perform about $(10^5)^2=10^{10}$ operations.
-This should take at least some tens of seconds,
-so the algorithm seems to be too slow for solving the problem.
+Por exemplo, vamos supor que o limite de tempo 
+para um problema seja de um segundo e o tamanho da entrada seja $n=10^5$. 
+Se a complexidade de tempo for $O(n^2)$, 
+o algoritmo executará cerca de $(10^5)^2=10^{10}$ operações. 
+Isso levaria pelo menos algumas dezenas de segundos, 
+então o algoritmo parece ser muito lento para resolver o problema.
 
-On the other hand, given the input size,
-we can try to \emph{guess}
-the required time complexity of the algorithm
-that solves the problem.
-The following table contains some useful estimates
-assuming a time limit of one second.
+Por outro lado, dado o tamanho da entrada, 
+podemos tentar \emph{adivinhar} 
+a complexidade de tempo necessária do algoritmo 
+que resolve o problema. 
+A tabela a seguir contém algumas estimativas úteis, 
+assumindo um limite de tempo de um segundo.
 
 \begin{center}
 \begin{tabular}{ll}
-input size & required time complexity \\
+tamanho da entrada & complexidade de tempo necessária \\
 \hline
 $n \le 10$ & $O(n!)$ \\
 $n \le 20$ & $O(2^n)$ \\
 $n \le 500$ & $O(n^3)$ \\
 $n \le 5000$ & $O(n^2)$ \\
-$n \le 10^6$ & $O(n \log n)$ or $O(n)$ \\
-$n$ is large & $O(1)$ or $O(\log n)$ \\
+$n \le 10^6$ & $O(n \log n)$ ou $O(n)$ \\
+$n$ é grande & $O(1)$ ou $O(\log n)$ \\
 \end{tabular}
 \end{center}
 
-For example, if the input size is $n=10^5$,
-it is probably expected that the time
-complexity of the algorithm is $O(n)$ or $O(n \log n)$.
-This information makes it easier to design the algorithm,
-because it rules out approaches that would yield
-an algorithm with a worse time complexity.
+Por exemplo, se o tamanho da entrada for $n=10^5$, 
+é provável que se espere que a complexidade de tempo do algoritmo seja $O(n)$ ou $O(n \log n)$. 
+Essa informação facilita o projeto do algoritmo, pois descarta abordagens que resultariam 
+em um algoritmo com uma complexidade de tempo pior.
 
-\index{constant factor}
+\index{fator constante}
 
-Still, it is important to remember that a
-time complexity is only an estimate of efficiency,
-because it hides the \emph{constant factors}.
-For example, an algorithm that runs in $O(n)$ time
-may perform $n/2$ or $5n$ operations.
-This has an important effect on the actual
-running time of the algorithm.
+Ainda assim, é importante lembrar que a complexidade de tempo é apenas uma estimativa de eficiência, pois ela oculta os \emph{fatores constantes}. Por exemplo, um algoritmo que roda em tempo $O(n)$ pode realizar $n/2$ ou $5n$ operações. Isso tem um efeito importante no tempo real de execução do algoritmo.
 
-\section{Maximum subarray sum}
+\section{Soma máxima de subvetor}
 
-\index{maximum subarray sum}
+\index{soma máxima de subvetor}
 
-There are often several possible algorithms
-for solving a problem such that their
-time complexities are different.
-This section discusses a classic problem that
-has a straightforward $O(n^3)$ solution.
-However, by designing a better algorithm, it
-is possible to solve the problem in $O(n^2)$
-time and even in $O(n)$ time.
+Frequentemente, existem vários algoritmos possíveis para resolver um problema, sendo que suas complexidades de tempo são diferentes. Esta seção discute um problema clássico que possui uma solução direta com complexidade de tempo $O(n^3)$. No entanto, ao projetar um algoritmo melhor, é possível resolver o problema em tempo $O(n^2)$ e até mesmo em tempo $O(n)$.
 
-Given an array of $n$ numbers,
-our task is to calculate the
-\key{maximum subarray sum}, i.e.,
-the largest possible sum of 
-a sequence of consecutive values
-in the array\footnote{J. Bentley's
-book \emph{Programming Pearls} \cite{ben86} made the problem popular.}.
-The problem is interesting when there may be
-negative values in the array.
-For example, in the array
+Dado um vetor de $n$ números, 
+nossa tarefa é calcular a 
+\key{soma máxima de subvetor}, ou seja, 
+a maior soma possível de 
+uma sequência de valores consecutivos 
+no vetor\footnote{O livro \emph{Programming Pearls} de J. Bentley \cite{ben86} tornou o problema popular.}. 
+O problema é interessante quando pode haver 
+valores negativos no vetor. 
+Por exemplo, no vetor
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -383,7 +333,7 @@ For example, in the array
 \end{tikzpicture}
 \end{center}
 \begin{samepage}
-the following subarray produces the maximum sum $10$:
+o subvetor a seguir produz a soma máxima de $10$:
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (1,0) rectangle (6,1);
@@ -401,16 +351,15 @@ the following subarray produces the maximum sum $10$:
 \end{center}
 \end{samepage}
 
-We assume that an empty subarray is allowed,
-so the maximum subarray sum is always at least $0$.
+Nós assumimos que um subvetor vazio é permitido, então a soma máxima do subvetor é sempre pelo menos $0$.
 
-\subsubsection{Algorithm 1}
+\subsubsection{Algoritmo 1}
 
-A straightforward way to solve the problem
-is to go through all possible subarrays,
-calculate the sum of values in each subarray and maintain
-the maximum sum.
-The following code implements this algorithm:
+Uma maneira direta de resolver o problema
+é percorrer todos os subvetores possíveis, 
+calcular a soma dos valores em cada subvetor e manter 
+a soma máxima. 
+O código a seguir implementa esse algoritmo:
 
 \begin{lstlisting}
 int best = 0;
@@ -426,22 +375,22 @@ for (int a = 0; a < n; a++) {
 cout << best << "\n";
 \end{lstlisting}
 
-The variables \texttt{a} and \texttt{b} fix the first and
-last index of the subarray,
-and the sum of values is calculated to the variable \texttt{sum}.
-The variable \texttt{best} contains the maximum sum found during the search.
+As variáveis \texttt{a} e \texttt{b} fixam o primeiro e 
+último índice do subvetor, 
+e a soma dos valores é calculada na variável \texttt{sum}. 
+A variável \texttt{best} contém a soma máxima encontrada durante a busca.
 
-The time complexity of the algorithm is $O(n^3)$,
-because it consists of three nested loops 
-that go through the input.
+A complexidade de tempo do algoritmo é $O(n^3)$, 
+pois consiste em três laços aninhados 
+que percorrem a entrada.
 
-\subsubsection{Algorithm 2}
+\subsubsection{Algoritmo 2}
 
-It is easy to make Algorithm 1 more efficient
-by removing one loop from it.
-This is possible by calculating the sum at the same
-time when the right end of the subarray moves.
-The result is the following code:
+É fácil tornar o Algoritmo 1 mais eficiente 
+removendo um laço dele. 
+Isso é possível calculando a soma ao mesmo 
+tempo em que o final direito do subvetor se move. 
+O resultado é o seguinte código:
 
 \begin{lstlisting}
 int best = 0;
@@ -454,38 +403,38 @@ for (int a = 0; a < n; a++) {
 }
 cout << best << "\n";
 \end{lstlisting}
-After this change, the time complexity is $O(n^2)$.
+Após essa alteração, a complexidade de tempo é $O(n^2)$.
 
-\subsubsection{Algorithm 3}
+\subsubsection{Algoritmo 3}
 
-Surprisingly, it is possible to solve the problem
-in $O(n)$ time\footnote{In \cite{ben86}, this linear-time algorithm
-is attributed to J. B. Kadane, and the algorithm is sometimes
-called \index{Kadane's algorithm} \key{Kadane's algorithm}.}, which means
-that just one loop is enough.
-The idea is to calculate, for each array position,
-the maximum sum of a subarray that ends at that position.
-After this, the answer for the problem is the
-maximum of those sums.
+Surpreendentemente, é possível resolver o problema
+em tempo $O(n)$\footnote{Em \cite{ben86}, este algoritmo de tempo linear 
+é atribuído a J. B. Kadane, e o algoritmo é às vezes 
+chamado de \index{algoritmo de Kadane} \key{algoritmo de Kadane}.}, o que significa 
+que apenas um loop é necessário.
+A ideia é calcular, para cada posição do vetor, 
+a soma máxima de um subvetor que termina nessa posição. 
+Em seguida, a resposta para o problema é 
+o máximo dessas somas.
 
-Consider the subproblem of finding the maximum-sum subarray
-that ends at position $k$.
-There are two possibilities:
+Considere o subproblema de encontrar o subvetor de soma máxima 
+que termina na posição $k$. 
+Existem duas possibilidades:
 \begin{enumerate}
-\item The subarray only contains the element at position $k$.
-\item The subarray consists of a subarray that ends
-at position $k-1$, followed by the element at position $k$.
+\item O subvetor contém apenas o elemento na posição $k$.
+\item O subvetor consiste em um subvetor que termina 
+na posição $k-1$, seguido pelo elemento na posição $k$.
 \end{enumerate}
 
-In the latter case, since we want to
-find a subarray with maximum sum,
-the subarray that ends at position $k-1$
-should also have the maximum sum.
-Thus, we can solve the problem efficiently
-by calculating the maximum subarray sum
-for each ending position from left to right.
+No último caso, uma vez que queremos 
+encontrar um subvetor com a soma máxima, 
+o subvetor que termina na posição $k-1$ 
+também deve ter a soma máxima. 
+Portanto, podemos resolver o problema de forma eficiente 
+calculando a soma máxima do subvetor 
+para cada posição final da esquerda para a direita.
 
-The following code implements the algorithm:
+O código a seguir implementa o algoritmo:
 \begin{lstlisting}
 int best = 0, sum = 0;
 for (int k = 0; k < n; k++) {
@@ -495,28 +444,28 @@ for (int k = 0; k < n; k++) {
 cout << best << "\n";
 \end{lstlisting}
 
-The algorithm only contains one loop
-that goes through the input,
-so the time complexity is $O(n)$.
-This is also the best possible time complexity,
-because any algorithm for the problem
-has to examine all array elements at least once.
+O algoritmo contém apenas um laço 
+que percorre a entrada, 
+portanto, a complexidade de tempo é $O(n)$. 
+Essa também é a melhor complexidade de tempo possível, 
+porque qualquer algoritmo para o problema 
+precisa examinar todos os elementos do vetor pelo menos uma vez.
 
-\subsubsection{Efficiency comparison}
+\subsubsection{Comparação de eficiência}
 
-It is interesting to study how efficient 
-algorithms are in practice.
-The following table shows the running times
-of the above algorithms for different
-values of $n$ on a modern computer.
+É interessante estudar como os 
+algoritmos são eficientes na prática. 
+A tabela a seguir mostra os tempos de execução 
+dos algoritmos acima para diferentes 
+valores de $n$ em um computador moderno.
 
-In each test, the input was generated randomly.
-The time needed for reading the input was not
-measured.
+Em cada teste, a entrada foi gerada aleatoriamente. 
+O tempo necessário para ler a entrada não foi 
+medido.
 
 \begin{center}
 \begin{tabular}{rrrr}
-array size $n$ & Algorithm 1 & Algorithm 2 & Algorithm 3 \\
+tamanho do vetor $n$ & Algoritmo 1 & Algoritmo 2 & Algoritmo 3 \\
 \hline
 $10^2$ & $0.0$ s & $0.0$ s & $0.0$ s \\
 $10^3$ & $0.1$ s & $0.0$ s & $0.0$ s \\
@@ -527,12 +476,12 @@ $10^7$ & > $10.0$ s & > $10.0$ s & $0.0$ s \\
 \end{tabular}
 \end{center}
 
-The comparison shows that all algorithms
-are efficient when the input size is small,
-but larger inputs bring out remarkable
-differences in the running times of the algorithms.
-Algorithm 1 becomes slow
-when $n=10^4$, and Algorithm 2
-becomes slow when $n=10^5$.
-Only Algorithm 3 is able to process
-even the largest inputs instantly.
+A comparação mostra que todos os algoritmos 
+são eficientes quando o tamanho da entrada é pequeno, 
+mas tamanhos maiores de entrada evidenciam 
+diferenças notáveis nos tempos de execução dos algoritmos. 
+O Algoritmo 1 se torna lento 
+quando $n=10^4$, e o Algoritmo 2 
+se torna lento quando $n=10^5$. 
+Apenas o Algoritmo 3 é capaz de processar 
+até mesmo as maiores entradas instantaneamente.

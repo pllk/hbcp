@@ -1,42 +1,42 @@
-\chapter{Sorting}
+\chapter{Ordenação}
 
-\index{sorting}
+\index{Ordenação}
 
-\key{Sorting}
-is a fundamental algorithm design problem.
-Many efficient algorithms
-use sorting as a subroutine,
-because it is often easier to process
-data if the elements are in a sorted order.
+\key{Ordenação}
+é um problema fundamental no design de algoritmos.
+Muitos algoritmos eficientes
+utilizam a ordenação como uma sub-rotina, 
+pois frequentemente é mais fácil processar 
+os dados quando os elementos estão ordenados.
 
-For example, the problem ''does an array contain
-two equal elements?'' is easy to solve using sorting.
-If the array contains two equal elements,
-they will be next to each other after sorting,
-so it is easy to find them.
-Also, the problem ''what is the most frequent element
-in an array?'' can be solved similarly.
+Por exemplo, o problema ''um array contém 
+dois elementos iguais?'' é fácil de resolver usando ordenação. 
+Se o array contiver dois elementos iguais, 
+eles estarão um ao lado do outro após a ordenação, 
+então é fácil encontrá-los. 
+Além disso, o problema ''qual é o elemento mais frequente
+ em um array?'' pode ser resolvido de forma semelhante.
 
-There are many algorithms for sorting, and they are
-also good examples of how to apply
-different algorithm design techniques.
-The efficient general sorting algorithms
-work in $O(n \log n)$ time,
-and many algorithms that use sorting
-as a subroutine also
-have this time complexity.
+Existem muitos algoritmos para ordenação, e eles também são
+bons exemplos de como aplicar 
+diferentes técnicas de design de algoritmos. 
+Os algoritmos de ordenação eficientes
+funcionam em tempo $O(n \log n)$, 
+e muitos algoritmos que usam a ordenação
+como sub-rotina também 
+têm essa complexidade de tempo.
 
-\section{Sorting theory}
+\section{Teoria da ordenação}
 
-The basic problem in sorting is as follows:
+O problema básico na ordenação é o seguinte:
 \begin{framed}
 \noindent
-Given an array that contains $n$ elements,
-your task is to sort the elements
-in increasing order.
+Dado um array que contém $n$ elementos,
+sua tarefa é ordenar os elementos 
+em ordem crescente.
 \end{framed}
 \noindent
-For example, the array
+Por exemplo, o array
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -50,7 +50,7 @@ For example, the array
 \node at (7.5,0.5) {$6$};
 \end{tikzpicture}
 \end{center}
-will be as follows after sorting:
+ficará da seguinte forma após a ordenação:
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (8,1);
@@ -65,25 +65,25 @@ will be as follows after sorting:
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{$O(n^2)$ algorithms}
+\subsubsection{Algoritmos $O(n^2)$}
 
 \index{bubble sort}
 
-Simple algorithms for sorting an array
-work in $O(n^2)$ time.
-Such algorithms are short and usually
-consist of two nested loops.
-A famous $O(n^2)$ time sorting algorithm
-is \key{bubble sort} where the elements
-''bubble'' in the array according to their values.
+Algoritmos simples para ordenar um array
+operam em tempo $O(n^2)$.
+Tais algoritmos são curtos e geralmente
+consistem em dois loops aninhados.
+Um famoso algoritmo de ordenação em tempo $O(n^2)$
+é o \key{bubble sort} onde os elementos
+"flutuam" no array de acordo com seus valores.
 
-Bubble sort consists of $n$ rounds.
-On each round, the algorithm iterates through
-the elements of the array.
-Whenever two consecutive elements are found
-that are not in correct order,
-the algorithm swaps them.
-The algorithm can be implemented as follows:
+O Bubble sort consiste em $n$ rodadas.
+Em cada rodada, o algoritmo percorre
+os elementos do array.
+Sempre que dois elementos consecutivos são encontrados
+que não estão na ordem correta,
+o algoritmo os troca.
+O algoritmo pode ser implementado da seguinte forma:
 \begin{lstlisting}
 for (int i = 0; i < n; i++) {
     for (int j = 0; j < n-1; j++) {
@@ -94,14 +94,14 @@ for (int i = 0; i < n; i++) {
 }
 \end{lstlisting}
 
-After the first round of the algorithm,
-the largest element will be in the correct position,
-and in general, after $k$ rounds, the $k$ largest
-elements will be in the correct positions.
-Thus, after $n$ rounds, the whole array
-will be sorted.
+Após a primeira rodada do algoritmo,
+o maior elemento estará na posição correta,
+e em geral, após $k$ rodadas, os $k$ maiores
+elementos estarão nas posições corretas.
+Portanto, após $n$ rodadas, o array inteiro
+estará ordenado.
 
-For example, in the array
+Por exemplo, no array
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -119,8 +119,8 @@ For example, in the array
 \end{center}
 
 \noindent
-the first round of bubble sort swaps elements
-as follows:
+na primeira rodada do bubble sort, os elementos
+são trocados da seguinte forma:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -186,9 +186,9 @@ as follows:
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Inversions}
+\subsubsection{Inversões}
 
-\index{inversion}
+\index{inversão}
 
 Bubble sort is an example of a sorting
 algorithm that always swaps \emph{consecutive}

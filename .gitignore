@@ -7,3 +7,4 @@
 *.ind
 *.out
 *.toc
+.DS_Store

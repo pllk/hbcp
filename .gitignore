@@ -8,3 +8,4 @@
 *.out
 *.toc
 .DS_Store
+book.synctex.gz

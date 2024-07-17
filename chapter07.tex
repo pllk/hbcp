@@ -1,313 +1,308 @@
-\chapter{Dynamic programming}
+\chapter{Programação dinâmica}
 
-\index{dynamic programming}
+\index{programação dinâmica}
 
-\key{Dynamic programming}
-is a technique that combines the correctness
-of complete search and the efficiency
-of greedy algorithms.
-Dynamic programming can be applied if the
-problem can be divided into overlapping subproblems
-that can be solved independently.
+\key{Programação dinâmica} é uma técnica que combina a corretude
+da busca completa com a eficiência
+dos algoritmos gulosos. A programação dinâmica pode ser aplicada se o
+problema puder ser dividido em subproblemas sobrepostos
+que podem ser resolvidos independentemente.
 
-There are two uses for dynamic programming:
+Existem dois usos para a programação dinâmica:
 
 \begin{itemize}
 \item
-\key{Finding an optimal solution}:
-We want to find a solution that is
-as large as possible or as small as possible.
+\key{Encontrar uma solução ótima}:
+Queremos encontrar uma solução que seja
+a maior possível ou a menor possível.
 \item
-\key{Counting the number of solutions}:
-We want to calculate the total number of
-possible solutions.
+\key{Contar o número de soluções}:
+Queremos calcular o número total de
+soluções possíveis.
 \end{itemize}
 
-We will first see how dynamic programming can
-be used to find an optimal solution,
-and then we will use the same idea for
-counting the solutions.
+Veremos primeiro como a programação dinâmica pode
+ser usada para encontrar uma solução ótima,
+e então usaremos a mesma ideia para
+contar as soluções.
 
-Understanding dynamic programming is a milestone
-in every competitive programmer's career.
-While the basic idea is simple,
-the challenge is how to apply
-dynamic programming to different problems.
-This chapter introduces a set of classic problems
-that are a good starting point.
+Entender a programação dinâmica é um marco
+na carreira de todo programador competitivo.
+Enquanto a ideia básica é simples,
+o desafio é como aplicar
+a programação dinâmica a diferentes problemas.
+Este capítulo apresenta um conjunto de problemas clássicos
+que são um bom ponto de partida.
 
-\section{Coin problem}
+\section{Problema das moedas}
 
-We first focus on a problem that we
-have already seen in Chapter 6:
-Given a set of coin values $\texttt{coins} = \{c_1,c_2,\ldots,c_k\}$
-and a target sum of money $n$, our task is to
-form the sum $n$ using as few coins as possible.
+Vamos primeiro nos concentrar em um problema que
+já vimos no Capítulo 6:
+Dado um conjunto de valores de moedas $\texttt{moedas} = \{c_1,c_2,\ldots,c_k\}$
+e uma soma alvo de dinheiro $n$, nossa tarefa é
+formar a soma $n$ usando o menor número possível de moedas.
 
-In Chapter 6, we solved the problem using a
-greedy algorithm that always chooses the largest
-possible coin.
-The greedy algorithm works, for example,
-when the coins are the euro coins,
-but in the general case the greedy algorithm
-does not necessarily produce an optimal solution.
+No Capítulo 6, resolvemos o problema usando um
+algoritmo guloso que sempre escolhe a maior
+moeda possível.
+O algoritmo guloso funciona, por exemplo,
+quando as moedas são as moedas de euro,
+mas no caso geral, o algoritmo guloso
+não produz necessariamente uma solução ótima.
 
-Now is time to solve the problem efficiently
-using dynamic programming, so that the algorithm
-works for any coin set.
-The dynamic programming
-algorithm is based on a recursive function
-that goes through all possibilities how to
-form the sum, like a brute force algorithm.
-However, the dynamic programming
-algorithm is efficient because
-it uses \emph{memoization} and
-calculates the answer to each subproblem only once.
+Agora é hora de resolver o problema de forma eficiente
+usando programação dinâmica, para que o algoritmo
+funcione para qualquer conjunto de moedas.
+O algoritmo de programação dinâmica é baseado em uma função recursiva
+que percorre todas as possibilidades de como
+formar a soma, como um algoritmo de força bruta.
+No entanto, o algoritmo de programação dinâmica
+é eficiente porque
+usa \emph{memoização} e
+calcula a resposta para cada subproblema apenas uma vez.
 
-\subsubsection{Recursive formulation}
+\subsubsection{Formulação recursiva}
 
-The idea in dynamic programming is to
-formulate the problem recursively so
-that the solution to the problem can be
-calculated from solutions to smaller
-subproblems.
-In the coin problem, a natural recursive
-problem is as follows:
-what is the smallest number of coins
-required to form a sum $x$?
+A ideia da programação dinâmica é
+formular o problema recursivamente para
+que a solução do problema possa ser
+calculada a partir de soluções para subproblemas menores.
+No problema das moedas, um problema recursivo natural
+é o seguinte:
+qual é o menor número de moedas
+necessário para formar uma soma $x$?
 
-Let $\texttt{solve}(x)$
-denote the minimum
-number of coins required for a sum $x$.
-The values of the function depend on the
-values of the coins.
-For example, if $\texttt{coins} = \{1,3,4\}$,
-the first values of the function are as follows:
+Seja $\texttt{resolver}(x)$
+o número mínimo
+de moedas necessárias para uma soma $x$.
+Os valores da função dependem dos
+valores das moedas.
+Por exemplo, se $\texttt{moedas} = \{1,3,4\}$,
+os primeiros valores da função são os seguintes:
 
 \[
 \begin{array}{lcl}
-\texttt{solve}(0) & = & 0 \\
-\texttt{solve}(1) & = & 1 \\
-\texttt{solve}(2) & = & 2 \\
-\texttt{solve}(3) & = & 1 \\
-\texttt{solve}(4) & = & 1 \\
-\texttt{solve}(5) & = & 2 \\
-\texttt{solve}(6) & = & 2 \\
-\texttt{solve}(7) & = & 2 \\
-\texttt{solve}(8) & = & 2 \\
-\texttt{solve}(9) & = & 3 \\
-\texttt{solve}(10) & = & 3 \\
+\texttt{resolver}(0) & = & 0 \\
+\texttt{resolver}(1) & = & 1 \\
+\texttt{resolver}(2) & = & 2 \\
+\texttt{resolver}(3) & = & 1 \\
+\texttt{resolver}(4) & = & 1 \\
+\texttt{resolver}(5) & = & 2 \\
+\texttt{resolver}(6) & = & 2 \\
+\texttt{resolver}(7) & = & 2 \\
+\texttt{resolver}(8) & = & 2 \\
+\texttt{resolver}(9) & = & 3 \\
+\texttt{resolver}(10) & = & 3 \\
 \end{array}
 \]
 
-For example, $\texttt{solve}(10)=3$,
-because at least 3 coins are needed
-to form the sum 10.
-The optimal solution is $3+3+4=10$.
+Por exemplo, $\texttt{resolver}(10)=3$,
+porque pelo menos 3 moedas são necessárias
+para formar a soma 10.
+A solução ótima é $3+3+4=10$.
 
-The essential property of $\texttt{solve}$ is
-that its values can be
-recursively calculated from its smaller values.
-The idea is to focus on the \emph{first}
-coin that we choose for the sum.
-For example, in the above scenario,
-the first coin can be either 1, 3 or 4.
-If we first choose coin 1,
-the remaining task is to form the sum 9
-using the minimum number of coins,
-which is a subproblem of the original problem.
-Of course, the same applies to coins 3 and 4.
-Thus, we can use the following recursive formula
-to calculate the minimum number of coins:
+A propriedade essencial de $\texttt{resolver}$ é
+que seus valores podem ser
+calculados recursivamente a partir de seus valores menores.
+A ideia é focar na \emph{primeira}
+moeda que escolhemos para a soma.
+Por exemplo, no cenário acima,
+a primeira moeda pode ser 1, 3 ou 4.
+Se escolhermos primeiro a moeda 1,
+a tarefa restante é formar a soma 9
+usando o número mínimo de moedas,
+que é um subproblema do problema original.
+Claro, o mesmo se aplica às moedas 3 e 4.
+Assim, podemos usar a seguinte fórmula recursiva
+para calcular o número mínimo de moedas:
 \begin{equation*}
 \begin{split}
-\texttt{solve}(x) = \min( & \texttt{solve}(x-1)+1, \\
-                           & \texttt{solve}(x-3)+1, \\
-                           & \texttt{solve}(x-4)+1).
+\texttt{resolver}(x) = \min( & \texttt{resolver}(x-1)+1, \\
+                           & \texttt{resolver}(x-3)+1, \\
+                           & \texttt{resolver}(x-4)+1).
 \end{split}
 \end{equation*}
-The base case of the recursion is $\texttt{solve}(0)=0$,
-because no coins are needed to form an empty sum.
-For example,
-\[ \texttt{solve}(10) = \texttt{solve}(7)+1 = \texttt{solve}(4)+2 = \texttt{solve}(0)+3 = 3.\]
+O caso base da recursão é $\texttt{resolver}(0)=0$,
+porque nenhuma moeda é necessária para formar uma soma vazia.
+Por exemplo,
+\[ \texttt{resolver}(10) = \texttt{resolver}(7)+1 = \texttt{resolver}(4)+2 = \texttt{resolver}(0)+3 = 3.\]
 
-Now we are ready to give a general recursive function
-that calculates the minimum number of
-coins needed to form a sum $x$:
+Agora estamos prontos para fornecer uma função recursiva geral
+que calcula o número mínimo de
+moedas necessárias para formar uma soma $x$:
 \begin{equation*}
-    \texttt{solve}(x) = \begin{cases}
+    \texttt{resolver}(x) = \begin{cases}
                \infty               & x < 0\\
                0               & x = 0\\
-               \min_{c \in \texttt{coins}} \texttt{solve}(x-c)+1 & x > 0 \\
+               \min_{c \in \texttt{moedas}} \texttt{resolver}(x-c)+1 & x > 0 \\
            \end{cases}
 \end{equation*}
 
-First, if $x<0$, the value is $\infty$,
-because it is impossible to form a negative
-sum of money.
-Then, if $x=0$, the value is $0$,
-because no coins are needed to form an empty sum.
-Finally, if $x>0$, the variable $c$ goes through
-all possibilities how to choose the first coin
-of the sum.
+Primeiro, se $x<0$, o valor é $\infty$,
+porque é impossível formar uma soma negativa
+de dinheiro.
+Então, se $x=0$, o valor é $0$,
+porque nenhuma moeda é necessária para formar uma soma vazia.
+Finalmente, se $x>0$, a variável $c$ percorre
+todas as possibilidades de como escolher a primeira moeda
+da soma.
 
-Once a recursive function that solves the problem
-has been found,
-we can directly implement a solution in C++
-(the constant \texttt{INF} denotes infinity):
+Uma vez encontrada uma função recursiva que resolve o problema,
+podemos implementar diretamente uma solução em C++
+(a constante \texttt{INF} denota infinito):
 
 \begin{lstlisting}
-int solve(int x) {
+int resolver(int x) {
     if (x < 0) return INF;
     if (x == 0) return 0;
-    int best = INF;
-    for (auto c : coins) {
-        best = min(best, solve(x-c)+1);
+    int melhor = INF;
+    for (auto c : moedas) {
+        melhor = min(melhor, resolver(x-c)+1);
     }
-    return best;
+    return melhor;
 }
 \end{lstlisting}
 
-Still, this function is not efficient,
-because there may be an exponential number of ways
-to construct the sum.
-However, next we will see how to make the
-function efficient using a technique called memoization.
+Ainda assim, esta função não é eficiente,
+porque pode haver um número exponencial de maneiras
+de construir a soma.
+No entanto, a seguir veremos como tornar a
+função eficiente usando uma técnica chamada memoização.
 
-\subsubsection{Using memoization}
+\subsubsection{Usando memoização}
 
-\index{memoization}
+\index{memoização}
 
-The idea of dynamic programming is to use
-\key{memoization} to efficiently calculate
-values of a recursive function.
-This means that the values of the function
-are stored in an array after calculating them.
-For each parameter, the value of the function
-is calculated recursively only once, and after this,
-the value can be directly retrieved from the array.
+A ideia da programação dinâmica é usar
+\key{memoização} para calcular eficientemente
+valores de uma função recursiva.
+Isso significa que os valores da função
+são armazenados em um array após o cálculo.
+Para cada parâmetro, o valor da função
+é calculado recursivamente apenas uma vez e, depois disso,
+o valor pode ser recuperado diretamente do array.
 
-In this problem, we use arrays
+Neste problema, usamos arrays
 \begin{lstlisting}
-bool ready[N];
-int value[N];
+bool pronto[N];
+int valor[N];
 \end{lstlisting}
 
-where $\texttt{ready}[x]$ indicates
-whether the value of $\texttt{solve}(x)$ has been calculated,
-and if it is, $\texttt{value}[x]$
-contains this value.
-The constant $N$ has been chosen so
-that all required values fit in the arrays.
+onde $\texttt{pronto}[x]$ indica
+se o valor de $\texttt{resolver}(x)$ foi calculado,
+e se foi, $\texttt{valor}[x]$
+contém esse valor.
+A constante $N$ foi escolhida de forma
+que todos os valores necessários caibam nos arrays.
 
-Now the function can be efficiently
-implemented as follows:
+Agora a função pode ser eficientemente
+implementada da seguinte forma:
 
 \begin{lstlisting}
-int solve(int x) {
+int resolver(int x) {
     if (x < 0) return INF;
     if (x == 0) return 0;
-    if (ready[x]) return value[x];
-    int best = INF;
-    for (auto c : coins) {
-        best = min(best, solve(x-c)+1);
+    if (pronto[x]) return valor[x];
+    int melhor = INF;
+    for (auto c : moedas) {
+        melhor = min(melhor, resolver(x-c)+1);
     }
-    value[x] = best;
-    ready[x] = true;
-    return best;
+    valor[x] = melhor;
+    pronto[x] = true;
+    return melhor;
 }
 \end{lstlisting}
 
-The function handles the base cases
-$x<0$ and $x=0$ as previously.
-Then the function checks from
-$\texttt{ready}[x]$ if
-$\texttt{solve}(x)$ has already been stored
-in $\texttt{value}[x]$,
-and if it is, the function directly returns it.
-Otherwise the function calculates the value
-of $\texttt{solve}(x)$
-recursively and stores it in $\texttt{value}[x]$.
+A função lida com os casos base
+$x<0$ e $x=0$ como anteriormente.
+Então a função verifica em
+$\texttt{pronto}[x]$ se
+$\texttt{resolver}(x)$ já foi armazenado
+em $\texttt{valor}[x]$,
+e se foi, a função o retorna diretamente.
+Caso contrário, a função calcula o valor
+de $\texttt{resolver}(x)$
+recursivamente e o armazena em $\texttt{valor}[x]$.
 
-This function works efficiently,
-because the answer for each parameter $x$
-is calculated recursively only once.
-After a value of $\texttt{solve}(x)$ has been stored in $\texttt{value}[x]$,
-it can be efficiently retrieved whenever the
-function will be called again with the parameter $x$.
-The time complexity of the algorithm is $O(nk)$,
-where $n$ is the target sum and $k$ is the number of coins.
+Esta função funciona de forma eficiente,
+porque a resposta para cada parâmetro $x$
+é calculada recursivamente apenas uma vez.
+Depois que um valor de $\texttt{resolver}(x)$ é armazenado em $\texttt{valor}[x]$,
+ele pode ser recuperado de forma eficiente sempre que a
+função for chamada novamente com o parâmetro $x$.
+A complexidade de tempo do algoritmo é $O(nk)$,
+onde $n$ é a soma alvo e $k$ é o número de moedas.
 
-Note that we can also \emph{iteratively}
-construct the array \texttt{value} using
-a loop that simply calculates all the values
-of $\texttt{solve}$ for parameters $0 \ldots n$:
+Observe que também podemos construir o array \texttt{valor}
+\emph{iterativamente} usando
+um loop que simplesmente calcula todos os valores
+de $\texttt{resolver}$ para os parâmetros $0 \ldots n$:
 \begin{lstlisting}
-value[0] = 0;
+valor[0] = 0;
 for (int x = 1; x <= n; x++) {
-    value[x] = INF;
-    for (auto c : coins) {
+    valor[x] = INF;
+    for (auto c : moedas) {
         if (x-c >= 0) {
-            value[x] = min(value[x], value[x-c]+1);
+            valor[x] = min(valor[x], valor[x-c]+1);
         }
     }
 }
 \end{lstlisting}
 
-In fact, most competitive programmers prefer this
-implementation, because it is shorter and has
-lower constant factors.
-From now on, we also use iterative implementations
-in our examples.
-Still, it is often easier to think about
-dynamic programming solutions
-in terms of recursive functions.
+Na verdade, a maioria dos programadores competitivos prefere esta
+implementação, porque é mais curta e tem
+menores fatores constantes.
+De agora em diante, também usaremos implementações iterativas
+em nossos exemplos.
+Ainda assim, geralmente é mais fácil pensar em
+soluções de programação dinâmica
+em termos de funções recursivas.
 
 
-\subsubsection{Constructing a solution}
+\subsubsection{Construindo uma solução}
 
-Sometimes we are asked both to find the value
-of an optimal solution and to give
-an example how such a solution can be constructed.
-In the coin problem, for example,
-we can declare another array
-that indicates for
-each sum of money the first coin 
-in an optimal solution:
+Às vezes, somos solicitados a encontrar o valor
+de uma solução ótima e dar
+um exemplo de como essa solução pode ser construída.
+No problema das moedas, por exemplo,
+podemos declarar outro array
+que indica para
+cada soma de dinheiro a primeira moeda
+em uma solução ótima:
 \begin{lstlisting}
-int first[N];
+int primeiro[N];
 \end{lstlisting}
-Then, we can modify the algorithm as follows:
+Então, podemos modificar o algoritmo da seguinte forma:
 \begin{lstlisting}
-value[0] = 0;
+valor[0] = 0;
 for (int x = 1; x <= n; x++) {
-    value[x] = INF;
-    for (auto c : coins) {
-        if (x-c >= 0 && value[x-c]+1 < value[x]) {
-            value[x] = value[x-c]+1;
-            first[x] = c;
+    valor[x] = INF;
+    for (auto c : moedas) {
+        if (x-c >= 0 && valor[x-c]+1 < valor[x]) {
+            valor[x] = valor[x-c]+1;
+            primeiro[x] = c;
         }
     }
 }
 \end{lstlisting}
-After this, the following code can be used to
-print the coins that appear in an optimal solution for
-the sum $n$:
+Depois disso, o seguinte código pode ser usado para
+imprimir as moedas que aparecem em uma solução ótima para
+a soma $n$:
 \begin{lstlisting}
 while (n > 0) {
-    cout << first[n] << "\n";
-    n -= first[n];
+    cout << primeiro[n] << "\n";
+    n -= primeiro[n];
 }
 \end{lstlisting}
 
-\subsubsection{Counting the number of solutions}
+\subsubsection{Contando o número de soluções}
 
-Let us now consider another version
-of the coin problem where our task is to
-calculate the total number of ways
-to produce a sum $x$ using the coins.
-For example, if $\texttt{coins}=\{1,3,4\}$ and
-$x=5$, there are a total of 6 ways:
+Vamos agora considerar outra versão
+do problema das moedas, onde nossa tarefa é
+calcular o número total de maneiras
+de produzir uma soma $x$ usando as moedas.
+Por exemplo, se $\texttt{moedas}=\{1,3,4\}$ e
+$x=5$, existem um total de 6 maneiras:
 
 \begin{multicols}{2}
 \begin{itemize}
@@ -320,87 +315,87 @@ $x=5$, there are a total of 6 ways:
 \end{itemize}
 \end{multicols}
 
-Again, we can solve the problem recursively.
-Let $\texttt{solve}(x)$ denote the number of ways
-we can form the sum $x$.
-For example, if $\texttt{coins}=\{1,3,4\}$,
-then $\texttt{solve}(5)=6$ and the recursive formula is
+Novamente, podemos resolver o problema recursivamente.
+Seja $\texttt{resolver}(x)$ o número de maneiras
+de formarmos a soma $x$.
+Por exemplo, se $\texttt{moedas}=\{1,3,4\}$,
+então $\texttt{resolver}(5)=6$ e a fórmula recursiva é
 \begin{equation*}
 \begin{split}
-\texttt{solve}(x) = & \texttt{solve}(x-1) + \\
-                    & \texttt{solve}(x-3) + \\
-                    & \texttt{solve}(x-4)  .
+\texttt{resolver}(x) = & \texttt{resolver}(x-1) + \\
+                    & \texttt{resolver}(x-3) + \\
+                    & \texttt{resolver}(x-4)  .
 \end{split}
 \end{equation*}
 
-Then, the general recursive function is as follows:
+Então, a função recursiva geral é a seguinte:
 \begin{equation*}
-    \texttt{solve}(x) = \begin{cases}
+    \texttt{resolver}(x) = \begin{cases}
                0               & x < 0\\
                1               & x = 0\\
-               \sum_{c \in \texttt{coins}} \texttt{solve}(x-c) & x > 0 \\
+               \sum_{c \in \texttt{moedas}} \texttt{resolver}(x-c) & x > 0 \\
            \end{cases}
 \end{equation*}
 
-If $x<0$, the value is 0, because there are no solutions.
-If $x=0$, the value is 1, because there is only one way
-to form an empty sum.
-Otherwise we calculate the sum of all values
-of the form $\texttt{solve}(x-c)$ where $c$ is in \texttt{coins}.
+Se $x<0$, o valor é 0, porque não há soluções.
+Se $x=0$, o valor é 1, porque só há uma maneira
+de formar uma soma vazia.
+Caso contrário, calculamos a soma de todos os valores
+da forma $\texttt{resolver}(x-c)$ onde $c$ está em \texttt{moedas}.
 
-The following code constructs an array
-$\texttt{count}$ such that
-$\texttt{count}[x]$ equals
-the value of $\texttt{solve}(x)$
-for $0 \le x \le n$:
+O código a seguir constrói um array
+$\texttt{contagem}$ tal que
+$\texttt{contagem}[x]$ é igual
+ao valor de $\texttt{resolver}(x)$
+para $0 \le x \le n$:
 
 \begin{lstlisting}
-count[0] = 1;
+contagem[0] = 1;
 for (int x = 1; x <= n; x++) {
-    for (auto c : coins) {
+    for (auto c : moedas) {
         if (x-c >= 0) {
-            count[x] += count[x-c];
+            contagem[x] += contagem[x-c];
         }
     }
 }
 \end{lstlisting}
 
-Often the number of solutions is so large
-that it is not required to calculate the exact number
-but it is enough to give the answer modulo $m$
-where, for example, $m=10^9+7$.
-This can be done by changing the code so that
-all calculations are done modulo $m$.
-In the above code, it suffices to add the line
+Muitas vezes, o número de soluções é tão grande
+que não é necessário calcular o número exato,
+mas é suficiente fornecer a resposta módulo $m$
+onde, por exemplo, $m=10^9+7$.
+Isso pode ser feito alterando o código para que
+todos os cálculos sejam feitos módulo $m$.
+No código acima, basta adicionar a linha
 \begin{lstlisting}
-        count[x] %= m;
+        contagem[x] %= m;
 \end{lstlisting}
-after the line
+após a linha
 \begin{lstlisting}
-        count[x] += count[x-c];
+        contagem[x] += contagem[x-c];
 \end{lstlisting}
 
-Now we have discussed all basic
-ideas of dynamic programming.
-Since dynamic programming can be used
-in many different situations,
-we will now go through a set of problems
-that show further examples about the
-possibilities of dynamic programming.
+Agora discutimos todas as ideias básicas
+da programação dinâmica.
+Como a programação dinâmica pode ser usada
+em muitas situações diferentes,
+vamos agora passar por um conjunto de problemas
+que mostram outros exemplos sobre as
+possibilidades da programação dinâmica.
 
-\section{Longest increasing subsequence}
+\section{Maior subsequência crescente}
 
-\index{longest increasing subsequence}
+\index{maior subsequência crescente}
 
-Our first problem is to find the
-\key{longest increasing subsequence}
-in an array of $n$ elements.
-This is a maximum-length
-sequence of array elements
-that goes from left to right,
-and each element in the sequence is larger
-than the previous element.
-For example, in the array
+Nosso primeiro problema é encontrar a
+\key{maior subsequência crescente}
+em um array de $n$ elementos.
+Esta é uma sequência de comprimento máximo
+de elementos do array
+que vai da esquerda para a direita,
+e cada elemento na sequência é maior
+que o elemento anterior.
+Por exemplo, no array
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -425,8 +420,8 @@ For example, in the array
 \node at (7.5,1.4) {$7$};
 \end{tikzpicture}
 \end{center}
-the longest increasing subsequence
-contains 4 elements:
+a maior subsequência crescente
+contém 4 elementos:
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (1,0) rectangle (2,1);
@@ -459,85 +454,84 @@ contains 4 elements:
 \end{tikzpicture}
 \end{center}
 
-Let $\texttt{length}(k)$ denote
-the length of the
-longest increasing subsequence
-that ends at position $k$.
-Thus, if we calculate all values of
-$\texttt{length}(k)$ where $0 \le k \le n-1$,
-we will find out the length of the
-longest increasing subsequence.
-For example, the values of the function
-for the above array are as follows:
+Seja $\texttt{tamanho}(k)$ o comprimento da
+maior subsequência crescente
+que termina na posição $k$.
+Assim, se calcularmos todos os valores de
+$\texttt{tamanho}(k)$ onde $0 \le k \le n-1$,
+descobriremos o comprimento da
+maior subsequência crescente.
+Por exemplo, os valores da função
+para o array acima são os seguintes:
 \[
 \begin{array}{lcl}
-\texttt{length}(0) & = & 1 \\
-\texttt{length}(1) & = & 1 \\
-\texttt{length}(2) & = & 2 \\
-\texttt{length}(3) & = & 1 \\
-\texttt{length}(4) & = & 3 \\
-\texttt{length}(5) & = & 2 \\
-\texttt{length}(6) & = & 4 \\
-\texttt{length}(7) & = & 2 \\
+\texttt{tamanho}(0) & = & 1 \\
+\texttt{tamanho}(1) & = & 1 \\
+\texttt{tamanho}(2) & = & 2 \\
+\texttt{tamanho}(3) & = & 1 \\
+\texttt{tamanho}(4) & = & 3 \\
+\texttt{tamanho}(5) & = & 2 \\
+\texttt{tamanho}(6) & = & 4 \\
+\texttt{tamanho}(7) & = & 2 \\
 \end{array}
 \]
 
-For example, $\texttt{length}(6)=4$,
-because the longest increasing subsequence
-that ends at position 6 consists of 4 elements.
+Por exemplo, $\texttt{tamanho}(6)=4$,
+porque a maior subsequência crescente
+que termina na posição 6 consiste em 4 elementos.
 
-To calculate a value of $\texttt{length}(k)$,
-we should find a position $i<k$
-for which $\texttt{array}[i]<\texttt{array}[k]$
-and $\texttt{length}(i)$ is as large as possible.
-Then we know that
-$\texttt{length}(k)=\texttt{length}(i)+1$,
-because this is an optimal way to add
-$\texttt{array}[k]$ to a subsequence.
-However, if there is no such position $i$,
-then $\texttt{length}(k)=1$,
-which means that the subsequence only contains
+Para calcular um valor de $\texttt{tamanho}(k)$,
+devemos encontrar uma posição $i<k$
+para a qual $\texttt{array}[i]<\texttt{array}[k]$
+e $\texttt{tamanho}(i)$ seja o maior possível.
+Então sabemos que
+$\texttt{tamanho}(k)=\texttt{tamanho}(i)+1$,
+porque esta é uma maneira ótima de adicionar
+$\texttt{array}[k]$ a uma subsequência.
+No entanto, se não houver tal posição $i$,
+então $\texttt{tamanho}(k)=1$,
+o que significa que a subsequência contém apenas
 $\texttt{array}[k]$.
 
-Since all values of the function can be calculated
-from its smaller values,
-we can use dynamic programming.
-In the following code, the values
-of the function will be stored in an array
-$\texttt{length}$.
+Como todos os valores da função podem ser calculados
+a partir de seus valores menores,
+podemos usar programação dinâmica.
+No código a seguir, os valores
+da função serão armazenados em um array
+$\texttt{tamanho}$.
 
 \begin{lstlisting}
 for (int k = 0; k < n; k++) {
-    length[k] = 1;
+    tamanho[k] = 1;
     for (int i = 0; i < k; i++) {
         if (array[i] < array[k]) {
-            length[k] = max(length[k],length[i]+1);
+            tamanho[k] = max(tamanho[k],tamanho[i]+1);
         }
     }
 }
 \end{lstlisting}
 
-This code works in $O(n^2)$ time,
-because it consists of two nested loops.
-However, it is also possible to implement
-the dynamic programming calculation
-more efficiently in $O(n \log n)$ time.
-Can you find a way to do this?
+Este código funciona em tempo $O(n^2)$,
+porque consiste em dois loops aninhados.
+No entanto, também é possível implementar
+o cálculo de programação dinâmica
+de forma mais eficiente em tempo $O(n \log n)$.
+Você consegue encontrar uma maneira de fazer isso?
 
-\section{Paths in a grid}
+\section{Caminhos em uma grade}
 
-Our next problem is to find a path
-from the upper-left corner to
-the lower-right corner
-of an $n \times n$ grid, such that
-we only move down and right.
-Each square contains a positive integer,
-and the path should be constructed so
-that the sum of the values along
-the path is as large as possible.
+Nosso próximo problema é encontrar um caminho
+do canto superior esquerdo para
+o canto inferior direito
+de uma grade $n \times n$, de forma que
+só nos movamos para baixo e para a direita.
+Cada quadrado contém um inteiro positivo,
+e o caminho deve ser construído de forma
+que a soma dos valores ao longo
+do caminho seja a maior possível.
 
-The following picture shows an optimal
-path in a grid:
+A figura a seguir mostra um caminho ideal
+em uma grade:
 \begin{center}
 \begin{tikzpicture}[scale=.65]
   \begin{scope}
@@ -579,34 +573,33 @@ path in a grid:
   \end{scope}
 \end{tikzpicture}
 \end{center}
-The sum of the values on the path is 67,
-and this is the largest possible sum on a path
-from the
-upper-left corner to the lower-right corner.
+A soma dos valores no caminho é 67,
+e esta é a maior soma possível em um caminho
+do canto superior esquerdo para o canto inferior direito.
 
-Assume that the rows and columns of the
-grid are numbered from 1 to $n$,
-and $\texttt{value}[y][x]$ equals the value
-of square $(y,x)$.
-Let $\texttt{sum}(y,x)$ denote the maximum
-sum on a path from the upper-left corner
-to square $(y,x)$.
-Now $\texttt{sum}(n,n)$ tells us
-the maximum sum
-from the upper-left corner to
-the lower-right corner.
-For example, in the above grid,
-$\texttt{sum}(5,5)=67$.
+Assuma que as linhas e colunas da
+grade são numeradas de 1 a $n$,
+e $\texttt{valor}[y][x]$ é igual ao valor
+do quadrado $(y,x)$.
+Seja $\texttt{soma}(y,x)$ a soma máxima
+em um caminho do canto superior esquerdo
+para o quadrado $(y,x)$.
+Agora $\texttt{soma}(n,n)$ nos diz
+a soma máxima
+do canto superior esquerdo para
+o canto inferior direito.
+Por exemplo, na grade acima,
+$\texttt{soma}(5,5)=67$.
 
-We can recursively calculate the sums
-as follows:
-\[ \texttt{sum}(y,x) = \max(\texttt{sum}(y,x-1),\texttt{sum}(y-1,x))+\texttt{value}[y][x]\]
+Podemos calcular recursivamente as somas
+da seguinte forma:
+\[ \texttt{soma}(y,x) = \max(\texttt{soma}(y,x-1),\texttt{soma}(y-1,x))+\texttt{valor}[y][x]\]
 
 
-The recursive formula is based on the observation
-that a path that ends at square $(y,x)$
-can come either from square $(y,x-1)$
-or square $(y-1,x)$:
+A fórmula recursiva é baseada na observação
+de que um caminho que termina no quadrado $(y,x)$
+pode vir do quadrado $(y,x-1)$
+ou do quadrado $(y-1,x)$:
 \begin{center}
 \begin{tikzpicture}[scale=.65]
   \begin{scope}
@@ -620,46 +613,46 @@ or square $(y-1,x)$:
 \end{tikzpicture}
 \end{center}
 
-Thus, we select the direction that maximizes
-the sum.
-We assume that $\texttt{sum}(y,x)=0$
-if $y=0$ or $x=0$ (because no such paths exist),
-so the recursive formula also works when $y=1$ or $x=1$.
+Assim, selecionamos a direção que maximiza
+a soma.
+Assumimos que $\texttt{soma}(y,x)=0$
+se $y=0$ ou $x=0$ (porque tais caminhos não existem),
+então a fórmula recursiva também funciona quando $y=1$ ou $x=1$.
 
-Since the function \texttt{sum} has two parameters,
-the dynamic programming array also has two dimensions.
-For example, we can use an array
+Como a função \texttt{soma} possui dois parâmetros,
+o array de programação dinâmica também possui duas dimensões.
+Por exemplo, podemos usar um array
 \begin{lstlisting}
-int sum[N][N];
+int soma[N][N];
 \end{lstlisting}
-and calculate the sums as follows:
+e calcular as somas da seguinte forma:
 \begin{lstlisting}
 for (int y = 1; y <= n; y++) {
     for (int x = 1; x <= n; x++) {
-        sum[y][x] = max(sum[y][x-1],sum[y-1][x])+value[y][x];
+        soma[y][x] = max(soma[y][x-1],soma[y-1][x])+valor[y][x];
     }
 }
 \end{lstlisting}
-The time complexity of the algorithm is $O(n^2)$.
+A complexidade de tempo do algoritmo é $O(n^2)$.
 
-\section{Knapsack problems}
+\section{Problemas da mochila}
 
-\index{knapsack}
+\index{mochila}
 
-The term \key{knapsack} refers to problems where
-a set of objects is given, and 
-subsets with some properties
-have to be found.
-Knapsack problems can often be solved
-using dynamic programming.
+O termo \key{mochila} refere-se a problemas onde
+um conjunto de objetos é dado, e
+subconjuntos com algumas propriedades
+precisam ser encontrados.
+Os problemas da mochila podem ser resolvidos
+usando programação dinâmica.
 
-In this section, we focus on the following
-problem: Given a list of weights
+Nesta seção, vamos focar no seguinte
+problema: Dada uma lista de pesos
 $[w_1,w_2,\ldots,w_n]$,
-determine all
-sums that can be constructed using the weights.
-For example, if the weights are
-$[1,3,3,5]$, the following sums are possible:
+determine todas as
+somas que podem ser construídas usando os pesos.
+Por exemplo, se os pesos forem
+$[1,3,3,5]$, as seguintes somas são possíveis:
 
 \begin{center}
 \begin{tabular}{rrrrrrrrrrrrr}
@@ -669,41 +662,41 @@ $[1,3,3,5]$, the following sums are possible:
 \end{tabular}
 \end{center}
 
-In this case, all sums between $0 \ldots 12$
-are possible, except 2 and 10.
-For example, the sum 7 is possible because we
-can select the weights $[1,3,3]$.
+Neste caso, todas as somas entre $0 \ldots 12$
+são possíveis, exceto 2 e 10.
+Por exemplo, a soma 7 é possível porque nós
+podemos selecionar os pesos $[1,3,3]$.
 
-To solve the problem, we focus on subproblems
-where we only use the first $k$ weights
-to construct sums.
-Let $\texttt{possible}(x,k)=\textrm{true}$ if
-we can construct a sum $x$
-using the first $k$ weights,
-and otherwise $\texttt{possible}(x,k)=\textrm{false}$.
-The values of the function can be recursively
-calculated as follows:
-\[ \texttt{possible}(x,k) = \texttt{possible}(x-w_k,k-1) \lor \texttt{possible}(x,k-1) \]
-The formula is based on the fact that we can
-either use or not use the weight $w_k$ in the sum.
-If we use $w_k$, the remaining task is to
-form the sum $x-w_k$ using the first $k-1$ weights,
-and if we do not use $w_k$,
-the remaining task is to form the sum $x$
-using the first $k-1$ weights.
-As the base cases,
+Para resolver o problema, vamos focar em subproblemas
+onde usamos apenas os primeiros $k$ pesos
+para construir somas.
+Seja $\texttt{possivel}(x,k)=\textrm{verdadeiro}$ se
+podemos construir uma soma $x$
+usando os primeiros $k$ pesos,
+e caso contrário $\texttt{possivel}(x,k)=\textrm{falso}$.
+Os valores da função podem ser calculados recursivamente
+da seguinte forma:
+\[ \texttt{possivel}(x,k) = \texttt{possivel}(x-w_k,k-1) \lor \texttt{possivel}(x,k-1) \]
+A fórmula é baseada no fato de que podemos
+usar ou não o peso $w_k$ na soma.
+Se usarmos $w_k$, a tarefa restante é
+formar a soma $x-w_k$ usando os primeiros $k-1$ pesos,
+e se não usarmos $w_k$,
+a tarefa restante é formar a soma $x$
+usando os primeiros $k-1$ pesos.
+Como casos base,
 \begin{equation*}
-    \texttt{possible}(x,0) = \begin{cases}
-               \textrm{true}    & x = 0\\
-               \textrm{false}   & x \neq 0 \\
+    \texttt{possivel}(x,0) = \begin{cases}
+               \textrm{verdadeiro}    & x = 0\\
+               \textrm{falso}   & x \neq 0 \\
            \end{cases}
 \end{equation*}
-because if no weights are used,
-we can only form the sum 0.
+porque se nenhum peso for usado,
+só podemos formar a soma 0.
 
-The following table shows all values of the function
-for the weights $[1,3,3,5]$ (the symbol ''X''
-indicates the true values):
+A tabela a seguir mostra todos os valores da função
+para os pesos $[1,3,3,5]$ (o símbolo ''X''
+indica os valores verdadeiros):
 
 \begin{center}
 \begin{tabular}{r|rrrrrrrrrrrrr}
@@ -717,108 +710,107 @@ $k \backslash x$ & 0 & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 \\
 \end{tabular}
 \end{center}
 
-After calculating those values, $\texttt{possible}(x,n)$
-tells us whether we can construct a
-sum $x$ using \emph{all} weights.
+Após calcular esses valores, $\texttt{possivel}(x,n)$
+nos diz se podemos construir uma
+soma $x$ usando \emph{todos} os pesos.
 
-Let $W$ denote the total sum of the weights.
-The following $O(nW)$ time
-dynamic programming solution
-corresponds to the recursive function:
+Seja $W$ a soma total dos pesos.
+A seguinte solução de programação dinâmica em tempo $O(nW)$
+corresponde à função recursiva:
 \begin{lstlisting}
-possible[0][0] = true;
+possivel[0][0] = true;
 for (int k = 1; k <= n; k++) {
     for (int x = 0; x <= W; x++) {
-        if (x-w[k] >= 0) possible[x][k] |= possible[x-w[k]][k-1];
-        possible[x][k] |= possible[x][k-1];
+        if (x-w[k] >= 0) possivel[x][k] |= possivel[x-w[k]][k-1];
+        possivel[x][k] |= possivel[x][k-1];
     }
 }
 \end{lstlisting}
 
-However, here is a better implementation that only uses
-a one-dimensional array $\texttt{possible}[x]$
-that indicates whether we can construct a subset with sum $x$.
-The trick is to update the array from right to left for
-each new weight:
+No entanto, aqui está uma implementação melhor que usa apenas
+um array unidimensional $\texttt{possivel}[x]$
+que indica se podemos construir um subconjunto com soma $x$.
+O truque é atualizar o array da direita para a esquerda para
+cada novo peso:
 \begin{lstlisting}
-possible[0] = true;
+possivel[0] = true;
 for (int k = 1; k <= n; k++) {
     for (int x = W; x >= 0; x--) {
-        if (possible[x]) possible[x+w[k]] = true;
+        if (possivel[x]) possivel[x+w[k]] = true;
     }
 }
 \end{lstlisting}
 
-Note that the general idea presented here can be used
-in many knapsack problems.
-For example, if we are given objects with weights and values,
-we can determine for each weight sum the maximum value
-sum of a subset.
+Observe que a ideia geral apresentada aqui pode ser usada
+em muitos problemas de mochila.
+Por exemplo, se recebermos objetos com pesos e valores,
+podemos determinar para cada soma de peso o valor máximo
+soma de um subconjunto.
 
-\section{Edit distance}
+\section{Distância de edição}
 
-\index{edit distance}
-\index{Levenshtein distance}
+\index{distância de edição}
+\index{distância de Levenshtein}
 
-The \key{edit distance} or \key{Levenshtein distance}\footnote{The distance
-is named after V. I. Levenshtein who studied it in connection with binary codes \cite{lev66}.}
-is the minimum number of editing operations
-needed to transform a string
-into another string.
-The allowed editing operations are as follows:
+A \key{distância de edição} ou \key{distância de Levenshtein}\footnote{A distância
+recebe o nome de V. I. Levenshtein, que a estudou em conexão com códigos binários \cite{lev66}.}
+é o número mínimo de operações de edição
+necessárias para transformar uma string
+em outra.
+As operações de edição permitidas são as seguintes:
 \begin{itemize}
-\item insert a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{ABCA})
-\item remove a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{AC})
-\item modify a character (e.g. \texttt{ABC} $\rightarrow$ \texttt{ADC})
+\item inserir um caractere (por exemplo, \texttt{ABC} $\rightarrow$ \texttt{ABCA})
+\item remover um caractere (por exemplo, \texttt{ABC} $\rightarrow$ \texttt{AC})
+\item modificar um caractere (por exemplo, \texttt{ABC} $\rightarrow$ \texttt{ADC})
 \end{itemize}
 
-For example, the edit distance between
-\texttt{LOVE} and \texttt{MOVIE} is 2,
-because we can first perform the operation
- \texttt{LOVE} $\rightarrow$ \texttt{MOVE}
-(modify) and then the operation
+Por exemplo, a distância de edição entre
+\texttt{LOVE} e \texttt{MOVIE} é 2,
+porque podemos primeiro realizar a operação
+\texttt{LOVE} $\rightarrow$ \texttt{MOVE}
+(modificar) e então a operação
 \texttt{MOVE} $\rightarrow$ \texttt{MOVIE}
-(insert).
-This is the smallest possible number of operations,
-because it is clear that only one operation is not enough.
+(inserir).
+Este é o menor número possível de operações,
+porque é claro que apenas uma operação não é suficiente.
 
-Suppose that we are given a string \texttt{x}
-of length $n$ and a string \texttt{y} of length $m$,
-and we want to calculate the edit distance between
-\texttt{x} and \texttt{y}.
-To solve the problem, we define a function
-$\texttt{distance}(a,b)$ that gives the
-edit distance between prefixes
-$\texttt{x}[0 \ldots a]$ and $\texttt{y}[0 \ldots b]$.
-Thus, using this function, the edit distance
-between \texttt{x} and \texttt{y} equals $\texttt{distance}(n-1,m-1)$.
+Suponha que recebemos uma string \texttt{x}
+de comprimento $n$ e uma string \texttt{y} de comprimento $m$,
+e queremos calcular a distância de edição entre
+\texttt{x} e \texttt{y}.
+Para resolver o problema, definimos uma função
+$\texttt{distancia}(a,b)$ que retorna a
+distância de edição entre os prefixos
+$\texttt{x}[0 \ldots a]$ e $\texttt{y}[0 \ldots b]$.
+Assim, usando esta função, a distância de edição
+entre \texttt{x} e \texttt{y} é igual a $\texttt{distancia}(n-1,m-1)$.
 
-We can calculate values of \texttt{distance}
-as follows:
+Podemos calcular os valores de \texttt{distancia}
+da seguinte forma:
 \begin{equation*}
 \begin{split}
-\texttt{distance}(a,b) = \min(& \texttt{distance}(a,b-1)+1, \\
-                           & \texttt{distance}(a-1,b)+1, \\
-                           & \texttt{distance}(a-1,b-1)+\texttt{cost}(a,b)).
+\texttt{distancia}(a,b) = \min(& \texttt{distancia}(a,b-1)+1, \\
+                           & \texttt{distancia}(a-1,b)+1, \\
+                           & \texttt{distancia}(a-1,b-1)+\texttt{custo}(a,b)).
 \end{split}
 \end{equation*}
-Here $\texttt{cost}(a,b)=0$ if $\texttt{x}[a]=\texttt{y}[b]$,
-and otherwise $\texttt{cost}(a,b)=1$.
-The formula considers the following ways to
-edit the string \texttt{x}:
+Aqui $\texttt{custo}(a,b)=0$ se $\texttt{x}[a]=\texttt{y}[b]$,
+e caso contrário $\texttt{custo}(a,b)=1$.
+A fórmula considera as seguintes maneiras de
+editar a string \texttt{x}:
 \begin{itemize}
-\item $\texttt{distance}(a,b-1)$: insert a character at the end of \texttt{x}
-\item $\texttt{distance}(a-1,b)$: remove the last character from \texttt{x}
-\item $\texttt{distance}(a-1,b-1)$: match or modify the last character of \texttt{x}
+\item $\texttt{distancia}(a,b-1)$: inserir um caractere no final de \texttt{x}
+\item $\texttt{distancia}(a-1,b)$: remover o último caractere de \texttt{x}
+\item $\texttt{distancia}(a-1,b-1)$: combinar ou modificar o último caractere de \texttt{x}
 \end{itemize}
-In the two first cases, one editing operation is needed
-(insert or remove).
-In the last case, if $\texttt{x}[a]=\texttt{y}[b]$,
-we can match the last characters without editing,
-and otherwise one editing operation is needed (modify).
+Nos dois primeiros casos, uma operação de edição é necessária
+(inserir ou remover).
+No último caso, se $\texttt{x}[a]=\texttt{y}[b]$,
+podemos combinar os últimos caracteres sem editar,
+e caso contrário, uma operação de edição é necessária (modificar).
 
-The following table shows the values of \texttt{distance}
-in the example case:
+A tabela a seguir mostra os valores de \texttt{distancia}
+no caso de exemplo:
 \begin{center}
 \begin{tikzpicture}[scale=.65]
   \begin{scope}
@@ -870,12 +862,12 @@ in the example case:
 \end{tikzpicture}
 \end{center}
 
-The lower-right corner of the table
-tells us that the edit distance between
-\texttt{LOVE} and \texttt{MOVIE} is 2.
-The table also shows how to construct
-the shortest sequence of editing operations.
-In this case the path is as follows:
+O canto inferior direito da tabela
+nos diz que a distância de edição entre
+\texttt{LOVE} e \texttt{MOVIE} é 2.
+A tabela também mostra como construir
+a menor sequência de operações de edição.
+Neste caso, o caminho é o seguinte:
 
 \begin{center}
 \begin{tikzpicture}[scale=.65]
@@ -931,25 +923,25 @@ In this case the path is as follows:
 \end{tikzpicture}
 \end{center}
 
-The last characters of \texttt{LOVE} and \texttt{MOVIE}
-are equal, so the edit distance between them
-equals the edit distance between \texttt{LOV} and \texttt{MOVI}.
-We can use one editing operation to remove the
-character \texttt{I} from \texttt{MOVI}.
-Thus, the edit distance is one larger than
-the edit distance between \texttt{LOV} and \texttt{MOV}, etc.
+Os últimos caracteres de \texttt{LOVE} e \texttt{MOVIE}
+são iguais, então a distância de edição entre eles
+é igual à distância de edição entre \texttt{LOV} e \texttt{MOVI}.
+Podemos usar uma operação de edição para remover o
+caractere \texttt{I} de \texttt{MOVI}.
+Assim, a distância de edição é um a mais que
+a distância de edição entre \texttt{LOV} e \texttt{MOV}, etc.
 
-\section{Counting tilings}
+\section{Contando os ladrilhos}
 
-Sometimes the states of a dynamic programming solution
-are more complex than fixed combinations of numbers.
-As an example,
-consider the problem of calculating
-the number of distinct ways to
-fill an $n \times m$ grid using
-$1 \times 2$ and $2 \times 1$ size tiles.
-For example, one valid solution
-for the $4 \times 7$ grid is
+Às vezes, os estados de uma solução de programação dinâmica
+são mais complexos do que combinações fixas de números.
+Como exemplo,
+considere o problema de calcular
+o número de maneiras distintas de
+preencher uma grade $n \times m$ usando
+ladrilhos de tamanho $1 \times 2$ e $2 \times 1$.
+Por exemplo, uma solução válida
+para a grade $4 \times 7$ é
 \begin{center}
 \begin{tikzpicture}[scale=.65]
     \draw (0,0) grid (7,4);
@@ -971,15 +963,15 @@ for the $4 \times 7$ grid is
 
 \end{tikzpicture}
 \end{center}
-and the total number of solutions is 781.
+e o número total de soluções é 781.
 
-The problem can be solved using dynamic programming
-by going through the grid row by row.
-Each row in a solution can be represented as a
-string that contains $m$ characters from the set
+O problema pode ser resolvido usando programação dinâmica
+percorrendo a grade linha por linha.
+Cada linha em uma solução pode ser representada como uma
+string que contém $m$ caracteres do conjunto
 $\{\sqcap, \sqcup, \sqsubset, \sqsupset \}$.
-For example, the above solution consists of four rows
-that correspond to the following strings:
+Por exemplo, a solução acima consiste em quatro linhas
+que correspondem às seguintes strings:
 \begin{itemize}
 \item
 $\sqcap \sqsubset \sqsupset \sqcap \sqsubset \sqsupset \sqcap$
@@ -991,59 +983,57 @@ $\sqsubset \sqsupset \sqsubset \sqsupset \sqcup \sqcup \sqcap$
 $\sqsubset \sqsupset \sqsubset \sqsupset \sqsubset \sqsupset \sqcup$
 \end{itemize}
 
-Let $\texttt{count}(k,x)$ denote the number of ways to
-construct a solution for rows $1 \ldots k$
-of the grid such that string $x$ corresponds to row $k$.
-It is possible to use dynamic programming here,
-because the state of a row is constrained
-only by the state of the previous row.
+Seja $\texttt{contar}(k,x)$ o número de maneiras de
+construir uma solução para as linhas $1 \ldots k$
+da grade, de modo que a string $x$ corresponda à linha $k$.
+É possível usar a programação dinâmica aqui,
+porque o estado de uma linha é restringido
+apenas pelo estado da linha anterior.
 
-A solution is valid if row $1$ does not contain
-the character $\sqcup$,
-row $n$ does not contain the character $\sqcap$,
-and all consecutive rows are \emph{compatible}.
-For example, the rows
-$\sqcup \sqsubset \sqsupset \sqcup \sqcap \sqcap \sqcup$ and
+Uma solução é válida se a linha $1$ não contiver
+o caractere $\sqcup$,
+a linha $n$ não contiver o caractere $\sqcap$,
+e todas as linhas consecutivas forem \emph{compatíveis}.
+Por exemplo, as linhas
+$\sqcup \sqsubset \sqsupset \sqcup \sqcap \sqcap \sqcup$ e
 $\sqsubset \sqsupset \sqsubset \sqsupset \sqcup \sqcup \sqcap$ 
-are compatible, while the rows
-$\sqcap \sqsubset \sqsupset \sqcap \sqsubset \sqsupset \sqcap$ and
+são compatíveis, enquanto as linhas
+$\sqcap \sqsubset \sqsupset \sqcap \sqsubset \sqsupset \sqcap$ e
 $\sqsubset \sqsupset \sqsubset \sqsupset \sqsubset \sqsupset \sqcup$
-are not compatible.
+não são compatíveis.
 
-Since a row consists of $m$ characters and there are
-four choices for each character, the number of distinct
-rows is at most $4^m$.
-Thus, the time complexity of the solution is
-$O(n 4^{2m})$ because we can go through the
-$O(4^m)$ possible states for each row,
-and for each state, there are $O(4^m)$
-possible states for the previous row.
-In practice, it is a good idea to rotate the grid
-so that the shorter side has length $m$,
-because the factor $4^{2m}$ dominates the time complexity.
+Como uma linha consiste em $m$ caracteres e existem
+quatro opções para cada caractere, o número de linhas distintas
+é no máximo $4^m$.
+Assim, a complexidade de tempo da solução é
+$O(n 4^{2m})$ porque podemos percorrer os
+$O(4^m)$ estados possíveis para cada linha,
+e para cada estado, existem $O(4^m)$
+estados possíveis para a linha anterior.
+Na prática, é uma boa ideia girar a grade
+para que o lado mais curto tenha comprimento $m$,
+porque o fator $4^{2m}$ domina a complexidade de tempo.
 
-It is possible to make the solution more efficient
-by using a more compact representation for the rows.
-It turns out that it is sufficient to know which
-columns of the previous row contain the upper square
-of a vertical tile.
-Thus, we can represent a row using only characters
-$\sqcap$ and $\Box$, where $\Box$ is a combination
-of characters
-$\sqcup$, $\sqsubset$ and $\sqsupset$.
-Using this representation, there are only
-$2^m$ distinct rows and the time complexity is
+É possível tornar a solução mais eficiente
+usando uma representação mais compacta para as linhas.
+Acontece que é suficiente saber quais
+colunas da linha anterior contêm o quadrado superior
+de um ladrilho vertical.
+Assim, podemos representar uma linha usando apenas caracteres
+$\sqcap$ e $\Box$, onde $\Box$ é uma combinação
+de caracteres
+$\sqcup$, $\sqsubset$ e $\sqsupset$.
+Usando esta representação, existem apenas
+$2^m$ linhas distintas e a complexidade de tempo é
 $O(n 2^{2m})$.
 
-As a final note, there is also a surprising direct formula
-for calculating the number of tilings\footnote{Surprisingly,
-this formula was discovered in 1961 by two research teams \cite{kas61,tem61}
-that worked independently.}:
+Como nota final, há também uma fórmula direta surpreendente
+para calcular o número de ladrilhos\footnote{Surpreendentemente,
+esta fórmula foi descoberta em 1961 por duas equipes de pesquisa \cite{kas61,tem61}
+que trabalharam de forma independente.}:
 \[ \prod_{a=1}^{\lceil n/2 \rceil} \prod_{b=1}^{\lceil m/2 \rceil} 4 \cdot (\cos^2 \frac{\pi a}{n + 1} + \cos^2 \frac{\pi b}{m+1})\]
-This formula is very efficient, because it calculates
-the number of tilings in $O(nm)$ time,
-but since the answer is a product of real numbers,
-a problem when using the formula is
-how to store the intermediate results accurately.
-
-
+Esta fórmula é muito eficiente, pois calcula
+o número de ladrilhos em tempo $O(nm)$,
+mas como a resposta é um produto de números reais,
+um problema ao usar a fórmula é
+como armazenar os resultados intermediários com precisão.

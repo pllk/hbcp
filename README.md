@@ -4,7 +4,7 @@ Este é um projeto de tradução do livro "Competitive Programmer's Handbook" pa
 
 ## Status da Tradução
 
-- **Capítulos Traduzidos:** 7 de 30
+- **Capítulos Traduzidos:** 8 de 30
     - Capítulo 1: Introdução
     - Capítulo 2: Complexidade de Tempo
     - Capítulo 3: Ordenação
@@ -12,7 +12,8 @@ Este é um projeto de tradução do livro "Competitive Programmer's Handbook" pa
     - Capítulo 5: Busca Completa
     - Capítulo 6: Algorigmos Gulosos
     - Capítulo 7: Programação Dinâmica
-- **Páginas Traduzidas:** 96 de 300
+    - Capítulo 8: Análise Amortizada
+- **Páginas Traduzidas:** 102 de 300
 
 ## Sobre o Livro
 

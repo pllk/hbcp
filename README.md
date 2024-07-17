@@ -4,13 +4,14 @@ Este é um projeto de tradução do livro "Competitive Programmer's Handbook" pa
 
 ## Status da Tradução
 
-- **Capítulos Traduzidos:** 5 de 30
+- **Capítulos Traduzidos:** 6 de 30
     - Capítulo 1: Introdução
     - Capítulo 2: Complexidade de Tempo
     - Capítulo 3: Ordenação
     - Capítulo 4: Estruturas de Dados
     - Capítulo 5: Busca Completa
-- **Páginas Traduzidas:** 61 (excluindo referências)
+    - Capítulo 6: Algorigmos Gulosos
+- **Páginas Traduzidas:** 82 de 300
 
 ## Sobre o Livro
 

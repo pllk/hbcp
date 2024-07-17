@@ -1,24 +1,12 @@
 # Manual do Programador Competitivo (Tradução em Andamento)
 
-Este é um projeto de tradução do livro "Competitive Programmer's Handbook" para o português.
+Este é um projeto de tradução do livro "Competitive Programmer's Handbook" para o português. A tradução é um trabalho em andamento e esperamos que ela seja útil para a comunidade de programação competitiva de língua portuguesa. O objetivo deste projeto é fornecer um recurso acessível e compreensível para a comunidade de programação competitiva, especialmente para aqueles que só podem, ou preferem, ler em português.
 
-## Status da Tradução
-
-- **Capítulos Traduzidos:** 8 de 30
-    - Capítulo 1: Introdução
-    - Capítulo 2: Complexidade de Tempo
-    - Capítulo 3: Ordenação
-    - Capítulo 4: Estruturas de Dados
-    - Capítulo 5: Busca Completa
-    - Capítulo 6: Algorigmos Gulosos
-    - Capítulo 7: Programação Dinâmica
-    - Capítulo 8: Análise Amortizada
-- **Páginas Traduzidas:** 102 de 300
+Você pode acompanhar o progresso da tradução e baixar a versão mais recente do PDF na seção de [Releases](https://github.com/filipemsilv4/cphb_ptbr/releases).
 
 ## Sobre o Livro
 
-"Competitive Programmer's Handbook" é uma introdução moderna à programação competitiva.
-O livro aborda truques de programação e técnicas de design de algoritmos relevantes na programação competitiva.
+"Competitive Programmer's Handbook" é uma introdução moderna à programação competitiva. O livro aborda truques de programação e técnicas de design de algoritmos relevantes na programação competitiva.
 
 ## CSES Problem Set
 

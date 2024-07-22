@@ -1,70 +1,70 @@
-\chapter{Bit manipulation}
+\chapter{Manipulação de bits}
 
-All data in computer programs is internally stored as bits,
-i.e., as numbers 0 and 1.
-This chapter discusses the bit representation
-of integers, and shows examples
-of how to use bit operations.
-It turns out that there are many uses for
-bit manipulation in algorithm programming.
+Todos os dados em programas de computador são armazenados internamente como bits,
+ou seja, como números 0 e 1.
+Este capítulo discute a representação de bits
+de inteiros e mostra exemplos
+de como usar operações de bits.
+Acontece que existem muitos usos para
+manipulação de bits em programação de algoritmos.
 
-\section{Bit representation}
+\section{Representação de bits}
 
-\index{bit representation}
+\index{representação de bits}
 
-In programming, an $n$ bit integer is internally
-stored as a binary number that consists of $n$ bits.
-For example, the C++ type \texttt{int} is
-a 32-bit type, which means that every \texttt{int}
-number consists of 32 bits.
+Na programação, um inteiro de $n$ bits é armazenado internamente
+como um número binário que consiste em $n$ bits.
+Por exemplo, o tipo \texttt{int} em C++ é
+um tipo de 32 bits, o que significa que cada número \texttt{int}
+consiste em 32 bits.
 
-Here is the bit representation of
-the \texttt{int} number 43: 
+Aqui está a representação de bits do
+número \texttt{int} 43:
 \[00000000000000000000000000101011\]
-The bits in the representation are indexed from right to left.
-To convert a bit representation $b_k \cdots b_2 b_1 b_0$ into a number,
-we can use the formula
+Os bits na representação são indexados da direita para a esquerda.
+Para converter uma representação de bits $b_k \cdots b_2 b_1 b_0$ em um número,
+podemos usar a fórmula
 \[b_k 2^k + \ldots + b_2 2^2 + b_1 2^1 + b_0 2^0.\]
-For example,
+Por exemplo,
 \[1 \cdot 2^5 + 1 \cdot 2^3 + 1 \cdot 2^1 + 1 \cdot 2^0 = 43.\]
 
-The bit representation of a number is either
-\key{signed} or \key{unsigned}.
-Usually a signed representation is used,
-which means that both negative and positive
-numbers can be represented.
-A signed variable of $n$ bits can contain any
-integer between $-2^{n-1}$ and $2^{n-1}-1$.
-For example, the \texttt{int} type in C++ is
-a signed type, so an \texttt{int} variable can contain any
-integer between $-2^{31}$ and $2^{31}-1$.
+A representação de bits de um número é
+\key{assinada} ou \key{não assinada}.
+Geralmente uma representação assinada é usada,
+o que significa que números negativos e positivos
+podem ser representados.
+Uma variável assinada de $n$ bits pode conter qualquer
+inteiro entre $-2^{n-1}$ e $2^{n-1}-1$.
+Por exemplo, o tipo \texttt{int} em C++ é
+um tipo assinado, então uma variável \texttt{int} pode conter qualquer
+inteiro entre $-2^{31}$ e $2^{31}-1$.
 
-The first bit in a signed representation
-is the sign of the number (0 for nonnegative numbers
-and 1 for negative numbers), and
-the remaining $n-1$ bits contain the magnitude of the number.
-\key{Two's complement} is used, which means that the
-opposite number of a number is calculated by first
-inverting all the bits in the number,
-and then increasing the number by one.
+O primeiro bit em uma representação assinada
+é o sinal do número (0 para números não negativos
+e 1 para números negativos), e
+os $n-1$ bits restantes contêm a magnitude do número.
+\key{Complemento de dois} é usado, o que significa que o
+número oposto de um número é calculado primeiro
+invertendo todos os bits no número,
+e depois aumentando o número por um.
 
-For example, the bit representation of
-the \texttt{int} number $-43$ is
+Por exemplo, a representação de bits de
+o número \texttt{int} $-43$ é
 \[11111111111111111111111111010101.\]
 
-In an unsigned representation, only nonnegative
-numbers can be used, but the upper bound for the values is larger.
-An unsigned variable of $n$ bits can contain any
-integer between $0$ and $2^n-1$.
-For example, in C++, an \texttt{unsigned int} variable
-can contain any integer between $0$ and $2^{32}-1$.
+Em uma representação não assinada, apenas os números não negativos
+podem ser usados, mas o limite superior para os valores é maior.
+Uma variável não assinada de $n$ bits pode conter qualquer
+inteiro entre $0$ e $2^n-1$.
+Por exemplo, em C++, uma variável \texttt{unsigned int}
+pode conter qualquer inteiro entre $0$ e $2^{32}-1$.
 
-There is a connection between the
-representations:
-a signed number $-x$ equals an unsigned number $2^n-x$.
-For example, the following code shows that
-the signed number $x=-43$ equals the unsigned
-number $y=2^{32}-43$:
+Existe uma conexão entre as
+representações:
+um número assinado $-x$ é igual a um número não assinado $2^n-x$.
+Por exemplo, o código a seguir mostra que
+o número assinado $x=-43$ é igual ao número não assinado
+$y=2^{32}-43$:
 \begin{lstlisting}
 int x = -43;
 unsigned int y = x;
@@ -72,13 +72,13 @@ cout << x << "\n"; // -43
 cout << y << "\n"; // 4294967253
 \end{lstlisting}
 
-If a number is larger than the upper bound
-of the bit representation, the number will overflow.
-In a signed representation,
-the next number after $2^{n-1}-1$ is $-2^{n-1}$,
-and in an unsigned representation,
-the next number after $2^n-1$ is $0$.
-For example, consider the following code:
+Se um número for maior que o limite superior
+da representação de bits, o número sofrerá overflow.
+Em uma representação assinada,
+o próximo número após $2^{n-1}-1$ é $-2^{n-1}$,
+e em uma representação não assinada,
+o próximo número após $2^n-1$ é $0$.
+Por exemplo, considere o código a seguir:
 \begin{lstlisting}
 int x = 2147483647
 cout << x << "\n"; // 2147483647
@@ -86,24 +86,24 @@ x++;
 cout << x << "\n"; // -2147483648
 \end{lstlisting}
 
-Initially, the value of $x$ is $2^{31}-1$.
-This is the largest value that can be stored
-in an \texttt{int} variable,
-so the next number after $2^{31}-1$ is $-2^{31}$.
+Inicialmente, o valor de $x$ é $2^{31}-1$.
+Este é o maior valor que pode ser armazenado
+em uma variável \texttt{int},
+então o próximo número após $2^{31}-1$ é $-2^{31}$.
 
 
-\section{Bit operations}
+\section{Operações de bits}
 
 \newcommand\XOR{\mathbin{\char`\^}}
 
-\subsubsection{And operation}
+\subsubsection{Operação E}
 
-\index{and operation}
+\index{operação E}
 
-The \key{and} operation $x$ \& $y$ produces a number
-that has one bits in positions where both
-$x$ and $y$ have one bits.
-For example, $22$ \& $26$ = 18, because
+A operação \key{E} $x$ \& $y$ produz um número
+que tem bits iguais a um nas posições onde ambos
+$x$ e $y$ têm bits iguais a um.
+Por exemplo, $22$ \& $26$ = 18, porque
 
 \begin{center}
 \begin{tabular}{rrr}
@@ -114,21 +114,21 @@ For example, $22$ \& $26$ = 18, because
 \end{tabular}
 \end{center}
 
-Using the and operation, we can check if a number
-$x$ is even because
-$x$ \& $1$ = 0 if $x$ is even, and
-$x$ \& $1$ = 1 if $x$ is odd.
-More generally, $x$ is divisible by $2^k$
-exactly when $x$ \& $(2^k-1)$ = 0.
+Usando a operação E, podemos verificar se um número
+$x$ é par porque
+$x$ \& $1$ = 0 se $x$ é par, e
+$x$ \& $1$ = 1 se $x$ é ímpar.
+De forma mais geral, $x$ é divisível por $2^k$
+exatamente quando $x$ \& $(2^k-1)$ = 0.
 
-\subsubsection{Or operation}
+\subsubsection{Operação OU}
 
-\index{or operation}
+\index{operação OU}
 
-The \key{or} operation $x$ | $y$ produces a number
-that has one bits in positions where at least one
-of $x$ and $y$ have one bits.
-For example, $22$ | $26$ = 30, because
+A operação \key{OU} $x$ | $y$ produz um número
+que tem bits iguais a um nas posições onde pelo menos um
+de $x$ e $y$ tem bits iguais a um.
+Por exemplo, $22$ | $26$ = 30, porque
 
 \begin{center}
 \begin{tabular}{rrr}
@@ -139,14 +139,14 @@ For example, $22$ | $26$ = 30, because
 \end{tabular}
 \end{center}
 
-\subsubsection{Xor operation}
+\subsubsection{Operação XOR}
 
-\index{xor operation}
+\index{operação XOR}
 
-The \key{xor} operation $x$ $\XOR$ $y$ produces a number
-that has one bits in positions where exactly one
-of $x$ and $y$ have one bits.
-For example, $22$ $\XOR$ $26$ = 12, because
+A operação \key{XOR} $x$ $\XOR$ $y$ produz um número
+que tem bits iguais a um nas posições onde exatamente um
+de $x$ e $y$ tem bits iguais a um.
+Por exemplo, $22$ $\XOR$ $26$ = 12, porque
 
 \begin{center}
 \begin{tabular}{rrr}
@@ -157,21 +157,21 @@ $\XOR$ & 11010 & (26) \\
 \end{tabular}
 \end{center}
 
-\subsubsection{Not operation}
+\subsubsection{Operação NÃO}
 
-\index{not operation}
+\index{operação NÃO}
 
-The \key{not} operation \textasciitilde$x$
-produces a number where all the bits of $x$
-have been inverted.
-The formula \textasciitilde$x = -x-1$ holds,
-for example, \textasciitilde$29 = -30$.
+A operação \key{NÃO} \textasciitilde$x$
+produz um número onde todos os bits de $x$
+foram invertidos.
+A fórmula \textasciitilde$x = -x-1$ é válida,
+por exemplo, \textasciitilde$29 = -30$.
 
-The result of the not operation at the bit level
-depends on the length of the bit representation,
-because the operation inverts all bits.
-For example, if the numbers are 32-bit
-\texttt{int} numbers, the result is as follows:
+O resultado da operação NÃO no nível de bits
+depende do comprimento da representação de bits,
+porque a operação inverte todos os bits.
+Por exemplo, se os números são de 32 bits
+números \texttt{int}, o resultado é o seguinte:
 
 \begin{center}
 \begin{tabular}{rrrr}
@@ -180,34 +180,34 @@ $x$ & = & 29 &   00000000000000000000000000011101 \\
 \end{tabular}
 \end{center}
 
-\subsubsection{Bit shifts}
+\subsubsection{Deslocamentos de bits}
 
-\index{bit shift}
+\index{deslocamento de bits}
 
-The left bit shift $x < < k$ appends $k$
-zero bits to the number,
-and the right bit shift $x > > k$
-removes the $k$ last bits from the number.
-For example, $14 < < 2 = 56$,
-because $14$ and $56$ correspond to 1110 and 111000.
-Similarly, $49 > > 3 = 6$,
-because $49$ and $6$ correspond to 110001 and 110.
+O deslocamento de bits para a esquerda $x < < k$ anexa $k$
+bits zero ao número,
+e o deslocamento de bits para a direita $x > > k$
+remove os $k$ últimos bits do número.
+Por exemplo, $14 < < 2 = 56$,
+porque 14 e 56 correspondem a 1110 e 111000.
+Da mesma forma, $49 > > 3 = 6$,
+porque 49 e 6 correspondem a 110001 e 110.
 
-Note that $x < < k$
-corresponds to multiplying $x$ by $2^k$,
-and $x > > k$
-corresponds to dividing $x$ by $2^k$
-rounded down to an integer.
+Observe que $x < < k$
+corresponde a multiplicar $x$ por $2^k$,
+e $x > > k$
+corresponde a dividir $x$ por $2^k$
+arredondado para baixo para um inteiro.
 
-\subsubsection{Applications}
+\subsubsection{Aplicações}
 
-A number of the form $1 < < k$ has a one bit
-in position $k$ and all other bits are zero,
-so we can use such numbers to access single bits of numbers.
-In particular, the $k$th bit of a number is one
-exactly when $x$ \& $(1 < < k)$ is not zero.
-The following code prints the bit representation
-of an \texttt{int} number $x$:
+Um número da forma $1 < < k$ tem um bit
+na posição $k$ e todos os outros bits são zero,
+então podemos usar esses números para acessar bits únicos de números.
+Em particular, o $k$-ésimo bit de um número é igual a um
+exatamente quando $x$ \& $(1 < < k)$ não é zero.
+O código a seguir imprime a representação de bits
+de um número \texttt{int} $x$:
 
 \begin{lstlisting}
 for (int i = 31; i >= 0; i--) {
@@ -216,48 +216,48 @@ for (int i = 31; i >= 0; i--) {
 }
 \end{lstlisting}
 
-It is also possible to modify single bits
-of numbers using similar ideas.
-For example, the formula $x$ | $(1 < < k)$
-sets the $k$th bit of $x$ to one,
-the formula
+Também é possível modificar bits únicos
+de números usando ideias semelhantes.
+Por exemplo, a fórmula $x$ | $(1 < < k)$
+define o $k$-ésimo bit de $x$ como igual a um,
+a fórmula
 $x$ \& \textasciitilde $(1 < < k)$
-sets the $k$th bit of $x$ to zero,
-and the formula
+define o $k$-ésimo bit de $x$ como igual a zero,
+e a fórmula
 $x$ $\XOR$ $(1 < < k)$
-inverts the $k$th bit of $x$.
+inverte o $k$-ésimo bit de $x$.
 
-The formula $x$ \& $(x-1)$ sets the last
-one bit of $x$ to zero,
-and the formula $x$ \& $-x$ sets all the
-one bits to zero, except for the last one bit.
-The formula $x$ | $(x-1)$
-inverts all the bits after the last one bit.
-Also note that a positive number $x$ is
-a power of two exactly when $x$ \& $(x-1) = 0$.
+A fórmula $x$ \& $(x-1)$ define o último
+bit igual a um de $x$ como igual a zero,
+e a fórmula $x$ \& $-x$ define todos os
+bits iguais a um como iguais a zero, exceto pelo último bit igual a um.
+A fórmula $x$ | $(x-1)$
+inverte todos os bits após o último bit igual a um.
+Observe também que um número positivo $x$ é
+uma potência de dois exatamente quando $x$ \& $(x-1) = 0$.
 
-\subsubsection*{Additional functions}
+\subsubsection*{Funções adicionais}
 
-The g++ compiler provides the following
-functions for counting bits:
+O compilador g++ fornece o seguinte
+funções para contar bits:
 
 \begin{itemize}
 \item
 $\texttt{\_\_builtin\_clz}(x)$:
-the number of zeros at the beginning of the number
+o número de zeros no início do número
 \item
 $\texttt{\_\_builtin\_ctz}(x)$:
-the number of zeros at the end of the number
+o número de zeros no final do número
 \item
 $\texttt{\_\_builtin\_popcount}(x)$:
-the number of ones in the number
+o número de uns no número
 \item
 $\texttt{\_\_builtin\_parity}(x)$:
-the parity (even or odd) of the number of ones
+a paridade (par ou ímpar) do número de uns
 \end{itemize}
 \begin{samepage}
 
-The functions can be used as follows:
+As funções podem ser usadas da seguinte forma:
 \begin{lstlisting}
 int x = 5328; // 00000000000000000001010011010000
 cout << __builtin_clz(x) << "\n"; // 19
@@ -267,35 +267,35 @@ cout << __builtin_parity(x) << "\n"; // 1
 \end{lstlisting}
 \end{samepage}
 
-While the above functions only support \texttt{int} numbers,
-there are also \texttt{long long} versions of
-the functions available with the suffix \texttt{ll}.
+Apesar das funções acima suportarem apenas o tipo \texttt{int},
+também existem versões para \texttt{long long},
+disponíveis com o sufixo \texttt{ll}.
 
-\section{Representing sets}
+\section{Representando conjuntos}
 
-Every subset of a set
+Cada subconjunto de um conjunto
 $\{0,1,2,\ldots,n-1\}$
-can be represented as an $n$ bit integer
-whose one bits indicate which
-elements belong to the subset.
-This is an efficient way to represent sets,
-because every element requires only one bit of memory,
-and set operations can be implemented as bit operations.
+pode ser representado como um inteiro de $n$ bits
+cujos bits iguais a um indicam quais
+elementos pertencem ao subconjunto.
+Esta é uma maneira eficiente de representar conjuntos,
+porque cada elemento requer apenas um bit de memória,
+e as operações de conjunto podem ser implementadas como operações de bits.
 
-For example, since \texttt{int} is a 32-bit type,
-an \texttt{int} number can represent any subset
-of the set $\{0,1,2,\ldots,31\}$.
-The bit representation of the set $\{1,3,4,8\}$ is
+Por exemplo, como \texttt{int} é um tipo de 32 bits,
+um número \texttt{int} pode representar qualquer subconjunto
+do conjunto $\{0,1,2,\ldots,31\}$.
+A representação de bits do conjunto $\{1,3,4,8\}$ é
 \[00000000000000000000000100011010,\]
-which corresponds to the number $2^8+2^4+2^3+2^1=282$.
+que corresponde ao número $2^8+2^4+2^3+2^1=282$.
 
-\subsubsection{Set implementation}
+\subsubsection{Implementação de conjunto}
 
-The following code declares an \texttt{int}
-variable $x$ that can contain
-a subset of $\{0,1,2,\ldots,31\}$.
-After this, the code adds the elements 1, 3, 4 and 8
-to the set and prints the size of the set.
+O código a seguir declara uma variável \texttt{int}
+chamada $x$ que pode conter
+um subconjunto de $\{0,1,2,\ldots,31\}$.
+Depois disso, o código adiciona os elementos 1, 3, 4 e 8
+ao conjunto e imprime o tamanho do conjunto.
 \begin{lstlisting}
 int x = 0;
 x |= (1<<1);
@@ -304,33 +304,33 @@ x |= (1<<4);
 x |= (1<<8);
 cout << __builtin_popcount(x) << "\n"; // 4
 \end{lstlisting}
-Then, the following code prints all
-elements that belong to the set:
+Então, o código a seguir imprime todos
+elementos que pertencem ao conjunto:
 \begin{lstlisting}
 for (int i = 0; i < 32; i++) {
     if (x&(1<<i)) cout << i << " ";
 }
-// output: 1 3 4 8
+// saida: 1 3 4 8
 \end{lstlisting}
 
-\subsubsection{Set operations}
+\subsubsection{Operações de conjunto}
 
-Set operations can be implemented as follows as bit operations:
+As operações de conjunto podem ser implementadas da seguinte forma como operações de bits:
 
 \begin{center}
 \begin{tabular}{lll}
-& set syntax & bit syntax \\
+& sintaxe de conjunto & sintaxe de bits \\
 \hline
-intersection & $a \cap b$ & $a$ \& $b$ \\
-union & $a \cup b$ & $a$ | $b$ \\
-complement & $\bar a$ & \textasciitilde$a$ \\
-difference & $a \setminus b$ & $a$ \& (\textasciitilde$b$) \\
+interseção & $a \cap b$ & $a$ \& $b$ \\
+união & $a \cup b$ & $a$ | $b$ \\
+complemento & $\bar a$ & \textasciitilde$a$ \\
+diferença & $a \setminus b$ & $a$ \& (\textasciitilde$b$) \\
 \end{tabular}
 \end{center}
 
-For example, the following code first constructs
-the sets $x=\{1,3,4,8\}$ and $y=\{3,6,8,9\}$,
-and then constructs the set $z = x \cup y = \{1,3,4,6,8,9\}$:
+Por exemplo, o código a seguir primeiro constrói
+os conjuntos $x=\{1,3,4,8\}$ e $y=\{3,6,8,9\}$,
+e então constrói o conjunto $z = x \cup y = \{1,3,4,6,8,9\}$:
 
 \begin{lstlisting}
 int x = (1<<1)|(1<<3)|(1<<4)|(1<<8);
@@ -339,73 +339,73 @@ int z = x|y;
 cout << __builtin_popcount(z) << "\n"; // 6
 \end{lstlisting}
 
-\subsubsection{Iterating through subsets}
+\subsubsection{Iterando por subconjuntos}
 
-The following code goes through
-the subsets of $\{0,1,\ldots,n-1\}$:
+O código a seguir percorre
+os subconjuntos de $\{0,1,\ldots,n-1\}$:
 
 \begin{lstlisting}
 for (int b = 0; b < (1<<n); b++) {
-    // process subset b
+    // processar subconjunto b
 }
 \end{lstlisting}
-The following code goes through
-the subsets with exactly $k$ elements:
+O código a seguir percorre
+os subconjuntos com exatamente $k$ elementos:
 \begin{lstlisting}
 for (int b = 0; b < (1<<n); b++) {
     if (__builtin_popcount(b) == k) {
-        // process subset b
+        // processar subconjunto b
     }
 }
 \end{lstlisting}
-The following code goes through the subsets
-of a set $x$:
+O código a seguir percorre os subconjuntos
+de um conjunto $x$:
 \begin{lstlisting}
 int b = 0;
 do {
-    // process subset b
+    // processar subconjunto b
 } while (b=(b-x)&x);
 \end{lstlisting}
 
-\section{Bit optimizations}
+\section{Otimizações de bits}
 
-Many algorithms can be optimized using
-bit operations.
-Such optimizations do not change the
-time complexity of the algorithm,
-but they may have a large impact
-on the actual running time of the code.
-In this section we discuss examples
-of such situations.
+Muitos algoritmos podem ser otimizados usando
+operações de bits.
+Essas otimizações não alteram o
+complexidade de tempo do algoritmo,
+mas podem ter um grande impacto
+no tempo de execução real do código.
+Nesta seção, discutimos exemplos
+de tais situações.
 
-\subsubsection{Hamming distances}
+\subsubsection{Distâncias de Hamming}
 
-\index{Hamming distance}
-The \key{Hamming distance}
-$\texttt{hamming}(a,b)$ between two
-strings $a$ and $b$ of equal length is
-the number of positions where the strings differ.
-For example,
+\index{distância de Hamming}
+A \key{distância de Hamming}
+$\texttt{hamming}(a,b)$ entre duas
+cadeias de caracteres $a$ e $b$ de comprimento igual é
+o número de posições onde as cadeias de caracteres diferem.
+Por exemplo,
 \[\texttt{hamming}(01101,11001)=2.\]
 
-Consider the following problem: Given
-a list of $n$ bit strings, each of length $k$,
-calculate the minimum Hamming distance
-between two strings in the list.
-For example, the answer for $[00111,01101,11110]$
-is 2, because
+Considere o seguinte problema: Dado
+uma lista de $n$ cadeias de caracteres de bits, cada uma de comprimento $k$,
+calcule a distância de Hamming mínima
+entre duas cadeias de caracteres na lista.
+Por exemplo, a resposta para $[00111,01101,11110]$
+é 2, porque
 \begin{itemize}[noitemsep]
 \item $\texttt{hamming}(00111,01101)=2$,
-\item $\texttt{hamming}(00111,11110)=3$, and
+\item $\texttt{hamming}(00111,11110)=3$, e
 \item $\texttt{hamming}(01101,11110)=3$.
 \end{itemize}
 
-A straightforward way to solve the problem is
-to go through all pairs of strings and calculate
-their Hamming distances,
-which yields an $O(n^2 k)$ time algorithm.
-The following function can be used to
-calculate distances:
+Uma maneira direta de resolver o problema é
+percorrer todos os pares de cadeias de caracteres e calcular
+suas distâncias de Hamming,
+o que gera um algoritmo de tempo $O(n^2 k)$.
+A função a seguir pode ser usada para
+calcular distâncias:
 \begin{lstlisting}
 int hamming(string a, string b) {
     int d = 0;
@@ -416,40 +416,40 @@ int hamming(string a, string b) {
 }
 \end{lstlisting}
 
-However, if $k$ is small, we can optimize the code
-by storing the bit strings as integers and
-calculating the Hamming distances using bit operations.
-In particular, if $k \le 32$, we can just store
-the strings as \texttt{int} values and use the
-following function to calculate distances:
+No entanto, se $k$ for pequeno, podemos otimizar o código
+armazenando as cadeias de caracteres de bits como inteiros e
+calculando as distâncias de Hamming usando operações de bits.
+Em particular, se $k \le 32$, podemos simplesmente armazenar
+as cadeias de caracteres como valores \texttt{int} e usar a
+seguinte função para calcular distâncias:
 \begin{lstlisting}
 int hamming(int a, int b) {
     return __builtin_popcount(a^b);
 }
 \end{lstlisting}
-In the above function, the xor operation constructs
-a bit string that has one bits in positions
-where $a$ and $b$ differ.
-Then, the number of bits is calculated using
-the \texttt{\_\_builtin\_popcount} function.
+Na função acima, a operação XOR constrói
+uma cadeia de caracteres de bits que tem bits iguais a um nas posições
+onde $a$ e $b$ diferem.
+Então, o número de bits é calculado usando
+a função \texttt{\_\_builtin\_popcount}.
 
-To compare the implementations, we generated
-a list of 10000 random bit strings of length 30.
-Using the first approach, the search took
-13.5 seconds, and after the bit optimization,
-it only took 0.5 seconds.
-Thus, the bit optimized code was almost
-30 times faster than the original code.
+Para comparar as implementações, geramos
+uma lista de 10000 cadeias de caracteres de bits aleatórias de comprimento 30.
+Usando a primeira abordagem, a pesquisa levou
+13,5 segundos, e depois da otimização de bits,
+levou apenas 0,5 segundos.
+Portanto, o código otimizado de bits era quase
+30 vezes mais rápido que o código original.
 
-\subsubsection{Counting subgrids}
+\subsubsection{Contando subgrades}
 
-As another example, consider the
-following problem:
-Given an $n \times n$ grid whose
-each square is either black (1) or white (0),
-calculate the number of subgrids
-whose all corners are black.
-For example, the grid
+Como outro exemplo, considere o
+seguinte problema:
+Dada uma grade $n \times n$ em que
+cada quadrado é preto (1) ou branco (0),
+calcule o número de subgrades
+em que todos os cantos são pretos.
+Por exemplo, a grade
 \begin{center}
 \begin{tikzpicture}[scale=0.5]
 \fill[black] (1,1) rectangle (2,2);
@@ -463,7 +463,7 @@ For example, the grid
 \draw (0,0) grid (5,5);
 \end{tikzpicture}
 \end{center}
-contains two such subgrids:
+contém duas dessas subgrades:
 \begin{center}
 \begin{tikzpicture}[scale=0.5]
 \fill[black] (1,1) rectangle (2,2);
@@ -491,70 +491,70 @@ contains two such subgrids:
 \end{tikzpicture}
 \end{center}
 
-There is an $O(n^3)$ time algorithm for solving the problem:
-go through all $O(n^2)$ pairs of rows and for each pair
-$(a,b)$ calculate the number of columns that contain a black
-square in both rows in $O(n)$ time.
-The following code assumes that $\texttt{color}[y][x]$
-denotes the color in row $y$ and column $x$:
+Existe um algoritmo de tempo $O(n^3)$ para resolver o problema:
+percorrer todos os $O(n^2)$ pares de linhas e para cada par
+$(a,b)$ calcule o número de colunas que contêm um preto
+quadrado em ambas as linhas em $O(n)$ tempo.
+O código a seguir assume que $\texttt{color}[y][x]$
+denota a cor na linha $y$ e coluna $x$:
 \begin{lstlisting}
 int count = 0;
 for (int i = 0; i < n; i++) {
     if (color[a][i] == 1 && color[b][i] == 1) count++;
 }
 \end{lstlisting}
-Then, those columns
-account for $\texttt{count}(\texttt{count}-1)/2$ subgrids with black corners,
-because we can choose any two of them to form a subgrid.
+Então, essas colunas
+contam para $\texttt{count}(\texttt{count}-1)/2$ subgrades com cantos pretos,
+porque podemos escolher quaisquer dois deles para formar uma subgrade.
 
-To optimize this algorithm, we divide the grid into blocks
-of columns such that each block consists of $N$
-consecutive columns. Then, each row is stored as
-a list of $N$-bit numbers that describe the colors
-of the squares. Now we can process $N$ columns at the same time
-using bit operations. In the following code,
-$\texttt{color}[y][k]$ represents
-a block of $N$ colors as bits.
+Para otimizar esse algoritmo, dividimos a grade em blocos
+de colunas de forma que cada bloco consista em $N$
+colunas consecutivas. Então, cada linha é armazenada como
+uma lista de números de $N$ bits que descrevem as cores
+dos quadrados. Agora podemos processar $N$ colunas ao mesmo tempo
+usando operações de bits. No código a seguir,
+$\texttt{color}[y][k]$ representa
+um bloco de $N$ cores como bits.
 \begin{lstlisting}
 int count = 0;
 for (int i = 0; i <= n/N; i++) {
     count += __builtin_popcount(color[a][i]&color[b][i]);
 }
 \end{lstlisting}
-The resulting algorithm works in $O(n^3/N)$ time.
+O algoritmo resultante funciona em $O(n^3/N)$ tempo.
 
-We generated a random grid of size $2500 \times 2500$
-and compared the original and bit optimized implementation.
-While the original code took $29.6$ seconds,
-the bit optimized version only took $3.1$ seconds
-with $N=32$ (\texttt{int} numbers) and $1.7$ seconds
-with $N=64$ (\texttt{long long} numbers).
+Geramos uma grade aleatória de tamanho $2500 \times 2500$
+e comparamos a implementação original e otimizada de bits.
+Enquanto o código original levou 29,6 segundos,
+a versão otimizada de bits levou apenas 3,1 segundos
+com $N=32$ (números \texttt{int}) e 1,7 segundos
+com $N=64$ (números \texttt{long long}).
 
-\section{Dynamic programming}
+\section{Programação dinâmica}
 
-Bit operations provide an efficient and convenient
-way to implement dynamic programming algorithms
-whose states contain subsets of elements,
-because such states can be stored as integers.
-Next we discuss examples of combining
-bit operations and dynamic programming.
+As operações de bits fornecem uma maneira eficiente e conveniente
+de implementar algoritmos de programação dinâmica
+cujos estados contêm subconjuntos de elementos,
+porque esses estados podem ser armazenados como inteiros.
+A seguir, discutimos exemplos de combinação
+de operações de bits e programação dinâmica.
 
-\subsubsection{Optimal selection}
+\subsubsection{Seleção ótima}
 
-As a first example, consider the following problem:
-We are given the prices of $k$ products
-over $n$ days, and we want to buy each product
-exactly once.
-However, we are allowed to buy at most one product
-in a day.
-What is the minimum total price?
-For example, consider the following scenario ($k=3$ and $n=8$):
+Como primeiro exemplo, considere o seguinte problema:
+Somos dados os preços de $k$ produtos
+ao longo de $n$ dias, e queremos comprar cada produto
+exatamente uma vez.
+No entanto, podemos comprar no máximo um produto
+em um dia.
+Qual é o preço total mínimo?
+Por exemplo, considere o seguinte cenário ($k=3$ e $n=8$):
 \begin{center}
 \begin{tikzpicture}[scale=.65]
     \draw (0, 0) grid (8,3);
-    \node at (-2.5,2.5) {product 0};
-    \node at (-2.5,1.5) {product 1};
-    \node at (-2.5,0.5) {product 2};
+    \node at (-2.5,2.5) {produto 0};
+    \node at (-2.5,1.5) {produto 1};
+    \node at (-2.5,0.5) {produto 2};
 
     \foreach \x in {0,...,7}
         {\node at (\x+0.5,3.5) {\x};}
@@ -566,16 +566,16 @@ For example, consider the following scenario ($k=3$ and $n=8$):
         {\node at (\x+0.5,0.5) {\v};}
 \end{tikzpicture}
 \end{center}
-In this scenario, the minimum total price is $5$:
+Neste cenário, o preço total mínimo é 5:
 \begin{center}
 \begin{tikzpicture}[scale=.65]
     \fill [color=lightgray] (1, 1) rectangle (2, 2);
     \fill [color=lightgray] (3, 2) rectangle (4, 3);
     \fill [color=lightgray] (6, 0) rectangle (7, 1);
     \draw (0, 0) grid (8,3);
-    \node at (-2.5,2.5) {product 0};
-    \node at (-2.5,1.5) {product 1};
-    \node at (-2.5,0.5) {product 2};
+    \node at (-2.5,2.5) {produto 0};
+    \node at (-2.5,1.5) {produto 1};
+    \node at (-2.5,0.5) {produto 2};
 
     \foreach \x in {0,...,7}
         {\node at (\x+0.5,3.5) {\x};}
@@ -588,47 +588,47 @@ In this scenario, the minimum total price is $5$:
 \end{tikzpicture}
 \end{center}
 
-Let $\texttt{price}[x][d]$ denote the price of product $x$
-on day $d$.
-For example, in the above scenario $\texttt{price}[2][3] = 7$.
-Then, let $\texttt{total}(S,d)$ denote the minimum total
-price for buying a subset $S$ of products by day $d$.
-Using this function, the solution to the problem is
+Seja $\texttt{price}[x][d]$ o preço do produto $x$
+no dia $d$.
+Por exemplo, no cenário acima $\texttt{price}[2][3] = 7$.
+Então, seja $\texttt{total}(S,d)$ o preço total mínimo
+para comprar um subconjunto $S$ de produtos até o dia $d$.
+Usando essa função, a solução para o problema é
 $\texttt{total}(\{0 \ldots k-1\},n-1)$.
 
-First, $\texttt{total}(\emptyset,d) = 0$,
-because it does not cost anything to buy an empty set,
-and $\texttt{total}(\{x\},0) = \texttt{price}[x][0]$,
-because there is one way to buy one product on the first day.
-Then, the following recurrence can be used:
+Primeiro, $\texttt{total}(\emptyset,d) = 0$,
+porque não custa nada comprar um conjunto vazio,
+e $\texttt{total}(\{x\},0) = \texttt{price}[x][0]$,
+porque existe uma maneira de comprar um produto no primeiro dia.
+Então, a seguinte recorrência pode ser usada:
 \begin{equation*}
 \begin{split}
 \texttt{total}(S,d) = \min( & \texttt{total}(S,d-1), \\
 & \min_{x \in S} (\texttt{total}(S \setminus x,d-1)+\texttt{price}[x][d]))
 \end{split}
 \end{equation*}
-This means that we either do not buy any product on day $d$
-or buy a product $x$ that belongs to $S$.
-In the latter case, we remove $x$ from $S$ and add the
-price of $x$ to the total price.
+Isso significa que nós ou não compramos nenhum produto no dia $d$
+ou compramos um produto $x$ que pertence a $S$.
+Neste último caso, removemos $x$ de $S$ e adicionamos o
+preço de $x$ ao preço total.
 
-The next step is to calculate the values of the function
-using dynamic programming.
-To store the function values, we declare an array
+A próxima etapa é calcular os valores da função
+usando programação dinâmica.
+Para armazenar os valores da função, declaramos um array
 \begin{lstlisting}
 int total[1<<K][N];
 \end{lstlisting}
-where $K$ and $N$ are suitably large constants.
-The first dimension of the array corresponds to a bit
-representation of a subset.
+onde $K$ e $N$ são constantes suficientemente grandes.
+A primeira dimensão do array corresponde a uma
+representação de bits de um subconjunto.
 
-First, the cases where $d=0$ can be processed as follows:
+Primeiro, os casos onde $d=0$ podem ser processados da seguinte forma:
 \begin{lstlisting}
 for (int x = 0; x < k; x++) {
     total[1<<x][0] = price[x][0];
 }
 \end{lstlisting}
-Then, the recurrence translates into the following code:
+Então, a recorrência se traduz no seguinte código:
 \begin{lstlisting}
 for (int d = 1; d < n; d++) {
     for (int s = 0; s < (1<<k); s++) {
@@ -642,35 +642,35 @@ for (int d = 1; d < n; d++) {
     }
 }
 \end{lstlisting}
-The time complexity of the algorithm is $O(n 2^k k)$.
+A complexidade de tempo do algoritmo é $O(n 2^k k)$.
 
-\subsubsection{From permutations to subsets}
+\subsubsection{De permutações para subconjuntos}
 
-Using dynamic programming, it is often possible
-to change an iteration over permutations into
-an iteration over subsets\footnote{This technique was introduced in 1962
-by M. Held and R. M. Karp \cite{hel62}.}.
-The benefit of this is that
-$n!$, the number of permutations,
-is much larger than $2^n$, the number of subsets.
-For example, if $n=20$, then
-$n! \approx 2.4 \cdot 10^{18}$ and $2^n \approx 10^6$.
-Thus, for certain values of $n$,
-we can efficiently go through the subsets but not through the permutations.
+Usando programação dinâmica, é frequentemente possível
+transformar uma iteração sobre permutações em
+uma iteração sobre subconjuntos\footnote{Essa técnica foi introduzida em 1962
+por M. Held e R. M. Karp \cite{hel62}.}.
+A vantagem disso é que
+$n!$, o número de permutações,
+é muito maior que $2^n$, o número de subconjuntos.
+Por exemplo, se $n=20$, então
+$n! \approx 2.4 \cdot 10^{18}$ e $2^n \approx 10^6$.
+Assim, para certos valores de $n$,
+podemos iterar eficientemente pelos subconjuntos, mas não pelas permutações.
 
-As an example, consider the following problem:
-There is an elevator with maximum weight $x$,
-and $n$ people with known weights
-who want to get from the ground floor
-to the top floor.
-What is the minimum number of rides needed
-if the people enter the elevator in an optimal order?
+Como exemplo, considere o seguinte problema:
+Há um elevador com peso máximo $x$,
+e $n$ pessoas com pesos conhecidos
+que desejam ir do térreo
+para o último andar.
+Qual é o número mínimo de viagens necessárias
+se as pessoas entrarem no elevador em uma ordem ótima?
 
-For example, suppose that $x=10$, $n=5$
-and the weights are as follows:
+Por exemplo, suponha que $x=10$, $n=5$
+e os pesos são os seguintes:
 \begin{center}
 \begin{tabular}{ll}
-person & weight \\
+pessoa & peso \\
 \hline
 0 & 2 \\
 1 & 3 \\
@@ -679,171 +679,172 @@ person & weight \\
 4 & 6 \\
 \end{tabular}
 \end{center}
-In this case, the minimum number of rides is 2.
-One optimal order is $\{0,2,3,1,4\}$,
-which partitions the people into two rides:
-first $\{0,2,3\}$ (total weight 10),
-and then $\{1,4\}$ (total weight 9).
+Nesse caso, o número mínimo de viagens é 2.
+Uma ordem ótima é $\{0,2,3,1,4\}$,
+que divide as pessoas em duas viagens:
+primeiro $\{0,2,3\}$ (peso total 10),
+e então $\{1,4\}$ (peso total 9).
 
-The problem can be easily solved in $O(n! n)$ time
-by testing all possible permutations of $n$ people.
-However, we can use dynamic programming to get
-a more efficient $O(2^n n)$ time algorithm.
-The idea is to calculate for each subset of people
-two values: the minimum number of rides needed and
-the minimum weight of people who ride in the last group.
+O problema pode ser facilmente resolvido em $O(n! n)$ tempo
+testando todas as possíveis permutações de $n$ pessoas.
+No entanto, podemos usar programação dinâmica para obter
+um algoritmo mais eficiente em tempo $O(2^n n)$.
+A ideia é calcular para cada subconjunto de pessoas
+dois valores: o número mínimo de viagens necessárias e
+o peso mínimo das pessoas que viajam no último grupo.
 
-Let $\texttt{weight}[p]$ denote the weight of
-person $p$.
-We define two functions:
-$\texttt{rides}(S)$ is the minimum number of
-rides for a subset $S$,
-and $\texttt{last}(S)$ is the minimum weight
-of the last ride.
-For example, in the above scenario
-\[ \texttt{rides}(\{1,3,4\})=2 \hspace{10px} \textrm{and}
-\hspace{10px} \texttt{last}(\{1,3,4\})=5,\]
-because the optimal rides are $\{1,4\}$ and $\{3\}$,
-and the second ride has weight 5.
-Of course, our final goal is to calculate the value
-of $\texttt{rides}(\{0 \ldots n-1\})$.
+Seja $\texttt{peso}[p]$ o peso da
+pessoa $p$.
+Definimos duas funções:
+$\texttt{viagens}(S)$ é o número mínimo de
+viagens para um subconjunto $S$,
+e $\texttt{ultima}(S)$ é o peso mínimo
+da última viagem.
+Por exemplo, no cenário acima
+\[ \texttt{viagens}(\{1,3,4\})=2 \hspace{10px} \textrm{e}
+\hspace{10px} \texttt{ultima}(\{1,3,4\})=5,\]
+porque as viagens ótimas são $\{1,4\}$ e $\{3\}$,
+e a segunda viagem tem peso 5.
+Claro, nosso objetivo final é calcular o valor
+de $\texttt{viagens}(\{0 \ldots n-1\})$.
 
-We can calculate the values
-of the functions recursively and then apply
-dynamic programming.
-The idea is to go through all people
-who belong to $S$ and optimally
-choose the last person $p$ who enters the elevator.
-Each such choice yields a subproblem
-for a smaller subset of people.
-If $\texttt{last}(S \setminus p)+\texttt{weight}[p] \le x$,
-we can add $p$ to the last ride.
-Otherwise, we have to reserve a new ride
-that initially only contains $p$.
+Podemos calcular os valores
+das funções recursivamente e então aplicar
+programação dinâmica.
+A ideia é percorrer todas as pessoas
+que pertencem a $S$ e escolher de forma ótima
+a última pessoa $p$ que entra no elevador.
+Cada escolha desse tipo gera um subproblema
+para um subconjunto menor de pessoas.
+Se $\texttt{ultima}(S \setminus p)+\texttt{peso}[p] \le x$,
+podemos adicionar $p$ à última viagem.
+Caso contrário, precisamos reservar uma nova viagem
+que inicialmente contém apenas $p$.
 
-To implement dynamic programming,
-we declare an array
+Para implementar a programação dinâmica,
+declaramos um array
 \begin{lstlisting}
-pair<int,int> best[1<<N];
+pair<int,int> melhor[1<<N];
 \end{lstlisting}
-that contains for each subset $S$
-a pair $(\texttt{rides}(S),\texttt{last}(S))$.
-We set the value for an empty group as follows:
+que contém para cada subconjunto $S$
+um par $(\texttt{viagens}(S),\texttt{ultima}(S))$.
+Definimos o valor para um grupo vazio da seguinte forma:
 \begin{lstlisting}
-best[0] = {1,0};
+melhor[0] = {1,0};
 \end{lstlisting}
-Then, we can fill the array as follows:
+Então, podemos preencher o array da seguinte forma:
 
 \begin{lstlisting}
 for (int s = 1; s < (1<<n); s++) {
-    // initial value: n+1 rides are needed
-    best[s] = {n+1,0};
+    // valor inicial: n+1 viagens sao necessarias
+    melhor[s] = {n+1,0};
     for (int p = 0; p < n; p++) {
         if (s&(1<<p)) {
-            auto option = best[s^(1<<p)];
-            if (option.second+weight[p] <= x) {
-                // add p to an existing ride
-                option.second += weight[p];
+            auto opcao = melhor[s^(1<<p)];
+            if (opcao.second+peso[p] <= x) {
+                // adicionar p a uma viagem existente
+                opcao.second += peso[p];
             } else {
-                // reserve a new ride for p
-                option.first++;
-                option.second = weight[p];
+                // reservar uma nova viagem para p
+                opcao.first++;
+                opcao.second = peso[p];
             }
-            best[s] = min(best[s], option);
+            melhor[s] = min(melhor[s], opcao);
         }
     }
 }
 \end{lstlisting}
-Note that the above loop guarantees that
-for any two subsets $S_1$ and $S_2$
-such that $S_1 \subset S_2$, we process $S_1$ before $S_2$.
-Thus, the dynamic programming values are calculated in the
-correct order.
+Observe que o loop acima garante que
+para quaisquer dois subconjuntos $S_1$ e $S_2$
+tais que $S_1 \subset S_2$, processamos $S_1$ antes de $S_2$.
+Assim, os valores de programação dinâmica são calculados na
+ordem correta.
 
-\subsubsection{Counting subsets}
+\subsubsection{Contando subconjuntos}
 
-Our last problem in this chapter is as follows:
-Let $X=\{0 \ldots n-1\}$, and each subset $S \subset X$
-is assigned an integer $\texttt{value}[S]$.
-Our task is to calculate for each $S$
-\[\texttt{sum}(S) = \sum_{A \subset S} \texttt{value}[A],\]
-i.e., the sum of values of subsets of $S$.
+Nosso último problema neste capítulo é o seguinte:
+Seja $X=\{0 \ldots n-1\}$, e cada subconjunto $S \subset X$
+recebe um inteiro $\texttt{valor}[S]$.
+Nossa tarefa é calcular para cada $S$
+\[\texttt{soma}(S) = \sum_{A \subset S} \texttt{valor}[A],\]
+ou seja, a soma dos valores dos subconjuntos de $S$.
 
-For example, suppose that $n=3$ and the values are as follows:
+Por exemplo, suponha que $n=3$ e os valores são os seguintes:
 \begin{multicols}{2}
 \begin{itemize}
-\item $\texttt{value}[\emptyset] = 3$
-\item $\texttt{value}[\{0\}] = 1$
-\item $\texttt{value}[\{1\}] = 4$
-\item $\texttt{value}[\{0,1\}] = 5$
-\item $\texttt{value}[\{2\}] = 5$
-\item $\texttt{value}[\{0,2\}] = 1$
-\item $\texttt{value}[\{1,2\}] = 3$
-\item $\texttt{value}[\{0,1,2\}] = 3$
+\item $\texttt{valor}[\emptyset] = 3$
+\item $\texttt{valor}[\{0\}] = 1$
+\item $\texttt{valor}[\{1\}] = 4$
+\item $\texttt{valor}[\{0,1\}] = 5$
+\item $\texttt{valor}[\{2\}] = 5$
+\item $\texttt{valor}[\{0,2\}] = 1$
+\item $\texttt{valor}[\{1,2\}] = 3$
+\item $\texttt{valor}[\{0,1,2\}] = 3$
 \end{itemize}
 \end{multicols}
-In this case, for example,
+Nesse caso, por exemplo,`'
 \begin{equation*}
 \begin{split}
-\texttt{sum}(\{0,2\}) &= \texttt{value}[\emptyset]+\texttt{value}[\{0\}]+\texttt{value}[\{2\}]+\texttt{value}[\{0,2\}] \\ 
+\texttt{soma}(\{0,2\}) &= \texttt{valor}[\emptyset]+\texttt{valor}[\{0\}]+\texttt{valor}[\{2\}]+\texttt{valor}[\{0,2\}] \\ 
                       &= 3 + 1 + 5 + 1 = 10.
 \end{split}
 \end{equation*}
 
-Because there are a total of $2^n$ subsets,
-one possible solution is to go through all
-pairs of subsets in $O(2^{2n})$ time.
-However, using dynamic programming, we
-can solve the problem in $O(2^n n)$ time.
-The idea is to focus on sums where the
-elements that may be removed from $S$ are restricted.
+Como há um total de $2^n$ subconjuntos,
+uma possível solução é percorrer todos
+os pares de subconjuntos em tempo $O(2^{2n})$.
+No entanto, usando programação dinâmica, podemos
+resolver o problema em tempo $O(2^n n)$.
+A ideia é focar em somas onde os
+elementos que podem ser removidos de $S$ são restritos.
 
-Let $\texttt{partial}(S,k)$ denote the sum of
-values of subsets of $S$ with the restriction
-that only elements $0 \ldots k$
-may be removed from $S$.
-For example,
-\[\texttt{partial}(\{0,2\},1)=\texttt{value}[\{2\}]+\texttt{value}[\{0,2\}],\]
-because we may only remove elements $0 \ldots 1$.
-We can calculate values of \texttt{sum} using
-values of \texttt{partial}, because
-\[\texttt{sum}(S) = \texttt{partial}(S,n-1).\]
-The base cases for the function are
-\[\texttt{partial}(S,-1)=\texttt{value}[S],\]
-because in this case no elements can be removed from $S$.
-Then, in the general case we can use the following recurrence:
+Seja $\texttt{parcial}(S,k)$ a soma dos
+valores dos subconjuntos de $S$ com a restrição
+de que apenas os elementos $0 \ldots k$
+podem ser removidos de $S$.
+Por exemplo,
+\[\texttt{parcial}(\{0,2\},1)=\texttt{valor}[\{2\}]+\texttt{valor}[\{0,2\}],\]
+porque podemos remover apenas os elementos $0 \ldots 1$.
+Podemos calcular os valores de \texttt{soma} usando
+os valores de \texttt{parcial}, porque
+\[\texttt{soma}(S) = \texttt{parcial}(S,n-1).\]
+Os casos base para a função são
+\[\texttt{parcial}(S,-1)=\texttt{valor}[S],\]
+porque nesse caso nenhum elemento pode ser removido de $S$.
+Então, no caso geral, podemos usar a seguinte recorrência:
 \begin{equation*}
-    \texttt{partial}(S,k) = \begin{cases}
-               \texttt{partial}(S,k-1) & k \notin S \\
-               \texttt{partial}(S,k-1) + \texttt{partial}(S \setminus \{k\},k-1) & k \in S
+    \texttt{parcial}(S,k) = \begin{cases}
+               \texttt{parcial}(S,k-1) & k \notin S \\
+               \texttt{parcial}(S,k-1) + \texttt{parcial}(S \setminus \{k\},k-1) & k \in S
            \end{cases}
 \end{equation*}
-Here we focus on the element $k$.
-If $k \in S$, we have two options: we may either keep $k$ in $S$
-or remove it from $S$.
+Aqui focamos no elemento $k$.
+Se $k \in S$, temos duas opções: podemos manter $k$ em $S$
+ou removê-lo de $S$.
 
-There is a particularly clever way to implement the
-calculation of sums. We can declare an array
+Há uma maneira particularmente inteligente de implementar o
+cálculo das somas. Podemos declarar um array
 \begin{lstlisting}
-int sum[1<<N];
+int soma[1<<N];
 \end{lstlisting}
-that will contain the sum of each subset.
-The array is initialized as follows:
+que conterá a soma de cada subconjunto.
+O array é inicializado da seguinte forma:
 \begin{lstlisting}
 for (int s = 0; s < (1<<n); s++) {
-    sum[s] = value[s];
+    soma[s] = valor[s];
 }
 \end{lstlisting}
-Then, we can fill the array as follows:
+Então, podemos preencher o array da seguinte forma:
 \begin{lstlisting}
 for (int k = 0; k < n; k++) {
     for (int s = 0; s < (1<<n); s++) {
-        if (s&(1<<k)) sum[s] += sum[s^(1<<k)];
+        if (s&(1<<k)) soma[s] += soma[s^(1<<k)];
     }
 }
 \end{lstlisting}
-This code calculates the values of $\texttt{partial}(S,k)$
-for $k=0 \ldots n-1$ to the array \texttt{sum}.
-Since $\texttt{partial}(S,k)$ is always based on
-$\texttt{partial}(S,k-1)$, we can reuse the array
-\texttt{sum}, which yields a very efficient implementation.
+Esse código calcula os valores de $\texttt{parcial}(S,k)$
+para $k=0 \ldots n-1$ no array \texttt{soma}.
+Como $\texttt{parcial}(S,k)$ é sempre baseado em
+$\texttt{parcial}(S,k-1)$, podemos reutilizar o array
+\texttt{soma}, o que gera uma implementação muito eficiente.
+

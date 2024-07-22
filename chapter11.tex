@@ -1,35 +1,18 @@
-\chapter{Basics of graphs}
+\chapter{Conceitos básicos sobre grafos}
 
-Many programming problems can be solved by
-modeling the problem as a graph problem
-and using an appropriate graph algorithm.
-A typical example of a graph is a network
-of roads and cities in a country.
-Sometimes, though, the graph is hidden
-in the problem and it may be difficult to detect it.
+Muitos problemas de programação podem ser resolvidos modelando o problema como um problema de grafo e usando um algoritmo de grafo apropriado. Um exemplo típico de grafo é uma rede de estradas e cidades em um país. Às vezes, porém, o grafo está oculto no problema e pode ser difícil detectá-lo.
 
-This part of the book discusses graph algorithms,
-especially focusing on topics that
-are important in competitive programming.
-In this chapter, we go through concepts
-related to graphs,
-and study different ways to represent graphs in algorithms.
+Esta parte do livro discute algoritmos de grafos, com foco especial em tópicos que são importantes na programação competitiva. Neste capítulo, abordaremos conceitos relacionados a grafos e estudaremos diferentes maneiras de representar grafos em algoritmos.
 
-\section{Graph terminology}
+\section{Terminologia de grafos}
 
-\index{graph}
-\index{node}
-\index{edge}
+\index{grafo}
+\index{nó}
+\index{aresta}
 
-A \key{graph} consists of \key{nodes}
-and \key{edges}. In this book,
-the variable $n$ denotes the number of nodes
-in a graph, and the variable $m$ denotes
-the number of edges.
-The nodes are numbered
-using integers $1,2,\ldots,n$.
+Um \key{grafo} consiste em \key{nós} e \key{arestas}. Neste livro, a variável $n$ denota o número de nós em um grafo, e a variável $m$ denota o número de arestas. Os nós são numerados usando inteiros $1,2,\ldots,n$.
 
-For example, the following graph consists of 5 nodes and 7 edges:
+Por exemplo, o grafo a seguir consiste em 5 nós e 7 arestas:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -49,16 +32,9 @@ For example, the following graph consists of 5 nodes and 7 edges:
 \end{tikzpicture}
 \end{center}
 
-\index{path}
+\index{caminho}
 
-A \key{path} leads from node $a$ to node $b$
-through edges of the graph.
-The \key{length} of a path is the number of
-edges in it.
-For example, the above graph contains
-a path $1 \rightarrow 3 \rightarrow 4 \rightarrow 5$
-of length 3
-from node 1 to node 5:
+Um \key{caminho} leva do nó $a$ ao nó $b$ através das arestas do grafo. O \key{comprimento} de um caminho é o número de arestas nele. Por exemplo, o grafo acima contém um caminho $1 \rightarrow 3 \rightarrow 4 \rightarrow 5$ de comprimento 3 do nó 1 ao nó 5:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -82,14 +58,9 @@ from node 1 to node 5:
 \end{tikzpicture}
 \end{center}
 
-\index{cycle}
+\index{ciclo}
 
-A path is a \key{cycle} if the first and last
-node is the same.
-For example, the above graph contains
-a cycle $1 \rightarrow 3 \rightarrow 4 \rightarrow 1$.
-A path is \key{simple} if each node appears
-at most once in the path.
+Um caminho é um \key{ciclo} se o primeiro e o último nó forem os mesmos. Por exemplo, o grafo acima contém um ciclo $1 \rightarrow 3 \rightarrow 4 \rightarrow 1$. Um caminho é \key{simples} se cada nó aparecer no máximo uma vez no caminho.
 
 
 % 
@@ -102,13 +73,11 @@ at most once in the path.
 % \item $1 \rightarrow 3 \rightarrow 4 \rightarrow 2 \rightarrow 5$ (length 4)
 % \end{itemize}
 
-\subsubsection{Connectivity}
+\subsubsection{Conectividade}
 
-\index{connected graph}
+\index{grafo conexo}
 
-A graph is \key{connected} if there is a path
-between any two nodes.
-For example, the following graph is connected:
+Um grafo é \key{conexo} se houver um caminho entre quaisquer dois nós. Por exemplo, o seguinte grafo é conexo:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$1$};
@@ -123,9 +92,7 @@ For example, the following graph is connected:
 \end{tikzpicture}
 \end{center}
 
-The following graph is not connected,
-because it is not possible to get
-from node 4 to any other node:
+O seguinte grafo não é conexo, porque não é possível ir do nó 4 a nenhum outro nó:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$1$};
@@ -138,14 +105,11 @@ from node 4 to any other node:
 \end{tikzpicture}
 \end{center}
 
-\index{component}
+\index{componente}
 
-The connected parts of a graph are
-called its \key{components}.
-For example, the following graph
-contains three components:
+As partes conectadas de um grafo são chamadas de seus \key{componentes}. Por exemplo, o seguinte grafo contém três componentes:
 $\{1,\,2,\,3\}$,
-$\{4,\,5,\,6,\,7\}$ and
+$\{4,\,5,\,6,\,7\}$ e
 $\{8\}$.
 \begin{center}
 \begin{tikzpicture}[scale=0.8]
@@ -170,13 +134,9 @@ $\{8\}$.
 \end{tikzpicture}
 \end{center}
 
-\index{tree}
+\index{árvore}
 
-A \key{tree} is a connected graph
-that consists of $n$ nodes and $n-1$ edges.
-There is a unique path
-between any two nodes of a tree.
-For example, the following graph is a tree:
+Uma \key{árvore} é um grafo conexo que consiste em $n$ nós e $n-1$ arestas. Existe um único caminho entre quaisquer dois nós de uma árvore. Por exemplo, o seguinte grafo é uma árvore:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -195,14 +155,11 @@ For example, the following graph is a tree:
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Edge directions}
+\subsubsection{Direções das arestas}
 
-\index{directed graph}
+\index{grafo direcionado}
 
-A graph is \key{directed}
-if the edges can be traversed
-in one direction only.
-For example, the following graph is directed:
+Um grafo é \key{direcionado} se as arestas puderem ser percorridas em apenas uma direção. Por exemplo, o seguinte grafo é direcionado:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$1$};
@@ -219,19 +176,13 @@ For example, the following graph is directed:
 \end{tikzpicture}
 \end{center}
 
-The above graph contains
-a path $3 \rightarrow 1 \rightarrow 2 \rightarrow 5$
-from node $3$ to node $5$,
-but there is no path from node $5$ to node $3$.
+O grafo acima contém um caminho $3 \rightarrow 1 \rightarrow 2 \rightarrow 5$ do nó $3$ ao nó $5$, mas não há caminho do nó $5$ ao nó $3$.
 
-\subsubsection{Edge weights}
+\subsubsection{Pesos das arestas}
 
-\index{weighted graph}
+\index{grafo ponderado}
 
-In a \key{weighted} graph, each edge is assigned
-a \key{weight}.
-The weights are often interpreted as edge lengths.
-For example, the following graph is weighted:
+Em um grafo \key{ponderado}, cada aresta recebe um \key{peso}. Os pesos são frequentemente interpretados como comprimentos de aresta. Por exemplo, o seguinte grafo é ponderado:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$1$};
@@ -248,27 +199,18 @@ For example, the following graph is weighted:
 \end{tikzpicture}
 \end{center}
 
-The length of a path in a weighted graph
-is the sum of the edge weights on the path.
-For example, in the above graph,
-the length of the path
-$1 \rightarrow 2 \rightarrow 5$ is $12$,
-and the length of the path
-$1 \rightarrow 3 \rightarrow 4 \rightarrow 5$ is $11$.
-The latter path is the \key{shortest} path from node $1$ to node $5$.
+O comprimento de um caminho em um grafo ponderado é a soma dos pesos das arestas no caminho. Por exemplo, no grafo acima, o comprimento do caminho
+$1 \rightarrow 2 \rightarrow 5$ é $12$,
+e o comprimento do caminho
+$1 \rightarrow 3 \rightarrow 4 \rightarrow 5$ é $11$.
+O último caminho é o \key{caminho mais curto} do nó $1$ ao nó $5$.
 
-\subsubsection{Neighbors and degrees}
+\subsubsection{Vizinhos e graus}
 
-\index{neighbor}
-\index{degree}
+\index{vizinho}
+\index{grau}
 
-Two nodes are \key{neighbors} or \key{adjacent}
-if there is an edge between them.
-The \key{degree} of a node
-is the number of its neighbors.
-For example, in the following graph,
-the neighbors of node 2 are 1, 4 and 5,
-so its degree is 3.
+Dois nós são \key{vizinhos} ou \key{adjacentes} se houver uma aresta entre eles. O \key{grau} de um nó é o número de seus vizinhos. Por exemplo, no seguinte grafo, os vizinhos do nó 2 são 1, 4 e 5, então seu grau é 3.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -288,33 +230,17 @@ so its degree is 3.
 \end{tikzpicture}
 \end{center}
 
-The sum of degrees in a graph is always $2m$,
-where $m$ is the number of edges,
-because each edge
-increases the degree of exactly two nodes by one.
-For this reason, the sum of degrees is always even.
+A soma dos graus em um grafo é sempre $2m$, onde $m$ é o número de arestas, porque cada aresta aumenta em um o grau de exatamente dois nós. Por esta razão, a soma dos graus é sempre par.
 
-\index{regular graph}
-\index{complete graph}
+\index{grafo regular}
+\index{grafo completo}
 
-A graph is \key{regular} if the
-degree of every node is a constant $d$.
-A graph is \key{complete} if the
-degree of every node is $n-1$, i.e.,
-the graph contains all possible edges
-between the nodes.
+Um grafo é \key{regular} se o grau de cada nó for uma constante $d$. Um grafo é \key{completo} se o grau de cada nó for $n-1$, ou seja, o grafo contém todas as arestas possíveis entre os nós.
 
-\index{indegree}
-\index{outdegree}
+\index{grau de entrada}
+\index{grau de saída}
 
-In a directed graph, the \key{indegree}
-of a node is the number of edges
-that end at the node,
-and the \key{outdegree} of a node
-is the number of edges that start at the node.
-For example, in the following graph,
-the indegree of node 2 is 2,
-and the outdegree of node 2 is 1.
+Em um grafo direcionado, o \key{grau de entrada} de um nó é o número de arestas que terminam no nó, e o \key{grau de saída} de um nó é o número de arestas que começam no nó. Por exemplo, no seguinte grafo, o grau de entrada do nó 2 é 2, e o grau de saída do nó 2 é 1.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -333,21 +259,14 @@ and the outdegree of node 2 is 1.
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Colorings}
+\subsubsection{Colorações}
 
-\index{coloring}
-\index{bipartite graph}
+\index{coloração}
+\index{grafo bipartido}
 
-In a \key{coloring} of a graph,
-each node is assigned a color so that
-no adjacent nodes have the same color.
+Em uma \key{coloração} de um grafo, cada nó recebe uma cor de forma que nenhum nó adjacente tenha a mesma cor.
 
-A graph is \key{bipartite} if
-it is possible to color it using two colors.
-It turns out that a graph is bipartite
-exactly when it does not contain a cycle
-with an odd number of edges.
-For example, the graph
+Um grafo é \key{bipartido} se for possível colori-lo usando duas cores. Acontece que um grafo é bipartido exatamente quando não contém um ciclo com um número ímpar de arestas. Por exemplo, o grafo
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$2$};
@@ -364,7 +283,7 @@ For example, the graph
 \path[draw,thick,-] (5) -- (6);
 \end{tikzpicture}
 \end{center}
-is bipartite, because it can be colored as follows:
+é bipartido, pois pode ser colorido da seguinte forma:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle, fill=blue!40] (1) at (1,3) {$2$};
@@ -381,7 +300,7 @@ is bipartite, because it can be colored as follows:
 \path[draw,thick,-] (5) -- (6);
 \end{tikzpicture}
 \end{center}
-However, the graph
+No entanto, o grafo
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$2$};
@@ -399,8 +318,7 @@ However, the graph
 \path[draw,thick,-] (1) -- (6);
 \end{tikzpicture}
 \end{center}
-is not bipartite, because it is not possible to color
-the following cycle of three nodes using two colors:
+não é bipartido, porque não é possível colorir o seguinte ciclo de três nós usando duas cores:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$2$};
@@ -419,20 +337,15 @@ the following cycle of three nodes using two colors:
 
 \path[draw=red,thick,-,line width=2pt] (1) -- (3);
 \path[draw=red,thick,-,line width=2pt] (3) -- (6);
-\path[draw=red,thick,-,line width=2pt] (6) -- (1);
+\path[draw,red,thick,-,line width=2pt] (6) -- (1);
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Simplicity}
+\subsubsection{Simplicidade}
 
-\index{simple graph}
+\index{grafo simples}
 
-A graph is \key{simple}
-if no edge starts and ends at the same node,
-and there are no multiple
-edges between two nodes.
-Often we assume that graphs are simple.
-For example, the following graph is \emph{not} simple:
+Um grafo é \key{simples} se nenhuma aresta começa e termina no mesmo nó, e não há múltiplas arestas entre dois nós. Muitas vezes, assumimos que os grafos são simples. Por exemplo, o seguinte grafo \emph{não} é simples:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$2$};
@@ -456,36 +369,22 @@ For example, the following graph is \emph{not} simple:
 \end{tikzpicture}
 \end{center}
 
-\section{Graph representation}
+\section{Representação de grafos}
 
-There are several ways to represent graphs
-in algorithms.
-The choice of a data structure
-depends on the size of the graph and
-the way the algorithm processes it.
-Next we will go through three common representations.
+Existem várias maneiras de representar grafos em algoritmos. A escolha de uma estrutura de dados depende do tamanho do grafo e da maneira como o algoritmo o processa. A seguir, veremos três representações comuns.
 
-\subsubsection{Adjacency list representation}
+\subsubsection{Representação de lista de adjacência}
 
-\index{adjacency list}
+\index{lista de adjacência}
 
-In the adjacency list representation,
-each node $x$ in the graph is assigned an \key{adjacency list}
-that consists of nodes
-to which there is an edge from $x$.
-Adjacency lists are the most popular
-way to represent graphs, and most algorithms can be
-efficiently implemented using them.
+Na representação de lista de adjacência, cada nó $x$ no grafo recebe uma \key{lista de adjacência} que consiste em nós para os quais há uma aresta de $x$. Listas de adjacência são a maneira mais popular de representar grafos, e a maioria dos algoritmos pode ser implementada de forma eficiente usando-as.
 
-A convenient way to store the adjacency lists is to declare
-an array of vectors as follows:
+Uma maneira conveniente de armazenar as listas de adjacência é declarar um array de vetores da seguinte forma:
 \begin{lstlisting}
 vector<int> adj[N];
 \end{lstlisting}
 
-The constant $N$ is chosen so that all
-adjacency lists can be stored.
-For example, the graph
+A constante $N$ é escolhida de forma que todas as listas de adjacência possam ser armazenadas. Por exemplo, o grafo
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -501,7 +400,7 @@ For example, the graph
 \path[draw,thick,->,>=latex] (4) -- (1);
 \end{tikzpicture}
 \end{center}
-can be stored as follows:
+pode ser armazenado da seguinte forma:
 \begin{lstlisting}
 adj[1].push_back(2);
 adj[2].push_back(3);
@@ -510,20 +409,15 @@ adj[3].push_back(4);
 adj[4].push_back(1);
 \end{lstlisting}
 
-If the graph is undirected, it can be stored in a similar way,
-but each edge is added in both directions.
+Se o grafo for não direcionado, ele pode ser armazenado de forma semelhante, mas cada aresta é adicionada em ambas as direções.
 
-For a weighted graph, the structure can be extended
-as follows:
+Para um grafo ponderado, a estrutura pode ser estendida da seguinte forma:
 
 \begin{lstlisting}
 vector<pair<int,int>> adj[N];
 \end{lstlisting}
 
-In this case, the adjacency list of node $a$
-contains the pair $(b,w)$
-always when there is an edge from node $a$ to node $b$
-with weight $w$. For example, the graph
+Nesse caso, a lista de adjacência do nó $a$ contém o par $(b,w)$ sempre que houver uma aresta do nó $a$ ao nó $b$ com peso $w$. Por exemplo, o grafo
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -539,7 +433,7 @@ with weight $w$. For example, the graph
 \path[draw,thick,->,>=latex] (4) -- node[font=\small,label=left:2] {} (1);
 \end{tikzpicture}
 \end{center}
-can be stored as follows:
+pode ser armazenado da seguinte forma:
 \begin{lstlisting}
 adj[1].push_back({2,5});
 adj[2].push_back({3,7});
@@ -548,37 +442,23 @@ adj[3].push_back({4,5});
 adj[4].push_back({1,2});
 \end{lstlisting}
 
-The benefit of using adjacency lists is that
-we can efficiently find the nodes to which
-we can move from a given node through an edge.
-For example, the following loop goes through all nodes
-to which we can move from node $s$:
+O benefício de usar listas de adjacência é que podemos encontrar os nós para os quais podemos mover de um determinado nó através de uma aresta de forma eficiente. Por exemplo, o seguinte loop percorre todos os nós para os quais podemos mover do nó $s$:
 
 \begin{lstlisting}
 for (auto u : adj[s]) {
-    // process node u
+    // processa o no u
 }
 \end{lstlisting}
 
-\subsubsection{Adjacency matrix representation}
+\subsubsection{Representação de matriz de adjacência}
 
-\index{adjacency matrix}
+\index{matriz de adjacência}
 
-An \key{adjacency matrix} is a two-dimensional array
-that indicates which edges the graph contains.
-We can efficiently check from an adjacency matrix
-if there is an edge between two nodes.
-The matrix can be stored as an array
+Uma \key{matriz de adjacência} é um array bidimensional que indica quais arestas o grafo contém. Podemos verificar eficientemente a partir de uma matriz de adjacência se existe uma aresta entre dois nós. A matriz pode ser armazenada como um array
 \begin{lstlisting}
 int adj[N][N];
 \end{lstlisting}
-where each value $\texttt{adj}[a][b]$ indicates
-whether the graph contains an edge from
-node $a$ to node $b$.
-If the edge is included in the graph,
-then $\texttt{adj}[a][b]=1$,
-and otherwise $\texttt{adj}[a][b]=0$.
-For example, the graph
+onde cada valor $\texttt{adj}[a][b]$ indica se o grafo contém uma aresta do nó $a$ ao nó $b$. Se a aresta estiver incluída no grafo, então $\texttt{adj}[a][b]=1$, e caso contrário $\texttt{adj}[a][b]=0$. Por exemplo, o grafo
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,3) {$1$};
@@ -593,7 +473,7 @@ For example, the graph
 \path[draw,thick,->,>=latex] (4) -- (1);
 \end{tikzpicture}
 \end{center}
-can be represented as follows:
+pode ser representado da seguinte forma:
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (4,4);
@@ -624,11 +504,7 @@ can be represented as follows:
 \end{tikzpicture}
 \end{center}
 
-If the graph is weighted, the adjacency matrix
-representation can be extended so that
-the matrix contains the weight of the edge
-if the edge exists.
-Using this representation, the graph
+Se o grafo for ponderado, a representação da matriz de adjacência pode ser estendida para que a matriz contenha o peso da aresta, se a aresta existir. Usando essa representação, o grafo
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -645,7 +521,7 @@ Using this representation, the graph
 \end{tikzpicture}
 \end{center}
 \begin{samepage}
-corresponds to the following matrix:
+corresponde à seguinte matriz:
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (4,4);
@@ -677,30 +553,19 @@ corresponds to the following matrix:
 \end{center}
 \end{samepage}
 
-The drawback of the adjacency matrix representation
-is that the matrix contains $n^2$ elements,
-and usually most of them are zero.
-For this reason, the representation cannot be used
-if the graph is large.
+A desvantagem da representação da matriz de adjacência é que a matriz contém $n^2$ elementos e, geralmente, a maioria deles é zero. Por esse motivo, a representação não pode ser usada se o gráfico for grande.
 
-\subsubsection{Edge list representation}
+\subsubsection{Representação de lista de arestas}
 
-\index{edge list}
+\index{lista de arestas}
 
-An \key{edge list} contains all edges of a graph
-in some order.
-This is a convenient way to represent a graph
-if the algorithm processes all edges of the graph
-and it is not needed to find edges that start
-at a given node.
+Uma \key{lista de arestas} contém todas as arestas de um grafo em alguma ordem. Esta é uma maneira conveniente de representar um grafo se o algoritmo processa todas as arestas do grafo e não é necessário encontrar arestas que comecem em um determinado nó.
 
-The edge list can be stored in a vector
+A lista de arestas pode ser armazenada em um vetor
 \begin{lstlisting}
 vector<pair<int,int>> edges;
 \end{lstlisting}
-where each pair $(a,b)$ denotes that
-there is an edge from node $a$ to node $b$.
-Thus, the graph
+onde cada par $(a,b)$ denota que há uma aresta do nó $a$ ao nó $b$. Assim, o grafo
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -716,7 +581,7 @@ Thus, the graph
 \path[draw,thick,->,>=latex] (4) -- (1);
 \end{tikzpicture}
 \end{center}
-can be represented as follows:
+pode ser representado da seguinte forma:
 \begin{lstlisting}
 edges.push_back({1,2});
 edges.push_back({2,3});
@@ -726,15 +591,11 @@ edges.push_back({4,1});
 \end{lstlisting}
 
 \noindent
-If the graph is weighted, the structure can
-be extended as follows:
+Se o grafo for ponderado, a estrutura pode ser estendida da seguinte forma:
 \begin{lstlisting}
 vector<tuple<int,int,int>> edges;
 \end{lstlisting}
-Each element in this list is of the
-form $(a,b,w)$, which means that there
-is an edge from node $a$ to node $b$ with weight $w$.
-For example, the graph
+Cada elemento desta lista é da forma $(a,b,w)$, o que significa que há uma aresta do nó $a$ ao nó $b$ com peso $w$. Por exemplo, o grafo
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -751,9 +612,9 @@ For example, the graph
 \end{tikzpicture}
 \end{center}
 \begin{samepage}
-can be represented as follows\footnote{In some older compilers, the function
-\texttt{make\_tuple} must be used instead of the braces (for example,
-\texttt{make\_tuple(1,2,5)} instead of \texttt{\{1,2,5\}}).}:
+pode ser representado da seguinte forma\footnote{Em alguns compiladores mais antigos, a função
+\texttt{make\_tuple} deve ser usada no lugar das chaves (por exemplo,
+\texttt{make\_tuple(1,2,5)} em vez de \texttt{\{1,2,5\}}).}:
 \begin{lstlisting}
 edges.push_back({1,2,5});
 edges.push_back({2,3,7});

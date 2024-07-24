@@ -1,38 +1,19 @@
-\chapter{Graph traversal}
+\chapter{Travessia de Grafos}
 
-This chapter discusses two fundamental
-graph algorithms:
-depth-first search and breadth-first search.
-Both algorithms are given a starting
-node in the graph,
-and they visit all nodes that can be reached
-from the starting node.
-The difference in the algorithms is the order
-in which they visit the nodes.
+Este capítulo discute dois algoritmos fundamentais de grafos: busca em profundidade e busca em largura. Ambos os algoritmos recebem um nó inicial no grafo e visitam todos os nós que podem ser alcançados a partir do nó inicial. A diferença entre os algoritmos está na ordem em que eles visitam os nós.
 
-\section{Depth-first search}
+\section{Busca em Profundidade}
 
-\index{depth-first search}
+\index{busca em profundidade}
 
-\key{Depth-first search} (DFS)
-is a straightforward graph traversal technique.
-The algorithm begins at a starting node,
-and proceeds to all other nodes that are
-reachable from the starting node using
-the edges of the graph.
+\key{Busca em profundidade} (DFS) é uma técnica simples de travessia de grafos. O algoritmo começa em um nó inicial e prossegue para todos os outros nós que são alcançáveis a partir do nó inicial usando as arestas do grafo.
 
-Depth-first search always follows a single
-path in the graph as long as it finds
-new nodes.
-After this, it returns to previous
-nodes and begins to explore other parts of the graph.
-The algorithm keeps track of visited nodes,
-so that it processes each node only once.
+A busca em profundidade sempre segue um único caminho no grafo enquanto encontra novos nós. Depois disso, ele retorna aos nós anteriores e começa a explorar outras partes do grafo. O algoritmo mantém o controle dos nós visitados, para que processe cada nó apenas uma vez.
 
-\subsubsection*{Example}
+\subsubsection*{Exemplo}
 
-Let us consider how depth-first search processes
-the following graph:
+Vamos considerar como a busca em profundidade processa o seguinte grafo:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (1) at (1,5) {$1$};
@@ -48,10 +29,11 @@ the following graph:
 \path[draw,thick,-] (2) -- (5);
 \end{tikzpicture}
 \end{center}
-We may begin the search at any node of the graph;
-now we will begin the search at node 1.
 
-The search first proceeds to node 2:
+Podemos começar a busca em qualquer nó do grafo; agora vamos começar a busca no nó 1.
+
+A busca primeiro prossegue para o nó 2:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
@@ -69,7 +51,9 @@ The search first proceeds to node 2:
 \path[draw=red,thick,->,line width=2pt] (1) -- (2);
 \end{tikzpicture}
 \end{center}
-After this, nodes 3 and 5 will be visited:
+
+Depois disso, os nós 3 e 5 serão visitados:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
@@ -89,12 +73,9 @@ After this, nodes 3 and 5 will be visited:
 \path[draw=red,thick,->,line width=2pt] (3) -- (5);
 \end{tikzpicture}
 \end{center}
-The neighbors of node 5 are 2 and 3,
-but the search has already visited both of them,
-so it is time to return to the previous nodes.
-Also the neighbors of nodes 3 and 2
-have been visited, so we next move
-from node 1 to node 4:
+
+Os vizinhos do nó 5 são 2 e 3, mas a busca já visitou ambos, então é hora de retornar aos nós anteriores. Os vizinhos dos nós 3 e 2 também já foram visitados, então passamos do nó 1 para o nó 4:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
@@ -112,70 +93,49 @@ from node 1 to node 4:
 \path[draw=red,thick,->,line width=2pt] (1) -- (4);
 \end{tikzpicture}
 \end{center}
-After this, the search terminates because it has visited
-all nodes.
 
-The time complexity of depth-first search is $O(n+m)$
-where $n$ is the number of nodes and $m$ is the
-number of edges,
-because the algorithm processes each node and edge once.
+Depois disso, a busca termina porque visitou todos os nós.
 
-\subsubsection*{Implementation}
+A complexidade de tempo da busca em profundidade é $O(n+m)$ onde $n$ é o número de nós e $m$ é o número de arestas, porque o algoritmo processa cada nó e aresta uma vez.
 
-Depth-first search can be conveniently
-implemented using recursion.
-The following function \texttt{dfs} begins
-a depth-first search at a given node.
-The function assumes that the graph is
-stored as adjacency lists in an array
+\subsubsection*{Implementação}
+
+A busca em profundidade pode ser convenientemente implementada usando recursão. A seguinte função \texttt{dfs} inicia uma busca em profundidade em um determinado nó. A função assume que o grafo é armazenado como listas de adjacência em um array:
+
 \begin{lstlisting}
 vector<int> adj[N];
 \end{lstlisting}
-and also maintains an array
+
+e também mantém um array:
+
 \begin{lstlisting}
 bool visited[N];
 \end{lstlisting}
-that keeps track of the visited nodes.
-Initially, each array value is \texttt{false},
-and when the search arrives at node $s$,
-the value of \texttt{visited}[$s$] becomes \texttt{true}.
-The function can be implemented as follows:
+
+que mantém o controle dos nós visitados. Inicialmente, cada valor do array é \texttt{false}, e quando a busca chega ao nó $s$, o valor de \texttt{visited}[$s$] se torna \texttt{true}. A função pode ser implementada da seguinte forma:
+
 \begin{lstlisting}
 void dfs(int s) {
     if (visited[s]) return;
     visited[s] = true;
-    // process node s
+    // processa o no s
     for (auto u: adj[s]) {
         dfs(u);
     }
 }
 \end{lstlisting}
 
-\section{Breadth-first search}
+\section{Busca em Largura}
 
-\index{breadth-first search}
+\index{busca em largura}
 
-\key{Breadth-first search} (BFS) visits the nodes
-in increasing order of their distance
-from the starting node.
-Thus, we can calculate the distance
-from the starting node to all other
-nodes using breadth-first search.
-However, breadth-first search is more difficult
-to implement than depth-first search.
+\key{Busca em largura} (BFS) visita os nós em ordem crescente de sua distância do nó inicial. Assim, podemos calcular a distância do nó inicial a todos os outros nós usando a busca em largura. No entanto, a busca em largura é mais difícil de implementar do que a busca em profundidade.
 
-Breadth-first search goes through the nodes
-one level after another.
-First the search explores the nodes whose
-distance from the starting node is 1,
-then the nodes whose distance is 2, and so on.
-This process continues until all nodes
-have been visited.
+A busca em largura percorre os nós um nível após o outro. Primeiro, a busca explora os nós cuja distância do nó inicial é 1, depois os nós cuja distância é 2 e assim por diante. Este processo continua até que todos os nós tenham sido visitados.
 
-\subsubsection*{Example}
+\subsubsection*{Exemplo}
 
-Let us consider how breadth-first search processes
-the following graph:
+Vamos considerar como a busca em largura processa o seguinte grafo:
 
 \begin{center}
 \begin{tikzpicture}
@@ -194,9 +154,9 @@ the following graph:
 \path[draw,thick,-] (5) -- (6);
 \end{tikzpicture}
 \end{center}
-Suppose that the search begins at node 1.
-First, we process all nodes that can be reached
-from node 1 using a single edge:
+
+Suponha que a busca comece no nó 1. Primeiro, processamos todos os nós que podem ser alcançados a partir do nó 1 usando uma única aresta:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
@@ -222,7 +182,9 @@ from node 1 using a single edge:
 \path[draw=red,thick,->,line width=2pt] (1) -- (4);
 \end{tikzpicture}
 \end{center}
-After this, we proceed to nodes 3 and 5:
+
+Depois disso, prosseguimos para os nós 3 e 5:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
@@ -248,7 +210,9 @@ After this, we proceed to nodes 3 and 5:
 \path[draw=red,thick,->,line width=2pt] (2) -- (5);
 \end{tikzpicture}
 \end{center}
-Finally, we visit node 6:
+
+Finalmente, visitamos o nó 6:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle,fill=lightgray] (1) at (1,5) {$1$};
@@ -274,13 +238,12 @@ Finally, we visit node 6:
 \path[draw=red,thick,->,line width=2pt] (5) -- (6);
 \end{tikzpicture}
 \end{center}
-Now we have calculated the distances
-from the starting node to all nodes of the graph.
-The distances are as follows:
+
+Agora, calculamos as distâncias do nó inicial a todos os nós do grafo. As distâncias são as seguintes:
 
 \begin{tabular}{ll}
 \\
-node & distance \\
+nó & distância \\
 \hline
 1 & 0 \\
 2 & 1 \\
@@ -291,51 +254,31 @@ node & distance \\
 \\
 \end{tabular}
 
-Like in depth-first search,
-the time complexity of breadth-first search
-is $O(n+m)$, where $n$ is the number of nodes
-and $m$ is the number of edges.
+Como na busca em profundidade, a complexidade de tempo da busca em largura é $O(n+m)$, onde $n$ é o número de nós e $m$ é o número de arestas.
 
-\subsubsection*{Implementation}
+\subsubsection*{Implementação}
 
-Breadth-first search is more difficult
-to implement than depth-first search,
-because the algorithm visits nodes
-in different parts of the graph.
-A typical implementation is based on
-a queue that contains nodes.
-At each step, the next node in the queue
-will be processed.
+A busca em largura é mais difícil de implementar do que a busca em profundidade, porque o algoritmo visita nós em diferentes partes do grafo. Uma implementação típica é baseada em uma fila que contém nós. A cada etapa, o próximo nó na fila será processado.
 
-The following code assumes that the graph is stored
-as adjacency lists and maintains the following
-data structures:
+O código a seguir assume que o grafo é armazenado como listas de adjacência e mantém as seguintes estruturas de dados:
+
 \begin{lstlisting}
 queue<int> q;
 bool visited[N];
 int distance[N];
 \end{lstlisting}
 
-The queue \texttt{q}
-contains nodes to be processed
-in increasing order of their distance.
-New nodes are always added to the end
-of the queue, and the node at the beginning
-of the queue is the next node to be processed.
-The array \texttt{visited} indicates
-which nodes the search has already visited,
-and the array \texttt{distance} will contain the
-distances from the starting node to all nodes of the graph.
+A fila \texttt{q} contém nós a serem processados em ordem crescente de sua distância. Novos nós são sempre adicionados ao final da fila, e o nó no início da fila é o próximo nó a ser processado. O array \texttt{visited} indica quais nós a busca já visitou e o array \texttt{distance} conterá as distâncias do nó inicial a todos os nós do grafo.
 
-The search can be implemented as follows,
-starting at node $x$:
+A busca pode ser implementada da seguinte forma, começando no nó $x$:
+
 \begin{lstlisting}
 visited[x] = true;
 distance[x] = 0;
 q.push(x);
 while (!q.empty()) {
     int s = q.front(); q.pop();
-    // process node s
+    // processa o no s
     for (auto u : adj[s]) {
         if (visited[u]) continue;
         visited[u] = true;
@@ -345,29 +288,18 @@ while (!q.empty()) {
 }
 \end{lstlisting}
 
-\section{Applications}
+\section{Aplicações}
 
-Using the graph traversal algorithms,
-we can check many properties of graphs.
-Usually, both depth-first search and
-breadth-first search may be used,
-but in practice, depth-first search
-is a better choice, because it is
-easier to implement.
-In the following applications we will
-assume that the graph is undirected.
+Usando os algoritmos de travessia de grafos, podemos verificar muitas propriedades dos grafos. Normalmente, tanto a busca em profundidade quanto a busca em largura podem ser usadas, mas na prática, a busca em profundidade é uma escolha melhor, porque é mais fácil de implementar. Nas seguintes aplicações, assumiremos que o grafo é não direcionado.
 
-\subsubsection{Connectivity check}
+\subsubsection{Verificação de Conectividade}
 
-\index{connected graph}
+\index{grafo conectado}
 
-A graph is connected if there is a path
-between any two nodes of the graph.
-Thus, we can check if a graph is connected
-by starting at an arbitrary node and
-finding out if we can reach all other nodes.
+Um grafo é conectado se houver um caminho entre quaisquer dois nós do grafo. Assim, podemos verificar se um grafo é conectado começando em um nó arbitrário e descobrindo se podemos alcançar todos os outros nós.
 
-For example, in the graph
+Por exemplo, no grafo:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (2) at (7,5) {$2$};
@@ -382,8 +314,9 @@ For example, in the graph
 \path[draw,thick,-] (2) -- (5);
 \end{tikzpicture}
 \end{center}
-a depth-first search from node $1$ visits
-the following nodes:
+
+uma busca em profundidade a partir do nó $1$ visita os seguintes nós:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (2) at (7,5) {$2$};
@@ -403,22 +336,14 @@ the following nodes:
 \end{tikzpicture}
 \end{center}
 
-Since the search did not visit all the nodes,
-we can conclude that the graph is not connected.
-In a similar way, we can also find all connected components
-of a graph by iterating through the nodes and always
-starting a new depth-first search if the current node
-does not belong to any component yet.
+Como a busca não visitou todos os nós, podemos concluir que o grafo não é conectado. De forma semelhante, também podemos encontrar todos os componentes conectados de um grafo iterando pelos nós e sempre iniciando uma nova busca em profundidade se o nó atual ainda não pertence a nenhum componente.
 
-\subsubsection{Finding cycles}
+\subsubsection{Encontrando Ciclos}
 
-\index{cycle}
+\index{ciclo}
 
-A graph contains a cycle if during a graph traversal,
-we find a node whose neighbor (other than the
-previous node in the current path) has already been
-visited.
-For example, the graph
+Um grafo contém um ciclo se, durante uma travessia de grafo, encontrarmos um nó cujo vizinho (diferente do nó anterior no caminho atual) já foi visitado. Por exemplo, o grafo:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (2) at (7,5) {$2$};
@@ -435,8 +360,9 @@ For example, the graph
 \path[draw,thick,-] (3) -- (5);
 \end{tikzpicture}
 \end{center}
-contains two cycles and we can find one
-of them as follows:
+
+contém dois ciclos e podemos encontrar um deles da seguinte forma:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle,fill=lightgray] (2) at (7,5) {$2$};
@@ -458,39 +384,21 @@ of them as follows:
 
 \end{tikzpicture}
 \end{center}
-After moving from node 2 to node 5 we notice that
-the neighbor 3 of node 5 has already been visited.
-Thus, the graph contains a cycle that goes through node 3,
-for example, $3 \rightarrow 2 \rightarrow 5 \rightarrow 3$.
 
-Another way to find out whether a graph contains a cycle
-is to simply calculate the number of nodes and edges
-in every component.
-If a component contains $c$ nodes and no cycle,
-it must contain exactly $c-1$ edges
-(so it has to be a tree).
-If there are $c$ or more edges, the component
-surely contains a cycle.
+Depois de passar do nó 2 para o nó 5, notamos que o vizinho 3 do nó 5 já foi visitado. Assim, o grafo contém um ciclo que passa pelo nó 3, por exemplo, $3 \rightarrow 2 \rightarrow 5 \rightarrow 3$.
 
-\subsubsection{Bipartiteness check}
+Outra forma de descobrir se um grafo contém um ciclo é simplesmente calcular o número de nós e arestas em cada componente. Se um componente contém $c$ nós e nenhum ciclo, ele deve conter exatamente $c-1$ arestas (portanto, deve ser uma árvore). Se houver $c$ ou mais arestas, o componente certamente contém um ciclo.
 
-\index{bipartite graph}
+\subsubsection{Verificação de Bipartição}
 
-A graph is bipartite if its nodes can be colored
-using two colors so that there are no adjacent
-nodes with the same color.
-It is surprisingly easy to check if a graph
-is bipartite using graph traversal algorithms.
+\index{grafo bipartido}
 
-The idea is to color the starting node blue,
-all its neighbors red, all their neighbors blue, and so on.
-If at some point of the search we notice that
-two adjacent nodes have the same color,
-this means that the graph is not bipartite.
-Otherwise the graph is bipartite and one coloring
-has been found.
+Um grafo é bipartido se seus nós podem ser coloridos usando duas cores, de modo que não haja nós adjacentes com a mesma cor. É surpreendentemente fácil verificar se um grafo é bipartido usando algoritmos de travessia de grafo.
 
-For example, the graph
+A ideia é colorir o nó inicial de azul, todos os seus vizinhos de vermelho, todos os seus vizinhos de azul e assim por diante. Se em algum ponto da busca notarmos que dois nós adjacentes têm a mesma cor, isso significa que o grafo não é bipartido. Caso contrário, o grafo é bipartido e uma coloração foi encontrada.
+
+Por exemplo, o grafo:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (2) at (5,5) {$2$};
@@ -507,8 +415,9 @@ For example, the graph
 \path[draw,thick,-] (5) -- (3);
 \end{tikzpicture}
 \end{center}
-is not bipartite, because a search from node 1
-proceeds as follows:
+
+não é bipartido, porque uma busca a partir do nó 1 prossegue da seguinte forma:
+
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle,fill=red!40] (2) at (5,5) {$2$};
@@ -530,20 +439,9 @@ proceeds as follows:
 \path[draw=red,thick,->,line width=2pt] (5) -- (2);
 \end{tikzpicture}
 \end{center}
-We notice that the color of both nodes 2 and 5
-is red, while they are adjacent nodes in the graph.
-Thus, the graph is not bipartite.
 
-This algorithm always works, because when there
-are only two colors available,
-the color of the starting node in a component
-determines the colors of all other nodes in the component.
-It does not make any difference whether the
-starting node is red or blue.
+Notamos que a cor de ambos os nós 2 e 5 é vermelha, sendo que eles são nós adjacentes no grafo. Assim, o grafo não é bipartido.
 
-Note that in the general case,
-it is difficult to find out if the nodes
-in a graph can be colored using $k$ colors
-so that no adjacent nodes have the same color.
-Even when $k=3$, no efficient algorithm is known
-but the problem is NP-hard.
+Este algoritmo sempre funciona, porque quando há apenas duas cores disponíveis, a cor do nó inicial em um componente determina as cores de todos os outros nós no componente. Não faz diferença se o nó inicial é vermelho ou azul.
+
+Observe que, no caso geral, é difícil descobrir se os nós em um grafo podem ser coloridos usando $k$ cores para que nenhum nó adjacente tenha a mesma cor. Mesmo quando $k=3$, nenhum algoritmo eficiente é conhecido e o problema é NP-difícil.

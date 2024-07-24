@@ -50,12 +50,12 @@ O peso de uma árvore geradora é a soma dos pesos de suas arestas.
 Por exemplo, o peso da árvore geradora acima é
 $3+5+9+3+2=22$.
 
-\index{minimum spanning tree}
+\index{Árvore geradora mínima}
 
-A \key{minimum spanning tree}
-is a spanning tree whose weight is as small as possible.
-The weight of a minimum spanning tree for the example graph
-is 20, and such a tree can be constructed as follows:
+Uma \key{Árvore geradora mínima}
+é uma árvore geradora cujo peso é o menor possível.
+O peso de uma árvore geradora mínima para o grafo de exemplo
+é 20, e tal árvore pode ser construída da seguinte forma:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -74,12 +74,12 @@ is 20, and such a tree can be constructed as follows:
 \end{tikzpicture}
 \end{center}
 
-\index{maximum spanning tree}
+\index{Árvore geradora máxima}
 
-In a similar way, a \key{maximum spanning tree}
-is a spanning tree whose weight is as large as possible.
-The weight of a maximum spanning tree for the
-example graph is 32:
+De maneira semelhante, uma \key{Árvore geradora máxima}
+é uma árvore geradora cujo peso é o maior possível.
+O peso de uma árvore geradora máxima para o
+grafo de exemplo é 32:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -97,46 +97,46 @@ example graph is 32:
 \end{tikzpicture}
 \end{center}
 
-Note that a graph may have several
-minimum and maximum spanning trees,
-so the trees are not unique.
+Note que um grafo pode ter várias
+árvores geradoras mínimas e máximas,
+então as árvores não são únicas.
 
-It turns out that several greedy methods
-can be used to construct minimum and maximum
-spanning trees.
-In this chapter, we discuss two algorithms
-that process
-the edges of the graph ordered by their weights.
-We focus on finding minimum spanning trees,
-but the same algorithms can find
-maximum spanning trees by processing the edges in reverse order.
+Acontece que vários métodos gulosos
+podem ser usados para construir árvores geradoras
+mínimas e máximas.
+Neste capítulo, discutimos dois algoritmos
+que processam
+as arestas do grafo ordenadas pelos seus pesos.
+Nosso foco é encontrar árvores geradoras mínimas,
+mas os mesmos algoritmos podem encontrar
+árvores geradoras máximas processando as arestas em ordem inversa.
 
-\section{Kruskal's algorithm}
+\section{Algoritmo de Kruskal}
 
-\index{Kruskal's algorithm}
+\index{Algoritmo de Kruskal}
 
-In \key{Kruskal's algorithm}\footnote{The algorithm was published in 1956
-by J. B. Kruskal \cite{kru56}.}, the initial spanning tree
-only contains the nodes of the graph
-and does not contain any edges.
-Then the algorithm goes through the edges
-ordered by their weights, and always adds an edge
-to the tree if it does not create a cycle.
+No \key{Algoritmo de Kruskal}\footnote{O algoritmo foi publicado em 1956
+por J. B. Kruskal \cite{kru56}.}, a árvore geradora inicial
+contém apenas os nós do grafo
+e não contém nenhuma aresta.
+Em seguida, o algoritmo percorre as arestas
+ordenadas pelos seus pesos, e sempre adiciona uma aresta
+à árvore se ela não criar um ciclo.
 
-The algorithm maintains the components
-of the tree.
-Initially, each node of the graph
-belongs to a separate component.
-Always when an edge is added to the tree,
-two components are joined.
-Finally, all nodes belong to the same component,
-and a minimum spanning tree has been found.
+O algoritmo mantém os componentes
+da árvore.
+Inicialmente, cada nó do grafo
+pertence a um componente separado.
+Sempre que uma aresta é adicionada à árvore,
+dois componentes são unidos.
+Finalmente, todos os nós pertencem ao mesmo componente,
+ e uma árvore geradora mínima foi encontrada.
 
-\subsubsection{Example}
+\subsubsection{Exemplo}
 
 \begin{samepage}
-Let us consider how Kruskal's algorithm processes the
-following graph:
+Vamos considerar como o algoritmo de Kruskal processa o
+seguinte grafo:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1.5,2) {$1$};
@@ -158,13 +158,13 @@ following graph:
 \end{samepage}
 
 \begin{samepage}
-The first step of the algorithm is to sort the
-edges in increasing order of their weights.
-The result is the following list:
+O primeiro passo do algoritmo é ordenar as
+arestas em ordem crescente de seus pesos.
+O resultado é a seguinte lista:
 
 \begin{tabular}{ll}
 \\
-edge & weight \\
+aresta & peso \\
 \hline
 5--6 & 2 \\
 1--2 & 3 \\
@@ -178,11 +178,11 @@ edge & weight \\
 \end{tabular}
 \end{samepage}
 
-After this, the algorithm goes through the list
-and adds each edge to the tree if it joins
-two separate components.
+Depois disso, o algoritmo percorre a lista
+e adiciona cada aresta à árvore se ela unir
+dois componentes separados.
 
-Initially, each node is in its own component:
+Inicialmente, cada nó está em seu próprio componente:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -202,9 +202,9 @@ Initially, each node is in its own component:
 %\path[draw,thick,-] (3) -- node[font=\small,label=left:3] {} (6);
 \end{tikzpicture}
 \end{center}
-The first edge to be added to the tree is
-the edge 5--6 that creates a component $\{5,6\}$
-by joining the components $\{5\}$ and $\{6\}$:
+A primeira aresta a ser adicionada à árvore é
+a aresta 5--6 que cria um componente $\{5,6\}$
+ao unir os componentes $\{5\}$ e $\{6\}$:
 
 \begin{center}
 \begin{tikzpicture}
@@ -225,7 +225,7 @@ by joining the components $\{5\}$ and $\{6\}$:
 %\path[draw,thick,-] (3) -- node[font=\small,label=left:3] {} (6);
 \end{tikzpicture}
 \end{center}
-After this, the edges 1--2, 3--6 and 1--5 are added in a similar way:
+Após isso, as arestas 1--2, 3--6 e 1--5 são adicionadas de maneira similar:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -247,17 +247,17 @@ After this, the edges 1--2, 3--6 and 1--5 are added in a similar way:
 \end{tikzpicture}
 \end{center}
 
-After those steps, most components have been joined
-and there are two components in the tree:
-$\{1,2,3,5,6\}$ and $\{4\}$.
+Após esses passos, a maioria dos componentes foi unida
+e há dois componentes na árvore:
+$\{1,2,3,5,6\}$ e $\{4\}$.
 
-The next edge in the list is the edge 2--3,
-but it will not be included in the tree, because
-nodes 2 and 3 are already in the same component.
-For the same reason, the edge 2--5 will not be included in the tree.
+A próxima aresta na lista é a aresta 2--3,
+mas ela não será incluída na árvore, pois
+os nós 2 e 3 já estão no mesmo componente.
+Pelo mesmo motivo, a aresta 2--5 também não será incluída na árvore.
 
 \begin{samepage}
-Finally, the edge 4--6 will be included in the tree:
+Finalmente, a aresta 4--6 será incluída na árvore:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -280,11 +280,11 @@ Finally, the edge 4--6 will be included in the tree:
 \end{center}
 \end{samepage}
 
-After this, the algorithm will not add any
-new edges, because the graph is connected
-and there is a path between any two nodes.
-The resulting graph is a minimum spanning tree
-with weight $2+3+3+5+7=20$.
+Após isso, o algoritmo não adicionará 
+mais arestas, porque o grafo está conectado
+e há um caminho entre quaisquer dois nós.
+O grafo resultante é uma árvore geradora mínima
+com peso $2+3+3+5+7=20$.
 
 \subsubsection{Why does this work?}
 

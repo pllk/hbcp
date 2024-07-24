@@ -1,16 +1,16 @@
-\chapter{Spanning trees}
+\chapter{Árvores geradoras}
 
-\index{spanning tree}
+\index{árvore geradora}
 
-A \key{spanning tree} of a graph consists of
-all nodes of the graph and some of the
-edges of the graph so that there is a path
-between any two nodes.
-Like trees in general, spanning trees are
-connected and acyclic.
-Usually there are several ways to construct a spanning tree.
+Uma \key{árvore geradora} de um grafo é composta
+por todos os nós do grafo e por algumas de suas 
+arestas, de forma que haja um caminho 
+entre quaisquer dois nós. 
+Assim como as árvores em geral, as árvores geradoras são 
+conectadas e acíclicas. 
+Normalmente, existem várias maneiras de construir uma árvore geradora.
 
-For example, consider the following graph:
+Por exemplo, considere o seguinte grafo:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1.5,2) {$1$};
@@ -29,7 +29,7 @@ For example, consider the following graph:
 \path[draw,thick,-] (3) -- node[font=\small,label=left:3] {} (6);
 \end{tikzpicture}
 \end{center}
-One spanning tree for the graph is as follows:
+Uma árvore geradora para o grafo é a seguinte:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1.5,2) {$1$};
@@ -46,8 +46,8 @@ One spanning tree for the graph is as follows:
 \end{tikzpicture}
 \end{center}
 
-The weight of a spanning tree is the sum of its edge weights.
-For example, the weight of the above spanning tree is
+O peso de uma árvore geradora é a soma dos pesos de suas arestas.
+Por exemplo, o peso da árvore geradora acima é
 $3+5+9+3+2=22$.
 
 \index{minimum spanning tree}

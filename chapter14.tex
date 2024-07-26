@@ -208,7 +208,7 @@ A programação dinâmica pode ser usada para calcular os valores acima para tod
 
 Outra maneira eficiente de calcular o diâmetro de uma árvore é baseada em duas buscas em profundidade. Primeiro, escolhemos um nó arbitrário $a$ na árvore e encontramos o nó $b$ mais distante de $a$. Então, encontramos o nó $c$ mais distante de $b$. O diâmetro da árvore é a distância entre $b$ e $c$.
 
-No seguinte gráfico, $a$, $b$ e $c$ podem ser:
+No seguinte grafo, $a$, $b$ e $c$ podem ser:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,3) {$1$};
@@ -380,7 +380,7 @@ Ainda assim, podemos resolver a segunda parte em tempo $O(n)$ armazenando \emph{
 \item $\texttt{maxLength}_1(x)$: o comprimento máximo de um caminho de $x$
 \item $\texttt{maxLength}_2(x)$: o comprimento máximo de um caminho de $x$ em outra direção que não o primeiro caminho
 \end{itemize}
-Por exemplo, no gráfico acima, $\texttt{maxLength}_1(1)=2$ usando o caminho $1 \rightarrow 2 \rightarrow 5$ e $\texttt{maxLength}_2(1)=1$ usando o caminho $1 \rightarrow 3$.
+Por exemplo, no grafo acima, $\texttt{maxLength}_1(1)=2$ usando o caminho $1 \rightarrow 2 \rightarrow 5$ e $\texttt{maxLength}_2(1)=1$ usando o caminho $1 \rightarrow 3$.
 
 Finalmente, se o caminho que corresponde a $\texttt{maxLength}_1(p)$ passa por $x$, concluímos que o comprimento máximo é $\texttt{maxLength}_2(p)+1$, caso contrário, o comprimento máximo é $\texttt{maxLength}_1(p)+1$.
 

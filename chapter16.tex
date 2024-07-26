@@ -1,29 +1,28 @@
-\chapter{Directed graphs}
+\chapter{Grafos direcionados}
 
-In this chapter, we focus on two classes of directed graphs:
+Neste capítulo, nos concentramos em duas classes de grafos direcionados:
 \begin{itemize}
-\item \key{Acyclic graphs}:
-There are no cycles in the graph,
-so there is no path from any node to itself\footnote{Directed acyclic
-graphs are sometimes called DAGs.}.
-\item \key{Successor graphs}:
-The outdegree of each node is 1,
-so each node has a unique successor.
+\item \key{Grafos acíclicos}:
+Não há ciclos no grafo,
+portanto, não há caminho de nenhum nó para ele mesmo\footnote{Grafos direcionados acíclicos são às vezes chamados de DAGs.}.
+\item \key{Grafos de sucessão}:
+O grau de saída de cada nó é 1,
+então cada nó tem um sucessor único.
 \end{itemize}
-It turns out that in both cases,
-we can design efficient algorithms that are based
-on the special properties of the graphs.
+Verifica-se que em ambos os casos,
+podemos projetar algoritmos eficientes que são baseados
+nas propriedades especiais dos grafos.
 
-\section{Topological sorting}
+\section{Ordenação topológica}
 
-\index{topological sorting}
-\index{cycle}
+\index{ordenação topológica}
+\index{ciclo}
 
-A \key{topological sort} is an ordering
-of the nodes of a directed graph
-such that if there is a path from node $a$ to node $b$,
-then node $a$ appears before node $b$ in the ordering.
-For example, for the graph
+Uma \key{ordenação topológica} é uma ordenação
+dos nós de um grafo direcionado
+tal que se houver um caminho do nó $a$ para o nó $b$,
+então o nó $a$ aparece antes do nó $b$ na ordenação.
+Por exemplo, para o grafo
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,5) {$1$};
@@ -42,7 +41,7 @@ For example, for the graph
 \path[draw,thick,->,>=latex] (3) -- (6);
 \end{tikzpicture}
 \end{center}
-one topological sort is
+uma ordenação topológica é
 $[4,1,5,2,3,6]$:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -63,48 +62,47 @@ $[4,1,5,2,3,6]$:
 \end{tikzpicture}
 \end{center}
 
-An acyclic graph always has a topological sort.
-However, if the graph contains a cycle,
-it is not possible to form a topological sort,
-because no node of the cycle can appear
-before the other nodes of the cycle in the ordering.
-It turns out that depth-first search can be used
-to both check if a directed graph contains a cycle
-and, if it does not contain a cycle, to construct a topological sort.
+Um grafo acíclico sempre tem uma ordenação topológica.
+No entanto, se o grafo contém um ciclo,
+não é possível formar uma ordenação topológica,
+porque nenhum nó do ciclo pode aparecer
+antes dos outros nós do ciclo na ordenação.
+Acontece que a busca em profundidade (DFS) pode ser usada
+para verificar se um grafo direcionado contém um ciclo
+e, se não contiver um ciclo, para construir uma ordenação topológica.
 
-\subsubsection{Algorithm}
+\subsubsection{Algoritmo}
 
-The idea is to go through the nodes of the graph
-and always begin a depth-first search at the current node
-if it has not been processed yet.
-During the searches, the nodes have three possible states:
+A ideia é percorrer os nós do grafo
+e sempre iniciar uma busca em profundidade no nó atual
+se ele ainda não tiver sido processado.
+Durante as buscas, os nós têm três estados possíveis:
 
 \begin{itemize}
-\item state 0: the node has not been processed (white)
-\item state 1: the node is under processing (light gray)
-\item state 2: the node has been processed (dark gray)
+\item estado 0: o nó não foi processado (branco)
+\item estado 1: o nó está sendo processado (cinza claro)
+\item estado 2: o nó foi processado (cinza escuro)
 \end{itemize}
 
-Initially, the state of each node is 0.
-When a search reaches a node for the first time,
-its state becomes 1.
-Finally, after all successors of the node have
-been processed, its state becomes 2.
+Inicialmente, o estado de cada nó é 0.
+Quando uma busca chega a um nó pela primeira vez,
+seu estado muda para 1.
+Finalmente, depois que todos os sucessores do nó tiverem
+sido processados, seu estado muda para 2.
 
-If the graph contains a cycle, we will find this out
-during the search, because sooner or later
-we will arrive at a node whose state is 1.
-In this case, it is not possible to construct a topological sort.
+Se o grafo contém um ciclo, descobriremos isso
+durante a busca, porque mais cedo ou mais tarde
+chegaremos a um nó cujo estado é 1.
+Nesse caso, não é possível construir uma ordenação topológica.
 
-If the graph does not contain a cycle, we can construct
-a topological sort by 
-adding each node to a list when the state of the node becomes 2.
-This list in reverse order is a topological sort.
+Se o grafo não contiver um ciclo, podemos construir
+uma ordenação topológica adicionando cada nó a uma lista quando o estado do nó se tornar 2.
+Esta lista em ordem inversa é uma ordenação topológica.
 
-\subsubsection{Example 1}
+\subsubsection{Exemplo 1}
 
-In the example graph, the search first proceeds
-from node 1 to node 6:
+No grafo de exemplo, a busca prossegue primeiro
+do nó 1 ao nó 6:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -127,8 +125,8 @@ from node 1 to node 6:
 \end{tikzpicture}
 \end{center}
 
-Now node 6 has been processed, so it is added to the list.
-After this, also nodes 3, 2 and 1 are added to the list:
+Agora, o nó 6 foi processado e adicionado à lista.
+Depois disso, os nós 3, 2 e 1 também são adicionados à lista:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -149,8 +147,8 @@ After this, also nodes 3, 2 and 1 are added to the list:
 \end{tikzpicture}
 \end{center}
 
-At this point, the list is $[6,3,2,1]$.
-The next search begins at node 4:
+Neste ponto, a lista é $[6,3,2,1]$.
+A próxima pesquisa começa no nó 4:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -173,10 +171,10 @@ The next search begins at node 4:
 \end{tikzpicture}
 \end{center}
 
-Thus, the final list is $[6,3,2,1,5,4]$.
-We have processed all nodes, so a topological sort has
-been found.
-The topological sort is the reverse list
+Assim, a lista final é $[6,3,2,1,5,4]$.
+Processamos todos os nós, então uma ordenação topológica foi
+encontrada.
+A ordenação topológica é a lista inversa
 $[4,5,1,2,3,6]$:
 
 \begin{center}
@@ -198,14 +196,14 @@ $[4,5,1,2,3,6]$:
 \end{tikzpicture}
 \end{center}
 
-Note that a topological sort is not unique,
-and there can be several topological sorts for a graph.
+Observe que uma ordenação topológica não é única,
+e pode haver várias ordenações topológicas para um grafo.
 
-\subsubsection{Example 2}
+\subsubsection{Exemplo 2}
 
-Let us now consider a graph for which we
-cannot construct a topological sort,
-because the graph contains a cycle:
+Vamos agora considerar um grafo para o qual nós
+não podemos construir uma ordenação topológica,
+porque o grafo contém um ciclo:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -225,7 +223,7 @@ because the graph contains a cycle:
 \path[draw,thick,->,>=latex] (3) -- (6);
 \end{tikzpicture}
 \end{center}
-The search proceeds as follows:
+A pesquisa prossegue da seguinte forma:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle,fill=gray!20] (1) at (1,5) {$1$};
@@ -245,30 +243,30 @@ The search proceeds as follows:
 \path[draw=red,thick,->,line width=2pt] (5) -- (2);
 \end{tikzpicture}
 \end{center}
-The search reaches node 2 whose state is 1,
-which means that the graph contains a cycle.
-In this example, there is a cycle
+A busca chega ao nó 2, cujo estado é 1,
+o que significa que o grafo contém um ciclo.
+Neste exemplo, há um ciclo
 $2 \rightarrow 3 \rightarrow 5 \rightarrow 2$.
 
-\section{Dynamic programming}
+\section{Programação dinâmica}
 
-If a directed graph is acyclic,
-dynamic programming can be applied to it.
-For example, we can efficiently solve the following
-problems concerning paths from a starting node
-to an ending node:
+Se um grafo direcionado for acíclico,
+a programação dinâmica pode ser aplicada a ele.
+Por exemplo, podemos resolver eficientemente os seguintes
+problemas relativos a caminhos de um nó inicial
+para um nó final:
 
 \begin{itemize}
-\item how many different paths are there?
-\item what is the shortest/longest path?
-\item what is the minimum/maximum number of edges in a path?
-\item which nodes certainly appear in any path?
+\item quantos caminhos diferentes existem?
+\item qual é o caminho mais curto/longo?
+\item qual é o número mínimo/máximo de arestas em um caminho?
+\item quais nós certamente aparecem em qualquer caminho?
 \end{itemize}
 
-\subsubsection{Counting the number of paths}
+\subsubsection{Contando o número de caminhos}
 
-As an example, let us calculate the number of paths
-from node 1 to node 6 in the following graph:
+Como exemplo, vamos calcular o número de caminhos
+do nó 1 ao nó 6 no seguinte grafo:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -288,24 +286,24 @@ from node 1 to node 6 in the following graph:
 \path[draw,thick,->,>=latex] (3) -- (6);
 \end{tikzpicture}
 \end{center}
-There are a total of three such paths:
+Existem no total três desses caminhos:
 \begin{itemize}
 \item $1 \rightarrow 2 \rightarrow 3 \rightarrow 6$
 \item $1 \rightarrow 4 \rightarrow 5 \rightarrow 2 \rightarrow 3 \rightarrow 6$
 \item $1 \rightarrow 4 \rightarrow 5 \rightarrow 3 \rightarrow 6$
 \end{itemize}
 
-Let $\texttt{paths}(x)$ denote the number of paths from
-node 1 to node $x$.
-As a base case, $\texttt{paths}(1)=1$.
-Then, to calculate other values of $\texttt{paths}(x)$,
-we may use the recursion
+Seja $\texttt{paths}(x)$ o número de caminhos de
+nó 1 ao nó $x$.
+Como caso base, $\texttt{paths}(1)=1$.
+Então, para calcular outros valores de $\texttt{paths}(x)$,
+podemos usar a recursão
 \[\texttt{paths}(x) = \texttt{paths}(a_1)+\texttt{paths}(a_2)+\cdots+\texttt{paths}(a_k)\]
-where $a_1,a_2,\ldots,a_k$ are the nodes from which there
-is an edge to $x$.
-Since the graph is acyclic, the values of $\texttt{paths}(x)$
-can be calculated in the order of a topological sort.
-A topological sort for the above graph is as follows:
+onde $a_1,a_2,\ldots,a_k$ são os nós dos quais
+há uma aresta para $x$.
+Como o grafo é acíclico, os valores de $\texttt{paths}(x)$
+pode ser calculado na ordem de uma ordenação topológica.
+Uma ordenação topológica para o grafo acima é a seguinte:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -324,7 +322,7 @@ A topological sort for the above graph is as follows:
 \path[draw,thick,->,>=latex] (3) -- (6);
 \end{tikzpicture}
 \end{center}
-Hence, the numbers of paths are as follows:
+Portanto, os números de caminhos são os seguintes:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (1,5) {$1$};
@@ -351,22 +349,22 @@ Hence, the numbers of paths are as follows:
 \end{tikzpicture}
 \end{center}
 
-For example, to calculate the value of $\texttt{paths}(3)$,
-we can use the formula $\texttt{paths}(2)+\texttt{paths}(5)$,
-because there are edges from nodes 2 and 5
-to node 3.
-Since $\texttt{paths}(2)=2$ and $\texttt{paths}(5)=1$, we conclude that $\texttt{paths}(3)=3$.
+Por exemplo, para calcular o valor de $\texttt{paths}(3)$,
+podemos usar a fórmula $\texttt{paths}(2)+\texttt{paths}(5)$,
+porque existem arestas dos nós 2 e 5
+para o nó 3.
+Como $\texttt{paths}(2)=2$ e $\texttt{paths}(5)=1$, concluímos que $\texttt{paths}(3)=3$.
 
-\subsubsection{Extending Dijkstra's algorithm}
+\subsubsection{Estendendo o algoritmo de Dijkstra}
 
-\index{Dijkstra's algorithm}
+\index{algoritmo de Dijkstra}
 
-A by-product of Dijkstra's algorithm is a directed, acyclic
-graph that indicates for each node of the original graph
-the possible ways to reach the node using a shortest path
-from the starting node.
-Dynamic programming can be applied to that graph.
-For example, in the graph
+Um subproduto do algoritmo de Dijkstra é um grafo direcionado e acíclico
+que indica para cada nó do grafo original
+as maneiras possíveis de alcançar o nó usando um caminho mais curto
+do nó inicial.
+A programação dinâmica pode ser aplicada a esse grafo.
+Por exemplo, no grafo
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -384,7 +382,7 @@ For example, in the graph
 \path[draw,thick,-] (2) -- node[font=\small,label=above:2] {} (3);
 \end{tikzpicture}
 \end{center}
-the shortest paths from node 1 may use the following edges:
+os caminhos mais curtos do nó 1 podem usar as seguintes arestas:
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -402,9 +400,9 @@ the shortest paths from node 1 may use the following edges:
 \end{tikzpicture}
 \end{center}
 
-Now we can, for example, calculate the number of
-shortest paths from node 1 to node 5
-using dynamic programming:
+Agora podemos, por exemplo, calcular o número de
+caminhos mais curtos do nó 1 ao nó 5
+usando programação dinâmica:
 \begin{center}
 \begin{tikzpicture}
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -428,22 +426,22 @@ using dynamic programming:
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Representing problems as graphs}
+\subsubsection{Representando problemas como grafos}
 
-Actually, any dynamic programming problem
-can be represented as a directed, acyclic graph.
-In such a graph, each node corresponds to a dynamic programming state
-and the edges indicate how the states depend on each other.
+Na verdade, qualquer problema de programação dinâmica
+pode ser representado como um grafo direcionado e acíclico.
+Em tal grafo, cada nó corresponde a um estado de programação dinâmica
+e as arestas indicam como os estados dependem uns dos outros.
 
-As an example, consider the problem
-of forming a sum of money $n$
-using coins
+Como exemplo, considere o problema
+de formar uma soma de dinheiro $n$
+usando moedas
 $\{c_1,c_2,\ldots,c_k\}$.
-In this problem, we can construct a graph where
-each node corresponds to a sum of money,
-and the edges show how the coins can be chosen.
-For example, for coins $\{1,3,4\}$ and $n=6$,
-the graph is as follows:
+Neste problema, podemos construir um grafo onde
+cada nó corresponde a uma soma de dinheiro,
+e as arestas mostram como as moedas podem ser escolhidas.
+Por exemplo, para moedas $\{1,3,4\}$ e $n=6$,
+o grafo é o seguinte:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (0) at (0,0) {$0$};
@@ -472,35 +470,35 @@ the graph is as follows:
 \end{tikzpicture}
 \end{center}
 
-Using this representation,
-the shortest path from node 0 to node $n$
-corresponds to a solution with the minimum number of coins,
-and the total number of paths from node 0 to node $n$
-equals the total number of solutions.
+Usando esta representação,
+o caminho mais curto do nó 0 ao nó $n$
+corresponde a uma solução com o número mínimo de moedas,
+e o número total de caminhos do nó 0 ao nó $n$
+é igual ao número total de soluções.
 
-\section{Successor paths}
+\section{Caminhos sucessores}
 
-\index{successor graph}
-\index{functional graph}
+\index{grafo de sucessores}
+\index{grafo funcional}
 
-For the rest of the chapter,
-we will focus on \key{successor graphs}.
-In those graphs,
-the outdegree of each node is 1, i.e.,
-exactly one edge starts at each node.
-A successor graph consists of one or more
-components, each of which contains
-one cycle and some paths that lead to it.
+No restante deste capítulo,
+vamos nos concentrar em \key{grafos de sucessores}.
+Nesses grafos,
+o grau de saída de cada nó é 1, ou seja,
+exatamente uma aresta começa em cada nó.
+Um grafo de sucessores consiste em um ou mais
+componentes, cada um contendo
+um ciclo e alguns caminhos que levam a ele.
 
-Successor graphs are sometimes called
-\key{functional graphs}.
-The reason for this is that any successor graph
-corresponds to a function that defines
-the edges of the graph.
-The parameter for the function is a node of the graph,
-and the function gives the successor of that node.
+Os grafos de sucessores são às vezes chamados
+de \key{grafos funcionais}.
+A razão para isso é que qualquer grafo de sucessores
+corresponde a uma função que define
+as arestas do grafo.
+O parâmetro para a função é um nó do grafo,
+e a função fornece o sucessor desse nó.
 
-For example, the function
+Por exemplo, a função
 \begin{center}
 \begin{tabular}{r|rrrrrrrrr}
 $x$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
@@ -508,7 +506,7 @@ $x$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 \\
 $\texttt{succ}(x)$ & 3 & 5 & 7 & 6 & 2 & 2 & 1 & 6 & 3 \\
 \end{tabular}
 \end{center}
-defines the following graph:
+define o seguinte grafo:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,0) {$1$};
@@ -533,12 +531,12 @@ defines the following graph:
 \end{tikzpicture}
 \end{center}
 
-Since each node of a successor graph has a
-unique successor, we can also define a function $\texttt{succ}(x,k)$
-that gives the node that we will reach if
-we begin at node $x$ and walk $k$ steps forward.
-For example, in the above graph $\texttt{succ}(4,6)=2$,
-because we will reach node 2 by walking 6 steps from node 4:
+Como cada nó de um grafo de sucessores tem um
+único sucessor, também podemos definir uma função $\texttt{succ}(x,k)$
+que retorna o nó ao qual chegaremos se
+começarmos no nó $x$ e andarmos $k$ passos para frente.
+Por exemplo, no grafo acima $\texttt{succ}(4,6)=2$,
+porque chegaremos ao nó 2 caminhando 6 passos a partir do nó 4:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -559,16 +557,16 @@ because we will reach node 2 by walking 6 steps from node 4:
 \end{tikzpicture}
 \end{center}
 
-A straightforward way to calculate a value of $\texttt{succ}(x,k)$
-is to start at node $x$ and walk $k$ steps forward, which takes $O(k)$ time.
-However, using preprocessing, any value of $\texttt{succ}(x,k)$
-can be calculated in only $O(\log k)$ time.
+Uma maneira direta de calcular um valor de $\texttt{succ}(x,k)$
+é começar no nó $x$ e andar $k$ passos para frente, o que leva um tempo $O(k)$.
+No entanto, usando pré-processamento, qualquer valor de $\texttt{succ}(x,k)$
+pode ser calculado em apenas um tempo $O(\log k)$.
 
-The idea is to precalculate all values of $\texttt{succ}(x,k)$ where
-$k$ is a power of two and at most $u$, where $u$ is
-the maximum number of steps we will ever walk.
-This can be efficiently done, because
-we can use the following recursion:
+A ideia é pré-calcular todos os valores de $\texttt{succ}(x,k)$ onde
+$k$ é uma potência de dois e no máximo $u$, onde $u$ é
+o número máximo de passos que jamais daremos.
+Isso pode ser feito de forma eficiente, pois
+podemos usar a seguinte recursão:
 
 \begin{equation*}
     \texttt{succ}(x,k) = \begin{cases}
@@ -577,9 +575,9 @@ we can use the following recursion:
            \end{cases}
 \end{equation*}
 
-Precalculating the values takes $O(n \log u)$ time,
-because $O(\log u)$ values are calculated for each node.
-In the above graph, the first values are as follows:
+Pré-calcular os valores leva um tempo $O(n \log u)$,
+porque $O(\log u)$ valores são calculados para cada nó.
+No grafo acima, os primeiros valores são os seguintes:
 
 \begin{center}
 \begin{tabular}{r|rrrrrrrrr}
@@ -593,32 +591,32 @@ $\cdots$ \\
 \end{tabular}
 \end{center}
 
-After this, any value of $\texttt{succ}(x,k)$ can be calculated
-by presenting the number of steps $k$ as a sum of powers of two.
-For example, if we want to calculate the value of $\texttt{succ}(x,11)$,
-we first form the representation $11=8+2+1$.
-Using that,
+Depois disso, qualquer valor de $\texttt{succ}(x,k)$ pode ser calculado
+representando o número de passos $k$ como uma soma de potências de dois.
+Por exemplo, se quisermos calcular o valor de $\texttt{succ}(x,11)$,
+primeiro formamos a representação $11=8+2+1$.
+Usando isso,
 \[\texttt{succ}(x,11)=\texttt{succ}(\texttt{succ}(\texttt{succ}(x,8),2),1).\]
-For example, in the previous graph
+Por exemplo, no grafo anterior
 \[\texttt{succ}(4,11)=\texttt{succ}(\texttt{succ}(\texttt{succ}(4,8),2),1)=5.\]
 
-Such a representation always consists of
-$O(\log k)$ parts, so calculating a value of $\texttt{succ}(x,k)$
-takes $O(\log k)$ time.
+Essa representação sempre consiste em
+$O(\log k)$ partes, então calcular um valor de $\texttt{succ}(x,k)$
+leva um tempo $O(\log k)$.
 
-\section{Cycle detection}
+\section{Detecção de ciclo}
 
-\index{cycle}
-\index{cycle detection}
+\index{ciclo}
+\index{detecção de ciclo}
 
-Consider a successor graph that only contains
-a path that ends in a cycle.
-We may ask the following questions:
-if we begin our walk at the starting node,
-what is the first node in the cycle
-and how many nodes does the cycle contain?
+Considere um grafo de sucessores que contém apenas
+um caminho que termina em um ciclo.
+Podemos fazer as seguintes perguntas:
+se começarmos nossa caminhada no nó inicial,
+qual é o primeiro nó no ciclo
+e quantos nós o ciclo contém?
 
-For example, in the graph
+Por exemplo, no grafo
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -637,40 +635,40 @@ For example, in the graph
 \path[draw,thick,->] (6) -- (4);
 \end{tikzpicture}
 \end{center}
-we begin our walk at node 1,
-the first node that belongs to the cycle is node 4, and the cycle consists
-of three nodes (4, 5 and 6).
+começamos nossa caminhada no nó 1,
+o primeiro nó que pertence ao ciclo é o nó 4, e o ciclo consiste
+em três nós (4, 5 e 6).
 
-A simple way to detect the cycle is to walk in the
-graph and keep track of
-all nodes that have been visited. Once a node is visited
-for the second time, we can conclude
-that the node is the first node in the cycle.
-This method works in $O(n)$ time and also uses
-$O(n)$ memory.
+Uma maneira simples de detectar o ciclo é caminhar no
+grafo e manter o controle de
+todos os nós que foram visitados. Uma vez que um nó é visitado
+pela segunda vez, podemos concluir
+que o nó é o primeiro nó no ciclo.
+Este método funciona em tempo $O(n)$ e também usa
+memória $O(n)$.
 
-However, there are better algorithms for cycle detection.
-The time complexity of such algorithms is still $O(n)$,
-but they only use $O(1)$ memory.
-This is an important improvement if $n$ is large.
-Next we will discuss Floyd's algorithm that
-achieves these properties.
+No entanto, existem algoritmos melhores para detecção de ciclo.
+A complexidade de tempo de tais algoritmos ainda é $O(n)$,
+mas eles usam apenas memória $O(1)$.
+Esta é uma melhoria importante se $n$ for grande.
+A seguir, discutiremos o algoritmo de Floyd que
+alcança essas propriedades.
 
-\subsubsection{Floyd's algorithm}
+\subsubsection{Algoritmo de Floyd}
 
-\index{Floyd's algorithm}
+\index{Algoritmo de Floyd}
 
-\key{Floyd's algorithm}\footnote{The idea of the algorithm is mentioned in \cite{knu982}
-and attributed to R. W. Floyd; however, it is not known if Floyd actually
-discovered the algorithm.} walks forward 
-in the graph using two pointers $a$ and $b$.
-Both pointers begin at a node $x$ that
-is the starting node of the graph.
-Then, on each turn, the pointer $a$ walks
-one step forward and the pointer $b$
-walks two steps forward.
-The process continues until
-the pointers meet each other:
+O \key{algoritmo de Floyd}\footnote{A ideia do algoritmo é mencionada em \cite{knu982}
+e atribuída a R. W. Floyd; no entanto, não se sabe se Floyd realmente
+descobriu o algoritmo.} caminha para frente
+no grafo usando dois ponteiros $a$ e $b$.
+Ambos os ponteiros começam em um nó $x$ que
+é o nó inicial do grafo.
+Então, a cada turno, o ponteiro $a$ caminha
+um passo para frente e o ponteiro $b$
+caminha dois passos para frente.
+O processo continua até
+que os ponteiros se encontrem:
 \begin{lstlisting}
 a = succ(x);
 b = succ(succ(x));
@@ -680,29 +678,29 @@ while (a != b) {
 }
 \end{lstlisting}
 
-At this point, the pointer $a$ has walked $k$ steps
-and the pointer $b$ has walked $2k$ steps,
-so the length of the cycle divides $k$.
-Thus, the first node that belongs to the cycle
-can be found by moving the pointer $a$ to node $x$
-and advancing the pointers
-step by step until they meet again.
+Neste ponto, o ponteiro $a$ caminhou $k$ passos
+e o ponteiro $b$ caminhou $2k$ passos,
+então o comprimento do ciclo divide $k$.
+Assim, o primeiro nó que pertence ao ciclo
+pode ser encontrado movendo o ponteiro $a$ para o nó $x$
+e avançando os ponteiros
+passo a passo até que se encontrem novamente.
 \begin{lstlisting}
 a = x;
 while (a != b) {
     a = succ(a);
     b = succ(b);
 }
-first = a;
+primeiro = a;
 \end{lstlisting}
 
-After this, the length of the cycle
-can be calculated as follows:
+Depois disso, o comprimento do ciclo
+pode ser calculado da seguinte forma:
 \begin{lstlisting}
 b = succ(a);
-length = 1;
+comprimento = 1;
 while (a != b) {
     b = succ(b);
-    length++;
+    comprimento++;
 }
 \end{lstlisting}

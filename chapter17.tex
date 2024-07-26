@@ -1,21 +1,21 @@
-\chapter{Strong connectivity}
+\chapter{Conectividade forte}
 
-\index{strongly connected graph}
+\index{grafo fortemente conexo}
 
-In a directed graph,
-the edges can be traversed in one direction only,
-so even if the graph is connected,
-this does not guarantee that there would be
-a path from a node to another node.
-For this reason, it is meaningful to define a new concept
-that requires more than connectivity.
+Em um grafo direcionado,
+as arestas podem ser percorridas em apenas uma direção,
+então mesmo se o grafo for conexo,
+isso não garante que haverá
+um caminho de um nó para outro nó.
+Por essa razão, é significativo definir um novo conceito
+que requer mais do que conectividade.
 
-A graph is \key{strongly connected}
-if there is a path from any node to all
-other nodes in the graph.
-For example, in the following picture,
-the left graph is strongly connected
-while the right graph is not.
+Um grafo é \key{fortemente conexo}
+se houver um caminho de qualquer nó para todos
+os outros nós no grafo.
+Por exemplo, na figura a seguir,
+o grafo à esquerda é fortemente conexo,
+enquanto o grafo à direita não é.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -41,21 +41,21 @@ while the right graph is not.
 \end{tikzpicture}
 \end{center}
 
-The right graph is not strongly connected
-because, for example, there is no path
-from node 2 to node 1.
+O grafo à direita não é fortemente conexo
+porque, por exemplo, não há caminho
+do nó 2 para o nó 1.
 
-\index{strongly connected component}
-\index{component graph}
+\index{componente fortemente conexo}
+\index{grafo de componentes}
 
-The \key{strongly connected components}
-of a graph divide the graph into strongly connected
-parts that are as large as possible.
-The strongly connected components form an
-acyclic \key{component graph} that represents
-the deep structure of the original graph.
+Os \key{componentes fortemente conexos}
+de um grafo dividem o grafo em partes fortemente conexas
+que são tão grandes quanto possível.
+Os componentes fortemente conexos formam um
+\key{grafo de componentes} acíclico que representa
+a estrutura profunda do grafo original.
 
-For example, for the graph
+Por exemplo, para o grafo
 \begin{center}
 \begin{tikzpicture}[scale=0.9,label distance=-2mm]
 \node[draw, circle] (1) at (-1,1) {$7$};
@@ -78,7 +78,7 @@ For example, for the graph
 \path[draw,thick,->] (6) -- (7);
 \end{tikzpicture}
 \end{center}
-the strongly connected components are as follows:
+os componentes fortemente conexos são os seguintes:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (-1,1) {$7$};
@@ -106,7 +106,7 @@ the strongly connected components are as follows:
 \draw [red,thick,dashed,line width=2pt] (-6.5,0.5) rectangle (-7.5,-0.5);
 \end{tikzpicture}
 \end{center}
-The corresponding component graph is as follows:
+O grafo de componentes correspondente é o seguinte:
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (-3,1) {$B$};
@@ -121,44 +121,44 @@ The corresponding component graph is as follows:
 \path[draw,thick,->] (3) -- (4);
 \end{tikzpicture}
 \end{center}
-The components are $A=\{1,2\}$,
-$B=\{3,6,7\}$, $C=\{4\}$ and $D=\{5\}$.
+Os componentes são $A=\{1,2\}$,
+$B=\{3,6,7\}$, $C=\{4\}$ e $D=\{5\}$.
 
-A component graph is an acyclic, directed graph,
-so it is easier to process than the original graph.
-Since the graph does not contain cycles,
-we can always construct a topological sort and
-use dynamic programming techniques like those
-presented in Chapter 16.
+Um grafo de componentes é um grafo direcionado acíclico,
+então é mais fácil de processar do que o grafo original.
+Como o grafo não contém ciclos,
+sempre podemos construir uma ordenação topológica e
+usar técnicas de programação dinâmica como aquelas
+apresentadas no Capítulo 16.
 
-\section{Kosaraju's algorithm}
+\section{Algoritmo de Kosaraju}
 
-\index{Kosaraju's algorithm}
+\index{algoritmo de Kosaraju}
 
-\key{Kosaraju's algorithm}\footnote{According to \cite{aho83},
-S. R. Kosaraju invented this algorithm in 1978
-but did not publish it. In 1981, the same algorithm was rediscovered
-and published by M. Sharir \cite{sha81}.} is an efficient
-method for finding the strongly connected components
-of a directed graph.
-The algorithm performs two depth-first searches:
-the first search constructs a list of nodes
-according to the structure of the graph,
-and the second search forms the strongly connected components.
+O \key{algoritmo de Kosaraju}\footnote{De acordo com \cite{aho83},
+S. R. Kosaraju inventou este algoritmo em 1978,
+mas não o publicou. Em 1981, o mesmo algoritmo foi redescoberto
+e publicado por M. Sharir \cite{sha81}.} é um método eficiente
+para encontrar os componentes fortemente conexos
+de um grafo direcionado.
+O algoritmo realiza duas buscas em profundidade:
+a primeira busca constrói uma lista de nós
+de acordo com a estrutura do grafo,
+e a segunda busca forma os componentes fortemente conexos.
 
-\subsubsection{Search 1}
+\subsubsection{Busca 1}
 
-The first phase of Kosaraju's algorithm constructs
-a list of nodes in the order in which a
-depth-first search processes them.
-The algorithm goes through the nodes,
-and begins a depth-first search at each 
-unprocessed node.
-Each node will be added to the list
-after it has been processed.
+A primeira fase do algoritmo de Kosaraju constrói
+uma lista de nós na ordem em que uma
+busca em profundidade os processa.
+O algoritmo percorre os nós,
+e inicia uma busca em profundidade em cada 
+nó não processado.
+Cada nó será adicionado à lista
+após ter sido processado.
 
-In the example graph, the nodes are processed
-in the following order:
+No grafo de exemplo, os nós são processados
+na seguinte ordem:
 \begin{center}
 \begin{tikzpicture}[scale=0.9,label distance=-2mm]
 \node[draw, circle] (1) at (-1,1) {$7$};
@@ -190,14 +190,14 @@ in the following order:
 \end{tikzpicture}
 \end{center}
 
-The notation $x/y$ means that
-processing the node started
-at time $x$ and finished at time $y$.
-Thus, the corresponding list is as follows:
+A notação $x/y$ significa que
+o processamento do nó começou
+no tempo $x$ e terminou no tempo $y$.
+Assim, a lista correspondente é a seguinte:
 
 \begin{tabular}{ll}
 \\
-node & processing time \\
+nó & tempo de processamento \\
 \hline
 4 & 5 \\
 5 & 6 \\
@@ -209,23 +209,23 @@ node & processing time \\
 \\
 \end{tabular}
 % 
-% In the second phase of the algorithm,
-% the nodes will be processed
-% in reverse order: $[3,7,6,1,2,5,4]$.
+% Na segunda fase do algoritmo,
+% os nós serão processados
+% em ordem inversa: $[3,7,6,1,2,5,4]$.
 
-\subsubsection{Search 2}
+\subsubsection{Busca 2}
 
-The second phase of the algorithm
-forms the strongly connected components
-of the graph.
-First, the algorithm reverses every
-edge in the graph.
-This guarantees that during the second search,
-we will always find strongly connected
-components that do not have extra nodes.
+A segunda fase do algoritmo
+forma os componentes fortemente conexos
+do grafo.
+Primeiro, o algoritmo inverte cada
+aresta no grafo.
+Isso garante que durante a segunda busca,
+sempre encontraremos componentes fortemente conexos
+que não possuem nós extras.
 
-After reversing the edges,
-the example graph is as follows:
+Após inverter as arestas,
+o grafo de exemplo é o seguinte:
 \begin{center}
 \begin{tikzpicture}[scale=0.9,label distance=-2mm]
 \node[draw, circle] (1) at (-1,1) {$7$};
@@ -249,17 +249,17 @@ the example graph is as follows:
 \end{tikzpicture}
 \end{center}
 
-After this, the algorithm goes through
-the list of nodes created by the first search,
-in \emph{reverse} order.
-If a node does not belong to a component,
-the algorithm creates a new component
-and starts a depth-first search
-that adds all new nodes found during the search
-to the new component.
+Depois disso, o algoritmo percorre
+a lista de nós criada pela primeira busca,
+em ordem \emph{inversa}.
+Se um nó não pertence a um componente,
+o algoritmo cria um novo componente
+e inicia uma busca em profundidade
+que adiciona todos os novos nós encontrados durante a busca
+ao novo componente.
 
-In the example graph, the first component
-begins at node 3:
+No grafo de exemplo, o primeiro componente
+começa no nó 3:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9,label distance=-2mm]
@@ -286,13 +286,13 @@ begins at node 3:
 \end{tikzpicture}
 \end{center}
 
-Note that since all edges are reversed,
-the component does not ''leak'' to other parts in the graph.
+Observe que como todas as arestas são invertidas,
+o componente não ''vaza'' para outras partes no grafo.
 
 \begin{samepage}
-The next nodes in the list are nodes 7 and 6,
-but they already belong to a component,
-so the next new component begins at node 1:
+Os próximos nós na lista são os nós 7 e 6,
+mas eles já pertencem a um componente,
+então o próximo novo componente começa no nó 1:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9,label distance=-2mm]
@@ -324,8 +324,8 @@ so the next new component begins at node 1:
 \end{samepage}
 
 \begin{samepage}
-Finally, the algorithm processes nodes 5 and 4
-that create the remaining strongly connected components:
+Finalmente, o algoritmo processa os nós 5 e 4
+que criam os componentes fortemente conexos restantes:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9,label distance=-2mm]
@@ -356,34 +356,34 @@ that create the remaining strongly connected components:
 \end{center}
 \end{samepage}
 
-The time complexity of the algorithm is $O(n+m)$,
-because the algorithm
-performs two depth-first searches.
+A complexidade de tempo do algoritmo é $O(n+m)$,
+porque o algoritmo
+realiza duas buscas em profundidade.
 
-\section{2SAT problem}
+\section{Problema 2SAT}
 
-\index{2SAT problem}
+\index{problema 2SAT}
 
-Strong connectivity is also linked with the
-\key{2SAT problem}\footnote{The algorithm presented here was
-introduced in \cite{asp79}.
-There is also another well-known linear-time algorithm \cite{eve75}
-that is based on backtracking.}.
-In this problem, we are given a logical formula
+A conectividade forte também está relacionada ao
+\key{problema 2SAT}\footnote{O algoritmo apresentado aqui foi
+introduzido em \cite{asp79}.
+Há também outro algoritmo linear conhecido \cite{eve75}
+que é baseado em backtracking.}.
+Neste problema, recebemos uma fórmula lógica
 \[
 (a_1 \lor b_1) \land (a_2 \lor b_2) \land \cdots \land (a_m \lor b_m),
 \]
-where each $a_i$ and $b_i$ is either a logical variable
+onde cada $a_i$ e $b_i$ é uma variável lógica
 ($x_1,x_2,\ldots,x_n$)
-or a negation of a logical variable
+ou uma negação de uma variável lógica
 ($\lnot x_1, \lnot x_2, \ldots, \lnot x_n$).
-The symbols ''$\land$'' and ''$\lor$'' denote
-logical operators ''and'' and ''or''.
-Our task is to assign each variable a value
-so that the formula is true, or state
-that this is not possible.
+Os símbolos ''$\land$'' e ''$\lor$'' denotam
+os operadores lógicos ''e'' e ''ou''.
+Nossa tarefa é atribuir a cada variável um valor
+para que a fórmula seja verdadeira, ou declarar
+que isso não é possível.
 
-For example, the formula
+Por exemplo, a fórmula
 \[
 L_1 = (x_2 \lor \lnot x_1) \land
       (\lnot x_1 \lor \lnot x_2) \land
@@ -391,45 +391,45 @@ L_1 = (x_2 \lor \lnot x_1) \land
       (\lnot x_2 \lor \lnot x_3) \land
       (x_1 \lor x_4)
 \]
-is true when the variables are assigned as follows:
+é verdadeira quando as variáveis são atribuídas da seguinte forma:
 
 \[
 \begin{cases}
-x_1 = \textrm{false} \\
-x_2 = \textrm{false} \\
-x_3 = \textrm{true} \\
-x_4 = \textrm{true} \\
+x_1 = \textrm{falso} \\
+x_2 = \textrm{falso} \\
+x_3 = \textrm{verdadeiro} \\
+x_4 = \textrm{verdadeiro} \\
 \end{cases}
 \]
 
-However, the formula
+No entanto, a fórmula
 \[
 L_2 = (x_1 \lor x_2) \land
       (x_1 \lor \lnot x_2) \land
       (\lnot x_1 \lor x_3) \land
       (\lnot x_1 \lor \lnot x_3)
 \]
-is always false, regardless of how we
-assign the values.
-The reason for this is that we cannot
-choose a value for $x_1$
-without creating a contradiction.
-If $x_1$ is false, both $x_2$ and $\lnot x_2$
-should be true which is impossible,
-and if $x_1$ is true, both $x_3$ and $\lnot x_3$
-should be true which is also impossible.
+é sempre falsa, independentemente de como
+atribuímos os valores.
+A razão para isso é que não podemos
+escolher um valor para $x_1$
+sem criar uma contradição.
+Se $x_1$ for falso, ambos $x_2$ e $\lnot x_2$
+devem ser verdadeiros, o que é impossível,
+e se $x_1$ for verdadeiro, ambos $x_3$ e $\lnot x_3$
+devem ser verdadeiros, o que também é impossível.
 
-The 2SAT problem can be represented as a graph
-whose nodes correspond to
-variables $x_i$ and negations $\lnot x_i$,
-and edges determine the connections
-between the variables.
-Each pair $(a_i \lor b_i)$ generates two edges:
-$\lnot a_i \to b_i$ and $\lnot b_i \to a_i$.
-This means that if $a_i$ does not hold,
-$b_i$ must hold, and vice versa.
+O problema 2SAT pode ser representado como um grafo
+cujos nós correspondem às
+variáveis $x_i$ e negações $\lnot x_i$,
+e as arestas determinam as conexões
+entre as variáveis.
+Cada par $(a_i \lor b_i)$ gera duas arestas:
+$\lnot a_i \to b_i$ e $\lnot b_i \to a_i$.
+Isso significa que se $a_i$ não for verdadeiro,
+$b_i$ deve ser verdadeiro, e vice-versa.
 
-The graph for the formula $L_1$ is:
+O grafo para a fórmula $L_1$ é:
 \\
 \begin{center}
 \begin{tikzpicture}[scale=1.0,minimum size=2pt]
@@ -454,7 +454,7 @@ The graph for the formula $L_1$ is:
 \path[draw,thick,->] (7) -- (5);
 \end{tikzpicture}
 \end{center}
-And the graph for the formula $L_2$ is:
+E o grafo para a fórmula $L_2$ é:
 \\
 \begin{center}
 \begin{tikzpicture}[scale=1.0,minimum size=2pt]
@@ -476,47 +476,47 @@ And the graph for the formula $L_2$ is:
 \end{tikzpicture}
 \end{center}
 
-The structure of the graph tells us whether
-it is possible to assign the values
-of the variables so
-that the formula is true.
-It turns out that this can be done
-exactly when there are no nodes
-$x_i$ and $\lnot x_i$ such that
-both nodes belong to the
-same strongly connected component.
-If there are such nodes,
-the graph contains
-a path from $x_i$ to $\lnot x_i$
-and also a path from $\lnot x_i$ to $x_i$,
-so both $x_i$ and $\lnot x_i$ should be true
-which is not possible.
+A estrutura do grafo nos diz se
+é possível atribuir os valores
+das variáveis para
+que a fórmula seja verdadeira.
+Acontece que isso pode ser feito
+exatamente quando não há nós
+$x_i$ e $\lnot x_i$ tais que
+ambos os nós pertençam ao
+mesmo componente fortemente conexo.
+Se houver tais nós,
+o grafo contém
+um caminho de $x_i$ para $\lnot x_i$
+e também um caminho de $\lnot x_i$ para $x_i$,
+então ambos $x_i$ e $\lnot x_i$ devem ser verdadeiros,
+o que não é possível.
 
-In the graph of the formula $L_1$
-there are no nodes $x_i$ and $\lnot x_i$
-such that both nodes 
-belong to the same strongly connected component,
-so a solution exists.
-In the graph of the formula $L_2$
-all nodes belong to the same strongly connected component,
-so a solution does not exist.
+No grafo da fórmula $L_1$,
+não há nós $x_i$ e $\lnot x_i$
+tais que ambos os nós 
+pertençam ao mesmo componente fortemente conexo,
+então uma solução existe.
+No grafo da fórmula $L_2$,
+todos os nós pertencem ao mesmo componente fortemente conexo,
+então uma solução não existe.
 
-If a solution exists, the values for the variables
-can be found by going through the nodes of the
-component graph in a reverse topological sort order.
-At each step, we process a component 
-that does not contain edges that lead to an
-unprocessed component.
-If the variables in the component
-have not been assigned values,
-their values will be determined
-according to the values in the component,
-and if they already have values,
-they remain unchanged.
-The process continues until each variable
-has been assigned a value.
+Se uma solução existir, os valores para as variáveis
+podem ser encontrados percorrendo os nós do
+grafo de componentes em uma ordem de ordenação topológica inversa.
+A cada passo, processamos um componente 
+que não contém arestas que levam a um
+componente não processado.
+Se as variáveis no componente
+não tiverem sido atribuídas a valores,
+seus valores serão determinados
+de acordo com os valores no componente,
+e se eles já tiverem valores,
+eles permanecem inalterados.
+O processo continua até que cada variável
+tenha sido atribuída a um valor.
 
-The component graph for the formula $L_1$ is as follows:
+O grafo de componentes para a fórmula $L_1$ é o seguinte:
 \begin{center}
 \begin{tikzpicture}[scale=1.0]
 \node[draw, circle] (1) at (0,0) {$A$};
@@ -530,34 +530,34 @@ The component graph for the formula $L_1$ is as follows:
 \end{tikzpicture}
 \end{center}
 
-The components are
+Os componentes são
 $A = \{\lnot x_4\}$,
 $B = \{x_1, x_2, \lnot x_3\}$,
-$C = \{\lnot x_1, \lnot x_2, x_3\}$ and
+$C = \{\lnot x_1, \lnot x_2, x_3\}$ e
 $D = \{x_4\}$.
-When constructing the solution,
-we first process the component $D$
-where $x_4$ becomes true.
-After this, we process the component $C$
-where $x_1$ and $x_2$ become false
-and $x_3$ becomes true.
-All variables have been assigned values,
-so the remaining components $A$ and $B$
-do not change the variables.
+Ao construir a solução,
+primeiro processamos o componente $D$
+onde $x_4$ se torna verdadeiro.
+Depois disso, processamos o componente $C$
+onde $x_1$ e $x_2$ se tornam falsos
+e $x_3$ se torna verdadeiro.
+Todas as variáveis foram atribuídas a valores,
+então os componentes restantes $A$ e $B$
+não alteram as variáveis.
 
-Note that this method works, because the
-graph has a special structure:
-if there are paths from node $x_i$ to node $x_j$
-and from node $x_j$ to node $\lnot x_j$,
-then node $x_i$ never becomes true.
-The reason for this is that there is also
-a path from node $\lnot x_j$ to node $\lnot x_i$,
-and both $x_i$ and $x_j$ become false.
+Observe que este método funciona porque o
+grafo tem uma estrutura especial:
+se houver caminhos do nó $x_i$ para o nó $x_j$
+e do nó $x_j$ para o nó $\lnot x_j$,
+então o nó $x_i$ nunca se torna verdadeiro.
+A razão para isso é que também há
+um caminho do nó $\lnot x_j$ para o nó $\lnot x_i$,
+e ambos $x_i$ e $x_j$ se tornam falsos.
 
-\index{3SAT problem}
+\index{problema 3SAT}
 
-A more difficult problem is the \key{3SAT problem},
-where each part of the formula is of the form
+Um problema mais difícil é o \key{problema 3SAT},
+onde cada parte da fórmula é da forma
 $(a_i \lor b_i \lor c_i)$.
-This problem is NP-hard, so no efficient algorithm
-for solving the problem is known.
+Este problema é NP-difícil, então nenhum algoritmo eficiente
+para resolver o problema é conhecido.

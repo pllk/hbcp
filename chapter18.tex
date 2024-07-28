@@ -1,30 +1,23 @@
-\chapter{Tree queries}
+\chapter{Consultas em Árvores}
 
 \index{tree query}
 
-This chapter discusses techniques for
-processing queries on
-subtrees and paths of a rooted tree.
-For example, such queries are:
+Este capítulo aborda técnicas para processar consultas em subárvores e caminhos de uma árvore enraizada. Por exemplo, algumas dessas consultas são:
 
 \begin{itemize}
-\item what is the $k$th ancestor of a node?
-\item what is the sum of values in the subtree of a node?
-\item what is the sum of values on a path between two nodes?
-\item what is the lowest common ancestor of two nodes?
+\item Qual é o $k$-ésimo ancestral de um nó?
+\item Qual é a soma dos valores na subárvore de um nó?
+\item Qual é a soma dos valores em um caminho entre dois nós?
+\item Qual é o ancestral comum mais baixo de dois nós?
 \end{itemize}
 
-\section{Finding ancestors}
+\section{Encontrando Ancestrais}
 
 \index{ancestor}
 
-The $k$th \key{ancestor} of a node $x$ in a rooted tree
-is the node that we will reach if we move $k$
-levels up from $x$.
-Let $\texttt{ancestor}(x,k)$ denote the $k$th ancestor of a node $x$
-(or $0$ if there is no such an ancestor).
-For example, in the following tree,
-$\texttt{ancestor}(2,1)=1$ and $\texttt{ancestor}(8,2)=4$.
+O $k$-ésimo \key{ancestral} de um nó $x$ em uma árvore enraizada é o nó que alcançaremos se subirmos $k$ níveis a partir de $x$. Seja $\texttt{ancestral}(x,k)$ o $k$-ésimo ancestral de um nó $x$ (ou $0$ se não houver tal ancestral). Por exemplo, na árvore a seguir,
+$\texttt{ancestral}(2,1)=1$ e $\texttt{ancestral}(8,2)=4$.
+
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,3) {$1$};
@@ -48,46 +41,29 @@ $\texttt{ancestor}(2,1)=1$ and $\texttt{ancestor}(8,2)=4$.
 \end{tikzpicture}
 \end{center}
 
-An easy way to calculate any value of $\texttt{ancestor}(x,k)$
-is to perform a sequence of $k$ moves in the tree.
-However, the time complexity of this method
-is $O(k)$, which may be slow, because a tree of $n$
-nodes may have a chain of $n$ nodes.
+Uma maneira fácil de calcular qualquer valor de $\texttt{ancestral}(x,k)$ é realizar uma sequência de $k$ movimentos na árvore. No entanto, a complexidade de tempo deste método é $O(k)$, o que pode ser lento, pois uma árvore de $n$ nós pode ter uma cadeia de $n$ nós.
 
-Fortunately, using a technique similar to that
-used in Chapter 16.3, any value of $\texttt{ancestor}(x,k)$
-can be efficiently calculated in $O(\log k)$ time
-after preprocessing.
-The idea is to precalculate all values $\texttt{ancestor}(x,k)$
-where $k \le n$ is a power of two.
-For example, the values for the above tree
-are as follows:
+Felizmente, usando uma técnica semelhante àquela utilizada no Capítulo 16.3, qualquer valor de $\texttt{ancestral}(x,k)$ pode ser calculado eficientemente em tempo $O(\log k)$ após o pré-processamento. A ideia é pré-calcular todos os valores $\texttt{ancestral}(x,k)$ onde $k \le n$ é uma potência de dois. Por exemplo, os valores para a árvore acima são os seguintes:
 
 \begin{center}
 \begin{tabular}{r|rrrrrrrrr}
 $x$ & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
 \hline
-$\texttt{ancestor}(x,1)$ & 0 & 1 & 4 & 1 & 1 & 2 & 4 & 7 \\
-$\texttt{ancestor}(x,2)$ & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 4 \\
-$\texttt{ancestor}(x,4)$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
+$\texttt{ancestral}(x,1)$ & 0 & 1 & 4 & 1 & 1 & 2 & 4 & 7 \\
+$\texttt{ancestral}(x,2)$ & 0 & 0 & 1 & 0 & 0 & 1 & 1 & 4 \\
+$\texttt{ancestral}(x,4)$ & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \\
 $\cdots$ \\
 \end{tabular}
 \end{center}
 
-The preprocessing takes $O(n \log n)$ time,
-because $O(\log n)$ values are calculated for each node.
-After this, any value of $\texttt{ancestor}(x,k)$ can be calculated
-in $O(\log k)$ time by representing $k$
-as a sum where each term is a power of two.
+O pré-processamento leva tempo $O(n \log n)$, pois $O(\log n)$ valores são calculados para cada nó. Após isso, qualquer valor de $\texttt{ancestral}(x,k)$ pode ser calculado em tempo $O(\log k)$ representando $k$ como uma soma onde cada termo é uma potência de dois.
 
-\section{Subtrees and paths}
+\section{Subárvores e Caminhos}
 
 \index{tree traversal array}
 
-A \key{tree traversal array} contains the nodes of a rooted tree
-in the order in which a depth-first search
-from the root node visits them.
-For example, in the tree
+Um \key{vetor de percurso de árvore} contém os nós de uma árvore enraizada na ordem em que uma busca em profundidade a partir do nó raiz os visita. Por exemplo, na árvore:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,3) {$1$};
@@ -110,7 +86,9 @@ For example, in the tree
 \path[draw,thick,-] (4) -- (9);
 \end{tikzpicture}
 \end{center}
-a depth-first search proceeds as follows:
+
+Uma busca em profundidade procede da seguinte forma:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,3) {$1$};
@@ -152,7 +130,9 @@ a depth-first search proceeds as follows:
 
 \end{tikzpicture}
 \end{center}
-Hence, the corresponding tree traversal array is as follows:
+
+Portanto, o vetor de percurso de árvore correspondente é o seguinte:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,0) grid (9,1);
@@ -166,27 +146,13 @@ Hence, the corresponding tree traversal array is as follows:
 \node at (6.5,0.5) {$8$};
 \node at (7.5,0.5) {$9$};
 \node at (8.5,0.5) {$5$};
-% 
-% \footnotesize
-% \node at (0.5,1.4) {$1$};
-% \node at (1.5,1.4) {$2$};
-% \node at (2.5,1.4) {$3$};
-% \node at (3.5,1.4) {$4$};
-% \node at (4.5,1.4) {$5$};
-% \node at (5.5,1.4) {$6$};
-% \node at (6.5,1.4) {$7$};
-% \node at (7.5,1.4) {$8$};
-% \node at (8.5,1.4) {$9$};
 \end{tikzpicture}
 \end{center}
 
-\subsubsection{Subtree queries}
+\subsubsection{Consultas em Subárvores}
 
-Each subtree of a tree corresponds to a subarray
-of the tree traversal array such that
-the first element of the subarray is the root node.
-For example, the following subarray contains the
-nodes of the subtree of node $4$:
+Cada subárvore de uma árvore corresponde a um subvetor do vetor de percurso de árvore, de forma que o primeiro elemento do subvetor é o nó raiz. Por exemplo, o seguinte subvetor contém os nós da subárvore do nó $4$:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (4,0) rectangle (8,1);
@@ -201,33 +167,17 @@ nodes of the subtree of node $4$:
 \node at (6.5,0.5) {$8$};
 \node at (7.5,0.5) {$9$};
 \node at (8.5,0.5) {$5$};
-% 
-% \footnotesize
-% \node at (0.5,1.4) {$1$};
-% \node at (1.5,1.4) {$2$};
-% \node at (2.5,1.4) {$3$};
-% \node at (3.5,1.4) {$4$};
-% \node at (4.5,1.4) {$5$};
-% \node at (5.5,1.4) {$6$};
-% \node at (6.5,1.4) {$7$};
-% \node at (7.5,1.4) {$8$};
-% \node at (8.5,1.4) {$9$};
 \end{tikzpicture}
 \end{center}
-Using this fact, we can efficiently process queries
-that are related to subtrees of a tree.
-As an example, consider a problem where each node
-is assigned a value, and our task is to support
-the following queries:
+
+Usando esse fato, podemos processar eficientemente consultas relacionadas a subárvores de uma árvore. Como exemplo, considere um problema onde cada nó recebe um valor e nossa tarefa é oferecer suporte às seguintes consultas:
+
 \begin{itemize}
-\item update the value of a node
-\item calculate the sum of values in the subtree of a node
+\item atualizar o valor de um nó
+\item calcular a soma dos valores na subárvore de um nó
 \end{itemize}
 
-Consider the following tree where the blue numbers
-are the values of the nodes.
-For example, the sum of the subtree of node $4$
-is $3+4+3+1=11$.
+Considere a seguinte árvore onde os números azuis são os valores dos nós. Por exemplo, a soma da subárvore do nó $4$ é $3+4+3+1=11$.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -262,18 +212,15 @@ is $3+4+3+1=11$.
 \end{tikzpicture}
 \end{center}
 
-The idea is to construct a tree traversal array that contains
-three values for each node: the identifier of the node,
-the size of the subtree, and the value of the node.
-For example, the array for the above tree is as follows:
+A ideia é construir um vetor de percurso de árvore que contém três valores para cada nó: o identificador do nó, o tamanho da subárvore e o valor do nó. Por exemplo, o vetor para a árvore acima é o seguinte:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,1) grid (9,-2);
 
-\node[left] at (-1,0.5) {node id};
-\node[left] at (-1,-0.5) {subtree size};
-\node[left] at (-1,-1.5) {node value};
+\node[left] at (-1,0.5) {id do nó};
+\node[left] at (-1,-0.5) {tamanho da subárvore};
+\node[left] at (-1,-1.5) {valor do nó};
 
 \node at (0.5,0.5) {$1$};
 \node at (1.5,0.5) {$2$};
@@ -304,25 +251,10 @@ For example, the array for the above tree is as follows:
 \node at (6.5,-1.5) {$3$};
 \node at (7.5,-1.5) {$1$};
 \node at (8.5,-1.5) {$1$};
-% 
-% \footnotesize
-% \node at (0.5,1.4) {$1$};
-% \node at (1.5,1.4) {$2$};
-% \node at (2.5,1.4) {$3$};
-% \node at (3.5,1.4) {$4$};
-% \node at (4.5,1.4) {$5$};
-% \node at (5.5,1.4) {$6$};
-% \node at (6.5,1.4) {$7$};
-% \node at (7.5,1.4) {$8$};
-% \node at (8.5,1.4) {$9$};
 \end{tikzpicture}
 \end{center}
 
-Using this array, we can calculate the sum of values
-in any subtree by first finding out the size of the subtree
-and then the values of the corresponding nodes.
-For example, the values in the subtree of node $4$
-can be found as follows:
+Usando este vetor, podemos calcular a soma dos valores em qualquer subárvore primeiro descobrindo o tamanho da subárvore e depois os valores dos nós correspondentes. Por exemplo, os valores na subárvore do nó $4$ podem ser encontrados da seguinte forma:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -331,9 +263,9 @@ can be found as follows:
 \fill[color=lightgray] (4,-1) rectangle (8,-2);
 \draw (0,1) grid (9,-2);
 
-\node[left] at (-1,0.5) {node id};
-\node[left] at (-1,-0.5) {subtree size};
-\node[left] at (-1,-1.5) {node value};
+\node[left] at (-1,0.5) {id do nó};
+\node[left] at (-1,-0.5) {tamanho da subárvore};
+\node[left] at (-1,-1.5) {valor do nó};
 
 \node at (0.5,0.5) {$1$};
 \node at (1.5,0.5) {$2$};
@@ -364,43 +296,21 @@ can be found as follows:
 \node at (6.5,-1.5) {$3$};
 \node at (7.5,-1.5) {$1$};
 \node at (8.5,-1.5) {$1$};
-% 
-% \footnotesize
-% \node at (0.5,1.4) {$1$};
-% \node at (1.5,1.4) {$2$};
-% \node at (2.5,1.4) {$3$};
-% \node at (3.5,1.4) {$4$};
-% \node at (4.5,1.4) {$5$};
-% \node at (5.5,1.4) {$6$};
-% \node at (6.5,1.4) {$7$};
-% \node at (7.5,1.4) {$8$};
-% \node at (8.5,1.4) {$9$};
 \end{tikzpicture}
 \end{center}
 
-To answer the queries efficiently,
-it suffices to store the values of the
-nodes in a binary indexed or segment tree.
-After this, we can both update a value
-and calculate the sum of values in $O(\log n)$ time.
+Para responder às consultas de forma eficiente, basta armazenar os valores dos nós em uma árvore binária indexada ou árvore de segmentos. Depois disso, podemos atualizar um valor e calcular a soma dos valores em tempo $O(\log n)$.
 
-\subsubsection{Path queries}
+\subsubsection{Consultas em Caminhos}
 
-Using a tree traversal array, we can also efficiently
-calculate sums of values on
-paths from the root node to any
-node of the tree.
-Consider a problem where our task
-is to support the following queries:
+Usando um vetor de percurso de árvore, também podemos calcular eficientemente somas de valores em caminhos do nó raiz para qualquer nó da árvore. Considere um problema em que nossa tarefa é oferecer suporte às seguintes consultas:
+
 \begin{itemize}
-\item change the value of a node
-\item calculate the sum of values on a path from
-the root to a node
+\item alterar o valor de um nó
+\item calcular a soma dos valores em um caminho da raiz até um nó
 \end{itemize}
 
-For example, in the following tree,
-the sum of values from the root node to node 7 is
-$4+5+5=14$:
+Por exemplo, na árvore a seguir, a soma dos valores do nó raiz ao nó 7 é $4+5+5=14$:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -435,17 +345,15 @@ $4+5+5=14$:
 \end{tikzpicture}
 \end{center}
 
-We can solve this problem like before,
-but now each value in the last row of the array is the sum of values
-on a path from the root to the node.
-For example, the following array corresponds to the above tree:
+Podemos resolver este problema como antes, mas agora cada valor na última linha do vetor é a soma dos valores em um caminho da raiz até o nó. Por exemplo, o seguinte vetor corresponde à árvore acima:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \draw (0,1) grid (9,-2);
 
-\node[left] at (-1,0.5) {node id};
-\node[left] at (-1,-0.5) {subtree size};
-\node[left] at (-1,-1.5) {path sum};
+\node[left] at (-1,0.5) {id do nó};
+\node[left] at (-1,-0.5) {tamanho da subárvore};
+\node[left] at (-1,-1.5) {soma do caminho};
 
 \node at (0.5,0.5) {$1$};
 \node at (1.5,0.5) {$2$};
@@ -479,19 +387,16 @@ For example, the following array corresponds to the above tree:
 \end{tikzpicture}
 \end{center}
 
-When the value of a node increases by $x$,
-the sums of all nodes in its subtree increase by $x$.
-For example, if the value of node 4 increases by 1,
-the array changes as follows:
+Quando o valor de um nó aumenta em $x$, as somas de todos os nós em sua subárvore aumentam em $x$. Por exemplo, se o valor do nó 4 aumentar em 1, o vetor muda da seguinte forma:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 \fill[color=lightgray] (4,-1) rectangle (8,-2);
 \draw (0,1) grid (9,-2);
 
-\node[left] at (-1,0.5) {node id};
-\node[left] at (-1,-0.5) {subtree size};
-\node[left] at (-1,-1.5) {path sum};
+\node[left] at (-1,0.5) {id do nó};
+\node[left] at (-1,-0.5) {tamanho da subárvore};
+\node[left] at (-1,-1.5) {soma do caminho};
 
 \node at (0.5,0.5) {$1$};
 \node at (1.5,0.5) {$2$};
@@ -525,27 +430,16 @@ the array changes as follows:
 \end{tikzpicture}
 \end{center}
 
-Thus, to support both the operations,
-we should be able to increase all values
-in a range and retrieve a single value.
-This can be done in $O(\log n)$ time
-using a binary indexed
-or segment tree (see Chapter 9.4).
+Assim, para oferecer suporte a ambas as operações, devemos ser capazes de aumentar todos os valores em um intervalo e recuperar um único valor. Isso pode ser feito em tempo $O(\log n)$ usando uma árvore de índice binário ou árvore de segmentos (consulte o Capítulo 9.4).
 
-\section{Lowest common ancestor}
+\section{Ancestral Comum Mais Baixo}
 
 \index{lowest common ancestor}
 
-The \key{lowest common ancestor}
-of two nodes of a rooted tree is the lowest node
-whose subtree contains both the nodes.
-A typical problem is to efficiently process
-queries that ask to find the lowest
-common ancestor of two nodes.
+O \key{ancestral comum mais baixo} de dois nós de uma árvore enraizada é o nó mais baixo cuja subárvore contém ambos os nós. Um problema típico é processar eficientemente consultas que pedem para encontrar o ancestral comum mais baixo de dois nós.
 
-For example, in the following tree,
-the lowest common ancestor of nodes 5 and 8
-is node 2:
+Por exemplo, na árvore a seguir, o ancestral comum mais baixo dos nós 5 e 8 é o nó 2:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,3) {$1$};
@@ -569,25 +463,15 @@ is node 2:
 \end{tikzpicture}
 \end{center}
 
-Next we will discuss two efficient techniques for
-finding the lowest common ancestor of two nodes.
+A seguir, discutiremos duas técnicas eficientes para encontrar o ancestral comum mais baixo de dois nós.
 
-\subsubsection{Method 1}
+\subsubsection{Método 1}
 
-One way to solve the problem is to use the fact
-that we can efficiently find the $k$th
-ancestor of any node in the tree.
-Using this, we can divide the problem of
-finding the lowest common ancestor into two parts.
+Uma maneira de resolver o problema é usar o fato de que podemos encontrar eficientemente o $k$-ésimo ancestral de qualquer nó na árvore. Usando isso, podemos dividir o problema de encontrar o ancestral comum mais baixo em duas partes.
 
-We use two pointers that initially point to the
-two nodes whose lowest common ancestor we should find.
-First, we move one of the pointers upwards
-so that both pointers point to nodes at the same level.
+Usamos dois ponteiros que apontam inicialmente para os dois nós cujo ancestral comum mais baixo devemos encontrar. Primeiro, movemos um dos ponteiros para cima para que ambos os ponteiros apontem para nós no mesmo nível.
 
-In the example scenario, we move the second pointer one
-level up so that it points to node 6
-which is at the same level with node 5:
+No cenário de exemplo, movemos o segundo ponteiro um nível para cima para que ele aponte para o nó 6, que está no mesmo nível do nó 5:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -611,15 +495,9 @@ which is at the same level with node 5:
 \end{tikzpicture}
 \end{center}
 
-After this, we determine the minimum number of steps
-needed to move both pointers upwards so that
-they will point to the same node.
-The node to which the pointers point after this
-is the lowest common ancestor.
+Depois disso, determinamos o número mínimo de etapas necessárias para mover ambos os ponteiros para cima para que apontem para o mesmo nó. O nó para o qual os ponteiros apontam depois disso é o ancestral comum mais baixo.
 
-In the example scenario, it suffices to move both pointers
-one step upwards to node 2,
-which is the lowest common ancestor:
+No cenário de exemplo, basta mover ambos os ponteiros um passo para cima até o nó 2, que é o ancestral comum mais baixo:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -644,19 +522,12 @@ which is the lowest common ancestor:
 \end{tikzpicture}
 \end{center}
 
-Since both parts of the algorithm can be performed in
-$O(\log n)$ time using precomputed information,
-we can find the lowest common ancestor of any two
-nodes in $O(\log n)$ time.
+Como ambas as partes do algoritmo podem ser executadas em tempo $O(\log n)$ usando informações pré-calculadas, podemos encontrar o ancestral comum mais baixo de quaisquer dois nós em tempo $O(\log n)$.
 
-\subsubsection{Method 2}
+\subsubsection{Método 2}
 
-Another way to solve the problem is based on
-a tree traversal array\footnote{This lowest common ancestor algorithm was presented in \cite{ben00}.
-This technique is sometimes called the \index{Euler tour technique}
-\key{Euler tour technique} \cite{tar84}.}.
-Once again, the idea is to traverse the nodes
-using a depth-first search:
+Outra maneira de resolver o problema é baseada em um vetor de percurso de árvore\footnote{Este algoritmo de ancestral comum mais baixo foi apresentado em \cite{ben00}. Essa técnica às vezes é chamada de \index{Euler tour technique}
+\key{Euler tour technique} \cite{tar84}.}. Novamente, a ideia é percorrer os nós usando uma busca em profundidade:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -693,25 +564,15 @@ using a depth-first search:
 \end{tikzpicture}
 \end{center}
 
-However, we use a different tree
-traversal array than before:
-we add each node to the array \emph{always}
-when the depth-first search walks through the node,
-and not only at the first visit.
-Hence, a node that has $k$ children appears $k+1$ times
-in the array and there are a total of $2n-1$
-nodes in the array.
+No entanto, usamos um vetor de percurso de árvore diferente do que antes: adicionamos cada nó ao vetor \emph{sempre} que a busca em profundidade passa pelo nó, e não apenas na primeira visita. Portanto, um nó que tem $k$ filhos aparece $k+1$ vezes no vetor e há um total de $2n-1$ nós no vetor.
 
-We store two values in the array:
-the identifier of the node and the depth of the 
-node in the tree.
-The following array corresponds to the above tree:
+Armazenamos dois valores no vetor: o identificador do nó e a profundidade do nó na árvore. O seguinte vetor corresponde à árvore acima:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 
-\node[left] at (-1,1.5) {node id};
-\node[left] at (-1,0.5) {depth};
+\node[left] at (-1,1.5) {id do nó};
+\node[left] at (-1,0.5) {profundidade};
 
 \draw (0,1) grid (15,2);
 \node at (0.5,1.5) {$1$};
@@ -766,17 +627,13 @@ The following array corresponds to the above tree:
 \end{tikzpicture}
 \end{center}
 
-Now we can find the lowest common ancestor
-of nodes $a$ and $b$ by finding the node with the \emph{minimum} depth
-between nodes $a$ and $b$ in the array.
-For example, the lowest common ancestor of nodes $5$ and $8$
-can be found as follows:
+Agora podemos encontrar o ancestral comum mais baixo dos nós $a$ e $b$ encontrando o nó com a profundidade \emph{mínima} entre os nós $a$ e $b$ no vetor. Por exemplo, o ancestral comum mais baixo dos nós $5$ e $8$ pode ser encontrado da seguinte forma:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
 
-\node[left] at (-1,1.5) {node id};
-\node[left] at (-1,0.5) {depth};
+\node[left] at (-1,1.5) {id do nó};
+\node[left] at (-1,0.5) {profundidade};
 
 \fill[color=lightgray] (2,1) rectangle (3,2);
 \fill[color=lightgray] (5,1) rectangle (6,2);
@@ -838,35 +695,18 @@ can be found as follows:
 \end{tikzpicture}
 \end{center}
 
-Node 5 is at position 2, node 8 is at position 5,
-and the node with minimum depth between
-positions $2 \ldots 5$ is node 2 at position 3
-whose depth is 2.
-Thus, the lowest common ancestor of
-nodes 5 and 8 is node 2.
+O nó 5 está na posição 2, o nó 8 está na posição 5 e o nó com profundidade mínima entre as posições $2 \ldots 5$ é o nó 2 na posição 3, cuja profundidade é 2. Assim, o ancestral comum mais baixo dos nós 5 e 8 é o nó 2.
 
-Thus, to find the lowest common ancestor
-of two nodes it suffices to process a range
-minimum query.
-Since the array is static,
-we can process such queries in $O(1)$ time
-after an $O(n \log n)$ time preprocessing.
+Portanto, para encontrar o ancestral comum mais baixo de dois nós, basta processar uma consulta de mínimo de intervalo. Como o vetor é estático, podemos processar tais consultas em tempo $O(1)$ após um pré-processamento de tempo $O(n \log n)$.
 
-\subsubsection{Distances of nodes}
+\subsubsection{Distâncias entre Nós}
 
-The distance between nodes $a$ and $b$
-equals the length of the path from $a$ to $b$.
-It turns out that the problem of calculating
-the distance between nodes reduces to
-finding their lowest common ancestor.
+A distância entre os nós $a$ e $b$ é igual ao comprimento do caminho de $a$ para $b$. Acontece que o problema de calcular a distância entre os nós se reduz a encontrar seu ancestral comum mais baixo.
 
-First, we root the tree arbitrarily.
-After this, the distance of nodes $a$ and $b$
-can be calculated using the formula
-\[\texttt{depth}(a)+\texttt{depth}(b)-2 \cdot \texttt{depth}(c),\]
-where $c$ is the lowest common ancestor of $a$ and $b$
-and $\texttt{depth}(s)$ denotes the depth of node $s$.
-For example, consider the distance of nodes 5 and 8:
+Primeiro, enraizamos a árvore arbitrariamente. Depois disso, a distância dos nós $a$ e $b$ pode ser calculada usando a fórmula
+\[\texttt{profundidade}(a)+\texttt{profundidade}(b)-2 \cdot \texttt{profundidade}(c),\]
+onde $c$ é o ancestral comum mais baixo de $a$ e $b$ e $\texttt{profundidade}(s)$ denota a profundidade do nó $s$. Por exemplo, considere a distância dos nós 5 e 8:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
 \node[draw, circle] (1) at (0,3) {$1$};
@@ -891,47 +731,19 @@ For example, consider the distance of nodes 5 and 8:
 \end{tikzpicture}
 \end{center}
 
-The lowest common ancestor of nodes 5 and 8 is node 2.
-The depths of the nodes are
-$\texttt{depth}(5)=3$, $\texttt{depth}(8)=4$ and $\texttt{depth}(2)=2$,
-so the distance between nodes 5 and 8 is
-$3+4-2\cdot2=3$.
+O ancestral comum mais baixo dos nós 5 e 8 é o nó 2. As profundidades dos nós são $\texttt{profundidade}(5)=3$, $\texttt{profundidade}(8)=4$ e $\texttt{profundidade}(2)=2$, então a distância entre os nós 5 e 8 é $3+4-2\cdot2=3$.
 
-\section{Offline algorithms}
+\section{Algoritmos Offline}
 
-So far, we have discussed \emph{online} algorithms
-for tree queries.
-Those algorithms are able to process
-queries one after another so that
-each query is answered before receiving the next query.
+Até agora, discutimos algoritmos \emph{online} para consultas em árvores. Esses algoritmos são capazes de processar consultas uma após a outra, de forma que cada consulta seja respondida antes de receber a próxima consulta.
 
-However, in many problems, the online
-property is not necessary.
-In this section, we focus on \emph{offline} algorithms.
-Those algorithms are given a set of queries which can
-be answered in any order.
-It is often easier to design an offline algorithm
-compared to an online algorithm.
+No entanto, em muitos problemas, a propriedade online não é necessária. Nesta seção, vamos nos concentrar em algoritmos \emph{offline}. Esses algoritmos recebem um conjunto de consultas que podem ser respondidas em qualquer ordem. Muitas vezes, é mais fácil projetar um algoritmo offline em comparação com um algoritmo online.
 
-\subsubsection{Merging data structures}
+\subsubsection{Mesclando Estruturas de Dados}
 
-One method to construct an offline algorithm
-is to perform a depth-first tree traversal
-and maintain data structures in nodes.
-At each node $s$, we create a data structure
-$\texttt{d}[s]$ that is based on the
-data structures of the children of $s$.
-Then, using this data structure,
-all queries related to $s$ are processed.
+Um método para construir um algoritmo offline é realizar um percurso de árvore em profundidade e manter estruturas de dados nos nós. Em cada nó $s$, criamos uma estrutura de dados $\texttt{d}[s]$ que é baseada nas estruturas de dados dos filhos de $s$. Então, usando esta estrutura de dados, todas as consultas relacionadas a $s$ são processadas.
 
-As an example, consider the following problem:
-We are given a tree where each node has some value.
-Our task is to process queries of the form
-''calculate the number of nodes with value $x$
-in the subtree of node $s$''.
-For example, in the following tree,
-the subtree of node $4$ contains two nodes
-whose value is 3.
+Como exemplo, considere o seguinte problema: Recebemos uma árvore onde cada nó possui algum valor. Nossa tarefa é processar consultas da forma "calcular o número de nós com valor $x$ na subárvore do nó $s$". Por exemplo, na árvore a seguir, a subárvore do nó $4$ contém dois nós cujo valor é 3.
 
 \begin{center}
 \begin{tikzpicture}[scale=0.9]
@@ -966,10 +778,7 @@ whose value is 3.
 \end{tikzpicture}
 \end{center}
 
-In this problem, we can use map structures
-to answer the queries.
-For example, the maps for node 4 and
-its children are as follows:
+Neste problema, podemos usar mapas para responder às consultas. Por exemplo, os mapas para o nó 4 e seus filhos são os seguintes:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -1016,27 +825,11 @@ its children are as follows:
 \end{tikzpicture}
 \end{center}
 
-If we create such a data structure for each node,
-we can easily process all given queries,
-because we can handle all queries related
-to a node immediately after creating its
-data structure. For example, the above
-map structure for node 4
-tells us that its subtree
-contains two nodes whose value is 3.
+Se criarmos tal estrutura de dados para cada nó, podemos processar facilmente todas as consultas fornecidas, pois podemos lidar com todas as consultas relacionadas a um nó imediatamente após criar sua estrutura de dados. Por exemplo, a estrutura de mapa acima para o nó 4 nos diz que sua subárvore contém dois nós cujo valor é 3.
 
-However, it would be too slow to create
-all data structures from scratch.
-Instead, at each node $s$,
-we create an initial data structure $\texttt{d}[s]$ 
-that only contains the value of $s$.
-After this, we go through the children of $s$ and
-\emph{merge} $\texttt{d}[s]$ and
-all data structures
-$\texttt{d}[u]$ where $u$ is a child of $s$.
+No entanto, seria muito lento criar todas as estruturas de dados do zero. Em vez disso, em cada nó $s$, criamos uma estrutura de dados inicial $\texttt{d}[s]$ que contém apenas o valor de $s$. Depois disso, percorremos os filhos de $s$ e \emph{mesclamos} $\texttt{d}[s]$ e todas as estruturas de dados $\texttt{d}[u]$ onde $u$ é um filho de $s$.
 
-For example, in the above tree, the map
-for node $4$ is created by merging the following maps:
+Por exemplo, na árvore acima, o mapa para o nó $4$ é criado mesclando os seguintes mapas:
 
 \begin{center}
 \begin{tikzpicture}[scale=0.7]
@@ -1080,65 +873,26 @@ for node $4$ is created by merging the following maps:
 \end{tikzpicture}
 \end{center}
 
-Here the first map is the initial data structure
-for node 4,
-and the other three maps correspond to nodes 7, 8 and 9.
+Aqui, o primeiro mapa é a estrutura de dados inicial para o nó 4, e os outros três mapas correspondem aos nós 7, 8 e 9.
 
-The merging at node $s$ can be done as follows:
-We go through the children of $s$
-and at each child $u$ merge $\texttt{d}[s]$
-and $\texttt{d}[u]$.
-We always copy the contents from $\texttt{d}[u]$
-to $\texttt{d}[s]$.
-However, before this, we \emph{swap}
-the contents of $\texttt{d}[s]$ and $\texttt{d}[u]$
-if $\texttt{d}[s]$ is smaller than $\texttt{d}[u]$.
-By doing this, each value is copied only $O(\log n)$
-times during the tree traversal,
-which ensures that the algorithm is efficient.
+A mesclagem no nó $s$ pode ser feita da seguinte forma: Percorremos os filhos de $s$ e, em cada filho $u$, mesclamos $\texttt{d}[s]$ e $\texttt{d}[u]$. Sempre copiamos o conteúdo de $\texttt{d}[u]$ para $\texttt{d}[s]$. No entanto, antes disso, \emph{trocamos} o conteúdo de $\texttt{d}[s]$ e $\texttt{d}[u]$ se $\texttt{d}[s]$ for menor que $\texttt{d}[u]$. Ao fazer isso, cada valor é copiado apenas $O(\log n)$ vezes durante o percurso da árvore, o que garante a eficiência do algoritmo.
 
-To swap the contents of two data structures $a$ and $b$
-efficiently, we can just use the following code:
+Para trocar o conteúdo de duas estruturas de dados $a$ e $b$ de forma eficiente, podemos usar o seguinte código:
 \begin{lstlisting}
 swap(a,b);
 \end{lstlisting}
-It is guaranteed that the above code works in constant time
-when $a$ and $b$ are C++ standard library data structures.
+É garantido que o código acima funcione em tempo constante quando $a$ e $b$ são estruturas de dados da biblioteca padrão C++.
 
-\subsubsection{Lowest common ancestors}
+\subsubsection{Ancestrais Comuns Mais Baixos}
 
-There is also an offline algorithm
-for processing a set of
-lowest common ancestor queries\footnote{This
-algorithm was published by R. E. Tarjan in 1979 \cite{tar79}.}.
-The algorithm is based on the union-find data structure
-(see Chapter 15.2), and the benefit of the algorithm is
-that it is easier to implement than the
-algorithms discussed earlier in this chapter.
+Há também um algoritmo offline para processar um conjunto de consultas de ancestral comum mais baixo\footnote{Este algoritmo foi publicado por R. E. Tarjan em 1979 \cite{tar79}.}. O algoritmo é baseado na estrutura de dados union-find (consulte o Capítulo 15.2), e o benefício do algoritmo é que ele é mais fácil de implementar do que os algoritmos discutidos anteriormente neste capítulo.
 
-The algorithm is given as input a set of pairs of nodes,
-and it determines for each such pair the
-lowest common ancestor of the nodes.
-The algorithm performs a depth-first tree traversal
-and maintains disjoint sets of nodes.
-Initially, each node belongs to a separate set.
-For each set, we also store the highest node in the
-tree that belongs to the set.
+O algoritmo recebe como entrada um conjunto de pares de nós e determina para cada par o ancestral comum mais baixo dos nós. O algoritmo realiza um percurso de árvore em profundidade e mantém conjuntos disjuntos de nós. Inicialmente, cada nó pertence a um conjunto separado. Para cada conjunto, também armazenamos o nó mais alto na árvore que pertence ao conjunto.
 
-When the algorithm visits a node $x$,
-it goes through all nodes $y$ such that
-the lowest common ancestor of $x$ and $y$
-has to be found.
-If $y$ has already been visited,
-the algorithm reports that the 
-lowest common ancestor of $x$ and $y$
-is the highest node in the set of $y$.
-Then, after processing node $x$,
-the algorithm joins the sets of $x$ and its parent.
+Quando o algoritmo visita um nó $x$, ele percorre todos os nós $y$ de forma que o ancestral comum mais baixo de $x$ e $y$ precise ser encontrado. Se $y$ já tiver sido visitado, o algoritmo relata que o ancestral comum mais baixo de $x$ e $y$ é o nó mais alto no conjunto de $y$. Então, após processar o nó $x$, o algoritmo une os conjuntos de $x$ e seu pai.
 
-For example, suppose that we want to find the lowest
-common ancestors of node pairs $(5,8)$
-and $(2,7)$ in the following tree:
+Por exemplo, suponha que queremos encontrar os ancestrais comuns mais baixos dos pares de nós $(5,8)$ e $(2,7)$ na árvore a seguir:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.85]
 \node[draw, circle] (1) at (0,3) {$1$};
@@ -1159,12 +913,8 @@ and $(2,7)$ in the following tree:
 \end{tikzpicture}
 \end{center}
 
-In the following trees, gray nodes denote visited nodes
-and dashed groups of nodes belong to the same set.
-When the algorithm visits node 8, it notices that
-node 5 has been visited and the highest node
-in its set is 2. Thus, the lowest common ancestor
-of nodes 5 and 8 is 2:
+Nas árvores a seguir, os nós cinzas denotam nós visitados e grupos de nós tracejados pertencem ao mesmo conjunto. Quando o algoritmo visita o nó 8, ele percebe que o nó 5 foi visitado e o nó mais alto em seu conjunto é 2. Assim, o ancestral comum mais baixo dos nós 5 e 8 é 2:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.85]
 \node[draw, circle, fill=lightgray] (1) at (0,3) {$1$};
@@ -1196,9 +946,8 @@ of nodes 5 and 8 is 2:
 \end{tikzpicture}
 \end{center}
 
-Later, when visiting node 7,
-the algorithm determines that
-the lowest common ancestor of nodes 2 and 7 is 1:
+Mais tarde, ao visitar o nó 7, o algoritmo determina que o ancestral comum mais baixo dos nós 2 e 7 é 1:
+
 \begin{center}
 \begin{tikzpicture}[scale=0.85]
 \node[draw, circle, fill=lightgray] (1) at (0,3) {$1$};

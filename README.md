@@ -2,7 +2,7 @@
 
 Este é um projeto de tradução do livro "Competitive Programmer's Handbook" para o português. A tradução é um trabalho em andamento e esperamos que ela seja útil para a comunidade de programação competitiva de língua portuguesa. O objetivo deste projeto é fornecer um recurso acessível e compreensível para a comunidade de programação competitiva, especialmente para aqueles que só podem, ou preferem, ler em português.
 
-Você pode acompanhar o progresso da tradução e baixar a versão mais recente do PDF na seção de [Releases](https://github.com/filipemsilv4/cphb_ptbr/releases).
+Você pode acompanhar o progresso da tradução e baixar a versão mais recente do PDF na seção de [**releases**](https://github.com/natanlimaz/cphb_ptbr/releases).
 
 ## Sobre o Livro
 
